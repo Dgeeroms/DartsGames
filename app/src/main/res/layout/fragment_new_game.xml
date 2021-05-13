@@ -23,13 +23,16 @@
 
         <Spinner
             android:id="@+id/spinnerGameTypes"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:padding="5dp"
+            android:layout_marginEnd="200dp"
+            android:spinnerMode="dropdown"
             app:layout_constraintBottom_toTopOf="@+id/lblPlayer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.29"
             app:layout_constraintStart_toStartOf="@+id/lblGameType"
-            app:layout_constraintTop_toBottomOf="@+id/lblGameType"
-            android:spinnerMode="dropdown"/>
+            app:layout_constraintTop_toBottomOf="@+id/lblGameType" />
 
         <TextView
             android:id="@+id/lblPlayer"
@@ -57,24 +60,40 @@
 
         <Button
             android:id="@+id/butAddPlayer"
+            style="@style/regularButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="30dp"
             android:text="@string/add_player"
             app:layout_constraintBottom_toTopOf="@+id/recyclerView"
             app:layout_constraintStart_toStartOf="@+id/editTextPlayerName"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPlayerName"
+            app:layout_constraintTop_toBottomOf="@+id/editTextPlayerName" />
+
+        <Button
             style="@style/regularButton"
-            />
+            android:id="@+id/playbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:text="@string/play"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.85"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/butAddPlayer" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
+            style="@style/recycler_item_player"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/playbutton" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

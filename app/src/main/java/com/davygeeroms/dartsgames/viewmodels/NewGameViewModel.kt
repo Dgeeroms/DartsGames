@@ -16,17 +16,15 @@ class NewGameViewModel(application: Application) : AndroidViewModel(application)
     private var uiScope = CoroutineScope(Dispatchers.Main + vmJob)
 
     //Data
-    private lateinit var _players: MutableLiveData<MutableList<Player>>
+    private var _players: MutableLiveData<MutableList<Player>> = MutableLiveData(mutableListOf<Player>())
     val players : LiveData<MutableList<Player>>
        get() = _players
 
 
-    init {
-
-    }
-
     fun addPlayer(player: Player){
         _players.value?.add(player)
+        _players.postValue(_players.value)
+
     }
 
 }

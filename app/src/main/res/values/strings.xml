@@ -11,4 +11,5 @@
     <string name="player">Player</string>
     <string name="player_name">Player Name</string>
     <string name="add_player">Add Player</string>
+    <string name="play">PLAY!</string>
 </resources>

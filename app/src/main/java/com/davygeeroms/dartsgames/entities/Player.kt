@@ -1,3 +1,3 @@
 package com.davygeeroms.dartsgames.entities
 
-class Player(val name:String, val color: String = "#FFFFFF")
+class Player(val number: Int, val name:String, val color: String = "#ff0000")
