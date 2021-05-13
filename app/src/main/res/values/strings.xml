@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">DartsGames</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_to_dartsgames">Welcome to DartsGames</string>
+    <string name="enter">Enter</string>
+    <string name="new_game">New Game</string>
+    <string name="scores">Scores</string>
+    <string name="continue_game">Continue Game</string>
+    <string name="game_type">Game Type</string>
+    <string name="player">Player</string>
+    <string name="player_name">Player Name</string>
+    <string name="add_player">Add Player</string>
+</resources>
