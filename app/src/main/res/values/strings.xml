@@ -12,4 +12,5 @@
     <string name="player_name">Player Name</string>
     <string name="add_player">Add Player</string>
     <string name="play">PLAY!</string>
+    <string name="color">Color</string>
 </resources>

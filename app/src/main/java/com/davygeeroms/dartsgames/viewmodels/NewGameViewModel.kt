@@ -23,7 +23,18 @@ class NewGameViewModel(application: Application) : AndroidViewModel(application)
 
     fun addPlayer(player: Player){
         _players.value?.add(player)
-        _players.postValue(_players.value)
+//        _players.postValue(_players.value)
+    }
+
+    fun removePlayer(player: Player){
+
+        _players.value?.remove(player)
+//        _players.postValue(_players.value)
+    }
+
+    fun getPlayerByNumber(number: Number): Player?{
+
+        return _players.value?.filter{ p -> p.number == number }?.get(0)
 
     }
 
