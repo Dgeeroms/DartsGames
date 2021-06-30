@@ -18,5 +18,14 @@
         android:id="@+id/newGameFragment"
         android:name="com.davygeeroms.dartsgames.fragments.NewGameFragment"
         android:label="fragment_new_game"
-        tools:layout="@layout/fragment_new_game" />
+        tools:layout="@layout/fragment_new_game" >
+        <action
+            android:id="@+id/action_newGameFragment_to_playGameFragment"
+            app:destination="@id/playGameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/playGameFragment"
+        android:name="com.davygeeroms.dartsgames.fragments.PlayGameFragment"
+        android:label="play_game_fragment"
+        tools:layout="@layout/play_game_fragment" />
 </navigation>

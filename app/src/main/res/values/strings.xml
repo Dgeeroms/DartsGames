@@ -13,4 +13,6 @@
     <string name="add_player">Add Player</string>
     <string name="play">PLAY!</string>
     <string name="color">Color</string>
+    <string name="default_score_501">501</string>
+    <string name="player_number_lbl">Player</string>
 </resources>

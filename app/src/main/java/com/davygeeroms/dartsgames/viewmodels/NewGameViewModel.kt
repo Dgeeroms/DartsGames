@@ -5,6 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.davygeeroms.dartsgames.entities.Player
+import com.davygeeroms.dartsgames.enums.GameModes
+import com.davygeeroms.dartsgames.factories.GameTypeFactory
+import com.davygeeroms.dartsgames.interfaces.GameType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -16,26 +19,22 @@ class NewGameViewModel(application: Application) : AndroidViewModel(application)
     private var uiScope = CoroutineScope(Dispatchers.Main + vmJob)
 
     //Data
-    private var _players: MutableLiveData<MutableList<Player>> = MutableLiveData(mutableListOf<Player>())
-    val players : LiveData<MutableList<Player>>
+    private var _players: MutableList<Player> = mutableListOf()
+    val players : List<Player>
        get() = _players
 
+    lateinit var selectedGameType : GameType
+
+    fun setSelectedGameType(gm: GameModes){
+        val gtf = GameTypeFactory()
+        selectedGameType = gtf.getGameType(gm)
+    }
 
     fun addPlayer(player: Player){
-        _players.value?.add(player)
-//        _players.postValue(_players.value)
+        _players.add(player)
     }
 
     fun removePlayer(player: Player){
-
-        _players.value?.remove(player)
-//        _players.postValue(_players.value)
+        _players.remove(player)
     }
-
-    fun getPlayerByNumber(number: Number): Player?{
-
-        return _players.value?.filter{ p -> p.number == number }?.get(0)
-
-    }
-
 }

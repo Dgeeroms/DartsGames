@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<maps xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <map name="dartboard">
+
+        <area id="@+id/D20" name="Double20" shape="rect" coords="366,90,470,115" />
+        <area id="@+id/T20" name="Triple20" shape="rect" coords="385,215,450,240" />
+        <area id="@+id/S20_T" name="single20_top" shape="poly" coords="385,213,368,112,468,113,451,215" />
+        <area id="@+id/S20_B" name="Single20_bot" shape="poly" coords="389,238,444,237,419,397"  />
+        <area id="@+id/D01" name="Double1" shape="poly" coords="473,93,470,110,563,142,572,127" />
+        <area id="@+id/S01_T" name="Single1_Top" shape="poly" coords="469,115,562,144,516,237,454,215" />
+        <area id="@+id/T01" name="Triple01" shape="poly" coords="449,237,452,219,514,239,507,255" />
+        <area id="@+id/S01_B" name="Single01_Bot" shape="poly" coords="449,238,503,256,429,397" />
+
+    </map>
+
+</maps>

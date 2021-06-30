@@ -1,5 +1,7 @@
 package com.davygeeroms.dartsgames.fragments
 
+import android.app.Activity
+import android.content.Context
 import android.graphics.Color
 import com.davygeeroms.dartsgames.adapters.PlayersAdapter
 import android.os.Bundle
@@ -10,12 +12,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.davygeeroms.dartsgames.R
@@ -32,12 +36,9 @@ class NewGameFragment : Fragment() {
 
     private val vm: NewGameViewModel by activityViewModels()
     private lateinit var binding: FragmentNewGameBinding
-    private lateinit var bindingCP: FragmentNewGameBinding
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var playersAdapter: PlayersAdapter
     private lateinit var newPlayerRecyclerView: RecyclerView
-
-    lateinit var vmFactory: ViewModelProvider.Factory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +64,7 @@ class NewGameFragment : Fragment() {
         newPlayerRecyclerView = binding.recyclerView
         linearLayoutManager = LinearLayoutManager(this.context)
         newPlayerRecyclerView.layoutManager = linearLayoutManager
-        playersAdapter = PlayersAdapter(vm.players.value as ArrayList<Player>){player ->
+        playersAdapter = PlayersAdapter(vm.players as ArrayList<Player>){player ->
             if (player != null) {
                 removePlayer(player)
             }
@@ -73,18 +74,37 @@ class NewGameFragment : Fragment() {
         //addPlayerbutton
         binding.butAddPlayer.setOnClickListener {
             insertPlayer();
+            binding.editTextPlayerName.setText("")
+            it.hideKeyboard()
         }
 
         //colorpicker
         initColorPicker()
 
+        //play game button
+        binding.playbutton.setOnClickListener {
+
+            val selectedGameMode = GameModes.values().first { gm -> gm.mode == binding.spinnerGameTypes.selectedItem as String }
+            vm.setSelectedGameType(selectedGameMode)
+
+            view?.findNavController()?.navigate(NewGameFragmentDirections.actionNewGameFragmentToPlayGameFragment())
+        }
+
+
         return binding.root
+    }
+
+    fun View.hideKeyboard() {
+        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
     private fun initColorPicker(){
 
         binding.btnColorPicker.setOnClickListener {
             binding.colorPicker.visibility = View.VISIBLE
+            it.hideKeyboard()
+
         }
 
         binding.colorPicker.strColor.addTextChangedListener(object : TextWatcher {
@@ -186,17 +206,17 @@ class NewGameFragment : Fragment() {
 
     private fun insertPlayer(){
 
-        val player = Player(playersAdapter.itemCount, binding.editTextPlayerName.text.toString(), getColorString())
+        val player = Player(playersAdapter.itemCount + 1, binding.editTextPlayerName.text.toString(), getColorString())
         vm.addPlayer(player)
 
-        playersAdapter.notifyItemInserted(player.number as Int)
+        playersAdapter.notifyItemInserted(player.number - 1)
 
     }
 
     private fun removePlayer(player: Player){
 
         vm.removePlayer(player)
-        playersAdapter.notifyItemRemoved(player.number as Int)
+        playersAdapter.notifyItemRemoved(player.number - 1)
 
     }
 }
