@@ -1326,6 +1326,10 @@ public class ImageMap extends androidx.appcompat.widget.AppCompatImageView
         }
     }
 
+    public void removeClickHandlers(){
+        mCallbackList.clear();
+    }
+
     public void removeOnImageMapClickedHandler( OnImageMapClickedHandler h ) {
         if (mCallbackList != null) {
             if (h != null) {

@@ -8,6 +8,7 @@ class Game(val gameType: GameType, var playerScores: List<PlayerScore>) {
     var currentScore: Int = 501
     var hasWon: Boolean = false
     var dartNumber: Int = 1
+    val playerScoreHistory: MutableList<PlayerScoreHistory> = mutableListOf()
 
     fun startGame(){
         currentPlayer = playerScores.first { p -> p.player.number == 1 }.player
@@ -21,12 +22,17 @@ class Game(val gameType: GameType, var playerScores: List<PlayerScore>) {
     }
 
     fun throwDart(dart: BoardValue){
-        currentScore = gameType.calcScore(playerScores.first { p -> p.player.number == currentPlayer.number }.score, dart)
-        hasWon = gameType.hasWon(playerScores.first { p -> p.player.number == currentPlayer.number }.score, dart)
+        val playerScore = playerScores.first { p -> p.player.number == currentPlayer.number }
+        currentScore = gameType.calcScore(playerScore.score, dart)
+        playerScores[playerScores.indexOf(playerScore)].score = currentScore
+        playerScoreHistory.add(PlayerScoreHistory(playerScore, dart))
+        hasWon = gameType.hasWon(playerScore.score, dart)
 
-        // next player
-        currentPlayer = playerScores.first { p -> p.player.number == currentPlayer.number.rem(playerScores.size) + 1}.player
-        currentScore = playerScores.first { p -> p.player.number == currentPlayer.number }.score
+        if(dartNumber == 3){
+            val tmpPlayerScore = playerScores.first { p -> p.player.number == currentPlayer.number.rem(playerScores.size) + 1}
+            currentPlayer = tmpPlayerScore.player
+            currentScore = tmpPlayerScore.score
+        }
 
         dartNumber = (dartNumber % 3) + 1
 

@@ -21,11 +21,18 @@
         tools:layout="@layout/fragment_new_game" >
         <action
             android:id="@+id/action_newGameFragment_to_playGameFragment"
-            app:destination="@id/playGameFragment" />
+            app:destination="@id/playGameFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/playGameFragment"
         android:name="com.davygeeroms.dartsgames.fragments.PlayGameFragment"
         android:label="play_game_fragment"
-        tools:layout="@layout/play_game_fragment" />
+        tools:layout="@layout/play_game_fragment" >
+        <action
+            android:id="@+id/action_playGameFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment"
+            app:popUpTo="@id/mainMenuFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

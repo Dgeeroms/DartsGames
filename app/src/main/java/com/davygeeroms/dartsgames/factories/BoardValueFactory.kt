@@ -7,7 +7,7 @@ class BoardValueFactory {
 
     fun getBoardValue(bv:BoardValues): BoardValue{
 
-        val modifierStr = bv.name.substring(1)
+        val modifierStr = bv.name.substring(0,1)
         var modifierInt = 1
         when(modifierStr){
             "S" -> modifierInt = 1

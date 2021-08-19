@@ -47,11 +47,13 @@ class NewGameViewModel(application: Application) : AndroidViewModel(application)
     private fun reindexPlayers(){
         if(_players.value?.count()!! > 0){
             var i = 1
-            while (i <= 1){
+            while (i <= _players.value?.count()!!){
                 _players.value?.get(i - 1)?.number = i
                 i++
             }
         }
+        var playerz = _players.value
+        playerz = playerz
     }
 
     fun startGame(gameModes: GameModes){

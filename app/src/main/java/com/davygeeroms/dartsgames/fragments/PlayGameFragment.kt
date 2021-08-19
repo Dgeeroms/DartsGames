@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.davygeeroms.dartsgames.R
 import com.davygeeroms.dartsgames.databinding.PlayGameFragmentBinding
 import com.davygeeroms.dartsgames.utilities.ImageMap
@@ -34,10 +35,16 @@ class PlayGameFragment : Fragment() {
 
         pgvm.startGame(ngvm.selectedGameType, ngvm.players.value!!)
 
-        binding.playerScore.setBackgroundColor(Color.parseColor(pgvm.currentGame.currentPlayer.color))
-        binding.playerScore.text = pgvm.currentGame.currentScore.toString()
-        binding.playerName.text = pgvm.currentGame.currentPlayer.name
-        binding.playerNumber.text = pgvm.currentGame.currentPlayer.number.toString()
+        pgvm.currentGame.observe(viewLifecycleOwner, Observer { game ->
+
+            binding.playerScore.setBackgroundColor(Color.parseColor(game.currentPlayer.color))
+            binding.playerScore.text = game.currentScore.toString()
+            binding.playerName.text = game.currentPlayer.name
+            binding.playerNumber.text = game.currentPlayer.number.toString()
+            if(game.dartNumber == 3){
+                mImageMap.clearBubbles()
+            }
+        })
 
 
         mImageMap = binding.dartboardmapContainer.dartboardmap
@@ -51,20 +58,22 @@ class PlayGameFragment : Fragment() {
             //Imagemap clickhandler
             mImageMap.addOnImageMapClickedHandler(object : ImageMap.OnImageMapClickedHandler {
 
-                var selectedArea : String? = null
+                lateinit var selectedArea : String
 
                 override fun onImageMapClicked(id: Int, imageMap: ImageMap?) {
 
                     mImageMap.showBubble(id)
                     selectedArea = mImageMap.getAreaName(id)
+                    pgvm.throwDart(selectedArea.substring(0, 3))
+                    mImageMap.removeClickHandlers()
                     binding.dartboardmapContainer.visibility = View.GONE
                 }
 
                 override fun onBubbleClicked(id: Int) {
 
                 }
-            }
-            )
+            })
+
         }
 
 
