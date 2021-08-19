@@ -19,22 +19,45 @@ class NewGameViewModel(application: Application) : AndroidViewModel(application)
     private var uiScope = CoroutineScope(Dispatchers.Main + vmJob)
 
     //Data
-    private var _players: MutableList<Player> = mutableListOf()
-    val players : List<Player>
+    private var _players: MutableLiveData<MutableList<Player>> = MutableLiveData()
+    val players : LiveData<MutableList<Player>>
        get() = _players
+
+    init {
+        _players.value = mutableListOf()
+    }
 
     lateinit var selectedGameType : GameType
 
-    fun setSelectedGameType(gm: GameModes){
+    private fun setSelectedGameType(gm: GameModes){
         val gtf = GameTypeFactory()
         selectedGameType = gtf.getGameType(gm)
     }
 
-    fun addPlayer(player: Player){
-        _players.add(player)
+    fun addPlayer(player: Player) {
+        _players.value?.add(player)
+        _players.postValue(_players.value)
     }
 
     fun removePlayer(player: Player){
-        _players.remove(player)
+        _players.value?.remove(player)
+        _players.postValue(_players.value)
+    }
+
+    private fun reindexPlayers(){
+        if(_players.value?.count()!! > 0){
+            var i = 1
+            while (i <= 1){
+                _players.value?.get(i - 1)?.number = i
+                i++
+            }
+        }
+    }
+
+    fun startGame(gameModes: GameModes){
+
+        setSelectedGameType(gameModes)
+        reindexPlayers()
+
     }
 }

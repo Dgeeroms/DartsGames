@@ -32,7 +32,7 @@ class PlayGameFragment : Fragment() {
         //binding
         binding = DataBindingUtil.inflate(inflater, R.layout.play_game_fragment, container, false)
 
-        pgvm.startGame(ngvm.selectedGameType, ngvm.players)
+        pgvm.startGame(ngvm.selectedGameType, ngvm.players.value!!)
 
         binding.playerScore.setBackgroundColor(Color.parseColor(pgvm.currentGame.currentPlayer.color))
         binding.playerScore.text = pgvm.currentGame.currentScore.toString()

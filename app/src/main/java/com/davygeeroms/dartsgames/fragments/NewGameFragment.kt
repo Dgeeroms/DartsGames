@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
+import androidx.core.graphics.toColorInt
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -64,7 +65,7 @@ class NewGameFragment : Fragment() {
         newPlayerRecyclerView = binding.recyclerView
         linearLayoutManager = LinearLayoutManager(this.context)
         newPlayerRecyclerView.layoutManager = linearLayoutManager
-        playersAdapter = PlayersAdapter(vm.players as ArrayList<Player>){player ->
+        playersAdapter = PlayersAdapter(vm.players.value as ArrayList<Player>){player ->
             if (player != null) {
                 removePlayer(player)
             }
@@ -73,22 +74,39 @@ class NewGameFragment : Fragment() {
 
         //addPlayerbutton
         binding.butAddPlayer.setOnClickListener {
-            insertPlayer();
-            binding.editTextPlayerName.setText("")
-            it.hideKeyboard()
+            if(binding.editTextPlayerName.text.toString().isNotBlank()) {
+                insertPlayer();
+                binding.editTextPlayerName.setText("")
+                it.hideKeyboard()
+            }
         }
 
         //colorpicker
         initColorPicker()
 
         //play game button
+        binding.playbutton.isEnabled = false
+        vm.players.observe(viewLifecycleOwner, Observer { players ->
+            if(players.count() != 0){
+                binding.playbutton.isEnabled = true
+                binding.playbutton.setTextColor("#D81212".toColorInt())
+            } else {
+                binding.playbutton.isEnabled = false
+                binding.playbutton.setTextColor("#8E8E8E".toColorInt())
+
+            }
+
+        })
+
+
         binding.playbutton.setOnClickListener {
 
             val selectedGameMode = GameModes.values().first { gm -> gm.mode == binding.spinnerGameTypes.selectedItem as String }
-            vm.setSelectedGameType(selectedGameMode)
-
+            vm.startGame(selectedGameMode)
             view?.findNavController()?.navigate(NewGameFragmentDirections.actionNewGameFragmentToPlayGameFragment())
         }
+
+
 
 
         return binding.root
@@ -111,12 +129,12 @@ class NewGameFragment : Fragment() {
 
             override fun afterTextChanged(s: Editable) {
                 if (s.length == 6){
-                    binding.colorPicker.colorA.progress = 255
+                    //binding.colorPicker.colorA.progress = 255
                     binding.colorPicker.colorR.progress = Integer.parseInt(s.substring(0..1), 16)
                     binding.colorPicker.colorG.progress = Integer.parseInt(s.substring(2..3), 16)
                     binding.colorPicker.colorB.progress = Integer.parseInt(s.substring(4..5), 16)
                 } else if (s.length == 8){
-                    binding.colorPicker.colorA.progress = Integer.parseInt(s.substring(0..1), 16)
+                    //binding.colorPicker.colorA.progress = Integer.parseInt(s.substring(0..1), 16)
                     binding.colorPicker.colorR.progress = Integer.parseInt(s.substring(2..3), 16)
                     binding.colorPicker.colorG.progress = Integer.parseInt(s.substring(4..5), 16)
                     binding.colorPicker.colorB.progress = Integer.parseInt(s.substring(6..7), 16)
@@ -132,7 +150,7 @@ class NewGameFragment : Fragment() {
 
             }
         })
-
+/*
         binding.colorPicker.colorA.max = 255
         binding.colorPicker.colorA.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
@@ -143,7 +161,7 @@ class NewGameFragment : Fragment() {
                 binding.colorPicker.strColor.setText(colorStr.replace("#","").toUpperCase())
                 binding.colorPicker.btnColorPreview.setBackgroundColor(Color.parseColor(colorStr))
             }
-        })
+        })*/
 
         binding.colorPicker.colorR.max = 255
         binding.colorPicker.colorR.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -192,7 +210,7 @@ class NewGameFragment : Fragment() {
         }
     }
     fun getColorString(): String {
-        var a = Integer.toHexString(((255*binding.colorPicker.colorA.progress)/binding.colorPicker.colorA.max))
+        var a = Integer.toHexString(255)
         if(a.length==1) a = "0"+a
         var r = Integer.toHexString(((255*binding.colorPicker.colorR.progress)/binding.colorPicker.colorR.max))
         if(r.length==1) r = "0"+r

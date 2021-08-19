@@ -49,14 +49,14 @@
             </LinearLayout>
         </LinearLayout>
 
-        <SeekBar
+        <!--SeekBar
             android:id="@+id/colorA"
             android:padding="30px"
             android:progress="255"
             android:progressDrawable="@drawable/seekbar_a_progress"
             android:thumb="@drawable/seekbar_a_thumb"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" /-->
 
         <SeekBar
             android:id="@+id/colorR"
