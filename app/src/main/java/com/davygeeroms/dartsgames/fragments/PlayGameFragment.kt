@@ -26,24 +26,8 @@ class PlayGameFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        //imagemap
-        mImageMap = binding.dartboardmapContainer.dartboardmap_container.dartboardmap
-        mImageMap.setImageResource(R.drawable.dartboard)
-
-        //Imagemap clickhandler
-        mImageMap.addOnImageMapClickedHandler(object : ImageMap.OnImageMapClickedHandler {
-
-                override fun onImageMapClicked(id: Int, imageMap: ImageMap?) {
-                    mImageMap.showBubble(id)
-                }
-
-                override fun onBubbleClicked(id: Int) {
-                    TODO("Not yet implemented")
-                }
-            }
-        )
 
         //binding
         binding = DataBindingUtil.inflate(inflater, R.layout.play_game_fragment, container, false)
@@ -55,9 +39,32 @@ class PlayGameFragment : Fragment() {
         binding.playerName.text = pgvm.currentGame.currentPlayer.name
         binding.playerNumber.text = pgvm.currentGame.currentPlayer.number.toString()
 
+
+        mImageMap = binding.dartboardmapContainer.dartboardmap
+        mImageMap.setImageResource(R.drawable.dartboard)
+
         //clickhandler imagebutton
         binding.dartboardButton.setOnClickListener {
+
             binding.dartboardmapContainer.visibility = View.VISIBLE
+
+            //Imagemap clickhandler
+            mImageMap.addOnImageMapClickedHandler(object : ImageMap.OnImageMapClickedHandler {
+
+                var selectedArea : String? = null
+
+                override fun onImageMapClicked(id: Int, imageMap: ImageMap?) {
+
+                    mImageMap.showBubble(id)
+                    selectedArea = mImageMap.getAreaName(id)
+                    binding.dartboardmapContainer.visibility = View.GONE
+                }
+
+                override fun onBubbleClicked(id: Int) {
+
+                }
+            }
+            )
         }
 
 

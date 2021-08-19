@@ -4,7 +4,6 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:visibility="gone"
     >
     <com.davygeeroms.dartsgames.utilities.ImageMap
         android:id="@+id/dartboardmap"
@@ -15,5 +14,4 @@
         ctc:fitImageToScreen="false"
         ctc:scaleFromOriginal="false"
         />
-
 </LinearLayout>

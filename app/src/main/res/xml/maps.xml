@@ -3,14 +3,110 @@
 
     <map name="dartboard">
 
-        <area id="@+id/D20" name="Double20" shape="rect" coords="366,90,470,115" />
-        <area id="@+id/T20" name="Triple20" shape="rect" coords="385,215,450,240" />
-        <area id="@+id/S20_T" name="single20_top" shape="poly" coords="385,213,368,112,468,113,451,215" />
-        <area id="@+id/S20_B" name="Single20_bot" shape="poly" coords="389,238,444,237,419,397"  />
-        <area id="@+id/D01" name="Double1" shape="poly" coords="473,93,470,110,563,142,572,127" />
-        <area id="@+id/S01_T" name="Single1_Top" shape="poly" coords="469,115,562,144,516,237,454,215" />
-        <area id="@+id/T01" name="Triple01" shape="poly" coords="449,237,452,219,514,239,507,255" />
-        <area id="@+id/S01_B" name="Single01_Bot" shape="poly" coords="449,238,503,256,429,397" />
+        <!-- 20 -->
+        <area id="@+id/D20" name="D20" shape="poly" coords="366,92,471,91,469,113,368,111" />
+        <area id="@+id/T20" name="T20" shape="poly" coords="387,217,453,218,450,238,388,238" />
+        <area id="@+id/S20_T" name="S20_T" shape="poly" coords="385,213,368,112,468,113,451,215" />
+        <area id="@+id/S20_B" name="S20_B" shape="poly" coords="389,238,444,237,419,397"  />
+        <!-- 01 -->
+        <area id="@+id/D01" name="D01" shape="poly" coords="473,93,470,110,563,142,572,127" />
+        <area id="@+id/S01_T" name="S01_T" shape="poly" coords="469,115,562,144,516,237,454,215" />
+        <area id="@+id/T01" name="T01" shape="poly" coords="449,237,452,219,514,239,507,255" />
+        <area id="@+id/S01_B" name="S01_B" shape="poly" coords="449,238,503,256,429,397" />
+        <!-- 18 -->
+        <area id="@+id/D18" name="D18" coords="577,129,568,145,647,202,662,189,620,154" shape="poly"/>
+        <area id="@+id/S18_T" name="S18_T" coords="564,149,645,204,574,277,517,239" shape="poly"/>
+        <area id="@+id/T18" name="T18" coords="509,258,556,291,571,280,515,240" shape="poly"/>
+        <area id="@+id/S18_B" name="S18_B" coords="509,260,435,396,443,404,554,291" shape="poly"/>
+        <!-- 04 -->
+        <area id="@+id/D04" name="D04" coords="663,192,725,274,711,281,650,203" shape="poly"/>
+        <area id="@+id/S04_T" name="S04_T" coords="574,279,650,204,707,282,611,331" shape="poly"/>
+        <area id="@+id/T04" name="T04" coords="561,293,573,281,611,332,595,339" shape="poly"/>
+        <area id="@+id/S04_B" name="S04_B" coords="443,405,450,414,594,340,559,293" shape="poly"/>
+        <!-- 13 -->
+        <area id="@+id/D13" name="D13" coords="711,285,726,276,759,372,739,377" shape="poly"/>
+        <area id="@+id/S13_T" name="S13_T" coords="613,333,708,285,738,377,633,395" shape="poly"/>
+        <area id="@+id/T13" name="T13" coords="598,343,613,335,632,395,615,397" shape="poly"/>
+        <area id="@+id/S13_B" name="S13_B" coords="450,414,453,421,614,397,595,343" shape="poly"/>
+        <!-- 06 -->
+        <area id="@+id/D06" name="D06" coords="760,377,761,481,742,478,743,382" shape="poly"/>
+        <area id="@+id/S06_T" name="S06_T" coords="635,396,740,379,740,477,633,462" shape="poly"/>
+        <area id="@+id/T06" name="T06" coords="616,399,633,397,632,460,615,459" shape="poly"/>
+        <area id="@+id/S06_B" name="S06_B" coords="453,423,452,433,613,458,614,399" shape="poly"/>
+        <!-- 10 -->
+        <area id="@+id/D10" name="D10" coords="759,483,742,481,709,572,727,583" shape="poly"/>
+        <area id="@+id/S10_T" name="S10_T" coords="632,463,613,524,708,573,738,480" shape="poly"/>
+        <area id="@+id/T10" name="T10" coords="614,462,631,465,612,524,596,516" shape="poly"/>
+        <area id="@+id/S10_B" name="S10_B" coords="452,436,613,460,594,516,449,444" shape="poly"/>
+        <!-- 15 -->
+        <area id="@+id/D15" name="D15" coords="724,582,709,575,649,654,663,669" shape="poly"/>
+        <area id="@+id/S15_T" name="S15_T" coords="649,652,709,574,613,526,573,581" shape="poly"/>
+        <area id="@+id/T15" name="T15" coords="573,577,612,527,597,519,559,566" shape="poly"/>
+        <area id="@+id/S15_B" name="S15_B" coords="450,445,443,452,559,564,594,519" shape="poly"/>
+        <!-- 02 -->
+        <area id="@+id/D02" name="D02" coords="662,670,577,730,568,713,649,659" shape="poly"/>
+        <area id="@+id/S02_T" name="S02_T" coords="648,657,572,581,520,620,569,713" shape="poly"/>
+        <area id="@+id/T02" name="T02" coords="510,602,558,568,569,580,519,619" shape="poly"/>
+        <area id="@+id/S02_B" name="S02_B" coords="443,453,436,458,509,600,556,565" shape="poly"/>
+        <!-- 17 -->
+        <area id="@+id/D17" name="D17" coords="476,766,472,747,567,716,577,735" shape="poly"/>
+        <area id="@+id/S17_T" name="S17_T" coords="473,745,454,641,518,620,567,715" shape="poly"/>
+        <area id="@+id/T17" name="T17" coords="452,620,509,601,516,619,454,638" shape="poly"/>
+        <area id="@+id/S17_B" name="S17_B" coords="425,462,434,460,507,601,452,619" shape="poly"/>
+        <!-- 03 -->
+        <area id="@+id/D03" name="D03" coords="472,765,468,748,369,745,365,765" shape="poly"/>
+        <area id="@+id/S03_T" name="S03_T" coords="370,746,387,641,451,642,467,745" shape="poly"/>
+        <area id="@+id/T03" name="T03" coords="390,621,450,623,451,641,387,640" shape="poly"/>
+        <area id="@+id/S03_B" name="S03_B" coords="414,463,424,464,449,622,389,622" shape="poly"/>
+        <!-- 19 -->
+        <area id="@+id/D19" name="D19" coords="264,735,271,717,366,748,362,764" shape="poly"/>
+        <area id="@+id/S19_T" name="S19_T" coords="272,714,320,620,385,640,367,746" shape="poly"/>
+        <area id="@+id/T19" name="T19" coords="329,604,387,621,386,639,323,620" shape="poly"/>
+        <area id="@+id/S19_B" name="S19_B" coords="329,603,404,459,414,462,387,621" shape="poly"/>
+        <!-- 07 -->
+        <area id="@+id/D07" name="D07" coords="174,673,189,657,270,715,260,731" shape="poly"/>
+        <area id="@+id/S07_T" name="S07_T" coords="191,658,265,582,318,619,270,714" shape="poly"/>
+        <area id="@+id/T07" name="T07" coords="268,581,281,567,328,600,319,620" shape="poly"/>
+        <area id="@+id/S07_B" name="S07_B" coords="281,566,397,454,403,459,329,602" shape="poly"/>
+        <!-- 16 -->
+        <area id="@+id/D16" name="D16" coords="110,586,126,577,185,656,172,672" shape="poly"/>
+        <area id="@+id/S16_T" name="S16_T" coords="128,576,226,526,266,580,188,656" shape="poly"/>
+        <area id="@+id/T16" name="T16" coords="227,527,241,519,277,567,266,578" shape="poly"/>
+        <area id="@+id/S16_B" name="S16_B" coords="242,518,389,445,396,453,280,567" shape="poly"/>
+        <!-- 08 -->
+        <area id="@+id/D08" name="D08" coords="78,485,96,479,127,574,110,584" shape="poly"/>
+        <area id="@+id/S08_T" name="S08_T" coords="99,479,204,463,226,526,128,574" shape="poly"/>
+        <area id="@+id/T08" name="T08" coords="226,525,244,516,222,461,205,464" shape="poly"/>
+        <area id="@+id/S08_B" name="S08_B" coords="224,461,386,435,388,444,243,516" shape="poly"/>
+        <!-- 11 -->
+        <area id="@+id/D11" name="D11" coords="75,481,95,478,97,379,77,377" shape="poly"/>
+        <area id="@+id/S11_T" name="S11_T" coords="99,477,205,461,205,398,98,380" shape="poly"/>
+        <area id="@+id/T11" name="T11" coords="206,461,223,459,223,401,206,398" shape="poly"/>
+        <area id="@+id/S11_B" name="S11_B" coords="225,458,225,400,385,424,384,435" shape="poly"/>
+        <!-- 14 -->
+        <area id="@+id/D14" name="D14" coords="77,375,110,276,125,285,98,377" shape="poly"/>
+        <area id="@+id/S14_T" name="S14_T" coords="100,378,130,286,224,333,206,394" shape="poly"/>
+        <area id="@+id/T14" name="T14" coords="207,394,225,335,241,342,225,397" shape="poly"/>
+        <area id="@+id/S14_B" name="S14_B" coords="224,398,245,342,387,414,383,423" shape="poly"/>
+        <!-- 09 -->
+        <area id="@+id/D09" name="D09" coords="107,273,171,188,187,202,125,284" shape="poly"/>
+        <area id="@+id/S09_T" name="S09_T" coords="129,283,187,204,265,277,224,332" shape="poly"/>
+        <area id="@+id/T09" name="T09" coords="225,331,264,278,277,292,244,340" shape="poly"/>
+        <area id="@+id/S09_B" name="S09_B" coords="245,341,280,293,395,405,387,415" shape="poly"/>
+        <!-- 12 -->
+        <area id="@+id/D12" name="D12" coords="175,186,260,126,270,144,189,200" shape="poly"/>
+        <area id="@+id/S12_T" name="S12_T" coords="190,201,270,146,319,238,265,275" shape="poly"/>
+        <area id="@+id/T12" name="T12" coords="266,277,319,241,326,256,281,291" shape="poly"/>
+        <area id="@+id/S12_B" name="S12_B" coords="282,292,328,258,402,400,395,406" shape="poly"/>
+        <!-- 05 -->
+        <area id="@+id/D05" name="D05" coords="263,123,364,92,366,110,270,141" shape="poly"/>
+        <area id="@+id/S05_T" name="S05_T" coords="272,143,366,112,385,218,322,237" shape="poly"/>
+        <area id="@+id/T05" name="T05" coords="323,239,385,219,387,236,330,256" shape="poly"/>
+        <area id="@+id/S05_B" name="S05_B" coords="332,257,388,238,414,396,402,398" shape="poly"/>
+        <!-- Bull -->
+        <area id="@+id/S25" name="S25" coords="429,462,446,452,453,432,445,405,427,397,424,416,438,428,424,444,405,438,410,417,423,415,423,396,394,404,387,423,394,450,409,461" shape="poly"/>
+        <!-- Bull's eye -->
+        <area id="@+id/D25" name="D25" coords="419,429,15" shape="circle"/>
 
     </map>
 
