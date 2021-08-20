@@ -17,4 +17,9 @@
     <string name="player_number_lbl">Player</string>
     <string name="dartboard">Dartboard</string>
     <string name="to_main_menu">To main menu</string>
+    <string name="current_weather">Current weather</string>
+    <string name="description">Description:</string>
+    <string name="temperature">Temperature:</string>
+    <string name="loading">...loading...</string>
+    <string name="c">C°</string>
 </resources>
