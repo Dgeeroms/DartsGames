@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_main_menu" >
         <action
             android:id="@+id/action_mainMenuFragment_to_newGameFragment"
-            app:destination="@id/newGameFragment" />
+            app:destination="@id/newGameFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/newGameFragment"
@@ -22,6 +26,11 @@
         <action
             android:id="@+id/action_newGameFragment_to_playGameFragment"
             app:destination="@id/playGameFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/mainMenuFragment"
             app:popUpToInclusive="false" />
     </fragment>
     <fragment
@@ -29,13 +38,15 @@
         android:name="com.davygeeroms.dartsgames.fragments.PlayGameFragment"
         android:label="play_game_fragment"
         tools:layout="@layout/play_game_fragment" >
-        <action
-            android:id="@+id/action_playGameFragment_to_mainMenuFragment"
-            app:destination="@id/mainMenuFragment"
-            app:popUpTo="@id/mainMenuFragment"
-            app:popUpToInclusive="true" />
         <argument
             android:name="gameId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_playGameFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
 </navigation>

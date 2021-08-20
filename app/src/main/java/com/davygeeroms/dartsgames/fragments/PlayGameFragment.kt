@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.davygeeroms.dartsgames.R
@@ -76,6 +77,14 @@ class PlayGameFragment : Fragment() {
 
         mImageMap = binding.dartboardmapContainer.dartboardmap
         mImageMap.setImageResource(R.drawable.dartboard)
+
+        //onclicklistener back button
+        binding.btnToMainMenu.setOnClickListener {
+
+            view?.findNavController()?.navigate(PlayGameFragmentDirections.actionPlayGameFragmentToMainMenuFragment())
+
+        }
+
 
         //clickhandler imagebutton
         binding.dartboardButton.setOnClickListener {
