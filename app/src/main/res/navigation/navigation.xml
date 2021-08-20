@@ -34,5 +34,8 @@
             app:destination="@id/mainMenuFragment"
             app:popUpTo="@id/mainMenuFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="gameId"
+            app:argType="integer" />
     </fragment>
 </navigation>

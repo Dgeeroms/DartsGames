@@ -19,13 +19,19 @@ class GameRepository(private val gameDao: GameDao) {
         }
     }
 
-    suspend fun getSavedGameById(id: String): Game {
+    suspend fun getSavedGameById(id: Int): Game {
         return withContext(Dispatchers.IO){
             gameDao.getSavedGameById(id)
         }
     }
 
-    suspend fun deleteSavedGame(id: String) {
+    suspend fun getNewGame(): Game {
+        return withContext(Dispatchers.IO){
+            gameDao.getNewGame()
+        }
+    }
+
+    suspend fun deleteSavedGame(id: Int) {
         withContext(Dispatchers.IO){
             gameDao.deleteSavedGame(id)
         }
@@ -34,6 +40,12 @@ class GameRepository(private val gameDao: GameDao) {
     suspend fun saveGame(game: Game) {
         withContext(Dispatchers.IO){
             gameDao.saveGame(game)
+        }
+    }
+
+    suspend fun deleteTable() {
+        withContext(Dispatchers.IO){
+            gameDao.deleteTable()
         }
     }
 }

@@ -20,6 +20,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +28,11 @@ import com.davygeeroms.dartsgames.R
 import com.davygeeroms.dartsgames.databinding.FragmentNewGameBinding
 import com.davygeeroms.dartsgames.entities.Player
 import com.davygeeroms.dartsgames.enums.GameModes
+import com.davygeeroms.dartsgames.persistence.AppDatabase
+import com.davygeeroms.dartsgames.persistence.GameDao
+import com.davygeeroms.dartsgames.viewmodels.MainMenuViewModel
 import com.davygeeroms.dartsgames.viewmodels.NewGameViewModel
+import com.davygeeroms.dartsgames.viewmodels.ViewModelFactory
 import kotlinx.android.synthetic.main.colorpicker.*
 import kotlinx.android.synthetic.main.colorpicker.view.*
 import kotlinx.android.synthetic.main.fragment_new_game.*
@@ -35,7 +40,8 @@ import kotlinx.android.synthetic.main.fragment_new_game.view.*
 
 class NewGameFragment : Fragment() {
 
-    private val vm: NewGameViewModel by activityViewModels()
+    private lateinit var vm: NewGameViewModel
+    private lateinit var vmFactory: ViewModelProvider.Factory
     private lateinit var binding: FragmentNewGameBinding
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var playersAdapter: PlayersAdapter
@@ -50,6 +56,12 @@ class NewGameFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         //binding
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_new_game, container, false)
+
+        //appDB
+        val appDB = AppDatabase.getInstance(application)
+        //ViewModel
+        vmFactory = ViewModelFactory(application, appDB.gameDao)
+        vm = ViewModelProviders.of(this, vmFactory).get(NewGameViewModel::class.java)
 
         //spinner
         var gameModes:MutableList<String> = mutableListOf<String>()
@@ -103,8 +115,14 @@ class NewGameFragment : Fragment() {
 
             val selectedGameMode = GameModes.values().first { gm -> gm.mode == binding.spinnerGameTypes.selectedItem as String }
             vm.startGame(selectedGameMode)
-            view?.findNavController()?.navigate(NewGameFragmentDirections.actionNewGameFragmentToPlayGameFragment())
+
         }
+
+        vm.game.observe(viewLifecycleOwner, Observer { game ->
+            if(game != null){
+                view?.findNavController()?.navigate(NewGameFragmentDirections.actionNewGameFragmentToPlayGameFragment(game.id))
+            }
+        })
 
 
 

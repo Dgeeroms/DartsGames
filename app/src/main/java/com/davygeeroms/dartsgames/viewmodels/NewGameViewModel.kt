@@ -4,24 +4,32 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.davygeeroms.dartsgames.entities.Game
 import com.davygeeroms.dartsgames.entities.Player
+import com.davygeeroms.dartsgames.entities.PlayerScore
 import com.davygeeroms.dartsgames.enums.GameModes
 import com.davygeeroms.dartsgames.factories.GameTypeFactory
 import com.davygeeroms.dartsgames.interfaces.GameType
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.davygeeroms.dartsgames.persistence.GameDao
+import com.davygeeroms.dartsgames.repositories.GameRepository
+import kotlinx.coroutines.*
 
-class NewGameViewModel(application: Application) : AndroidViewModel(application) {
+class NewGameViewModel(application: Application, gameDao: GameDao) : AndroidViewModel(application) {
 
     //Coroutine
     private var vmJob = Job()
     private var uiScope = CoroutineScope(Dispatchers.Main + vmJob)
 
+    private var _game : MutableLiveData<Game> = MutableLiveData()
+    val game : LiveData<Game>
+        get() = _game
+
     //Data
     private var _players: MutableLiveData<MutableList<Player>> = MutableLiveData()
     val players : LiveData<MutableList<Player>>
        get() = _players
+
+    private val _gameRepo = GameRepository(gameDao)
 
     init {
         _players.value = mutableListOf()
@@ -52,8 +60,6 @@ class NewGameViewModel(application: Application) : AndroidViewModel(application)
                 i++
             }
         }
-        var playerz = _players.value
-        playerz = playerz
     }
 
     fun startGame(gameModes: GameModes){
@@ -61,5 +67,31 @@ class NewGameViewModel(application: Application) : AndroidViewModel(application)
         setSelectedGameType(gameModes)
         reindexPlayers()
 
+
+        val playerScores = mutableListOf<PlayerScore>()
+
+        for (player in _players.value!!){
+            playerScores.add(PlayerScore(player, selectedGameType.startScore))
+        }
+
+        val newGame = Game(gameType = selectedGameType, playerScores = playerScores, newGame = true)
+        newGame.startGame()
+        saveGameAndFetchFromDB(newGame)
+    }
+
+    private fun saveGameAndFetchFromDB(game: Game){
+        uiScope.launch {
+            withContext(Dispatchers.IO){
+
+                _gameRepo.deleteTable()
+
+                _gameRepo.saveGame(game)
+                var game = _gameRepo.getNewGame()
+                _game.postValue(game)
+
+
+
+            }
+        }
     }
 }

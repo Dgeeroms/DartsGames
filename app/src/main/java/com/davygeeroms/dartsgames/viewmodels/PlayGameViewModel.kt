@@ -12,42 +12,54 @@ import com.davygeeroms.dartsgames.entities.PlayerScore
 import com.davygeeroms.dartsgames.enums.BoardValues
 import com.davygeeroms.dartsgames.factories.BoardValueFactory
 import com.davygeeroms.dartsgames.interfaces.GameType
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.davygeeroms.dartsgames.persistence.GameDao
+import com.davygeeroms.dartsgames.repositories.GameRepository
+import kotlinx.coroutines.*
 
-class PlayGameViewModel(application: Application) : AndroidViewModel(application) {
+class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidViewModel(application) {
 
     //Coroutine
     private var vmJob = Job()
     private var uiScope = CoroutineScope(Dispatchers.Main + vmJob)
+    private val _gameRepository = GameRepository(gameDao)
 
     private var _currentGame : MutableLiveData<Game> = MutableLiveData()
     val currentGame : LiveData<Game>
         get() = _currentGame
 
-    val boardValueFactory =  BoardValueFactory()
+    private val boardValueFactory =  BoardValueFactory()
 
-    fun startGame(gameType: GameType, players: List<Player>){
 
-        var playerScores = mutableListOf<PlayerScore>()
-
-        for (player in players){
-            playerScores.add(PlayerScore(player, gameType.startScore))
-        }
-
-        _currentGame.value = Game(gameType, playerScores)
-        _currentGame.value!!.startGame()
-        _currentGame.postValue(_currentGame.value)
+    fun continueGame(gameId: Int){
+        getSavedGame(gameId)
 
     }
 
-    fun continueGame(game: Game){
-        _currentGame.postValue(game)
+    fun updateNewGameStatus(){
+        _currentGame.value?.newGame = false
+        saveGame(_currentGame.value!!)
     }
 
     fun throwDart(boardValue: String){
         _currentGame.value?.throwDart(boardValueFactory.getBoardValue(BoardValues.valueOf(boardValue)))
         _currentGame.postValue(_currentGame.value)
+    }
+
+    private fun getSavedGame(gameId:Int){
+        uiScope.launch {
+            withContext(Dispatchers.IO){
+                var currGame = _gameRepository.getSavedGameById(gameId)
+                _currentGame.postValue(currGame)
+            }
+
+        }
+    }
+
+    private fun saveGame(game: Game){
+        uiScope.launch {
+            withContext(Dispatchers.IO){
+                _gameRepository.saveGame(game)
+            }
+        }
     }
 }

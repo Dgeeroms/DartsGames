@@ -12,11 +12,17 @@ interface GameDao {
     @Query("SELECT * FROM savedGames")
     fun getSavedGames(): List<Game>
 
-    @Query("SELECT * FROM savedGames WHERE id = :id")
-    fun getSavedGameById(id:String): Game
+    @Query("SELECT * FROM savedGames WHERE game_id = :id")
+    fun getSavedGameById(id: Int): Game
 
-    @Query("DELETE FROM savedGames WHERE id = :id")
-    fun deleteSavedGame(id: String)
+    @Query("SELECT * FROM savedGames WHERE new_game = 1")
+    fun getNewGame(): Game
+
+    @Query("DELETE FROM savedGames WHERE game_id = :id")
+    fun deleteSavedGame(id: Int)
+
+    @Query("DELETE FROM savedGames")
+    fun deleteTable()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveGame(game: Game)

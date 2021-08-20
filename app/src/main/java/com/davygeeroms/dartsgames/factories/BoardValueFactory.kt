@@ -16,6 +16,7 @@ class BoardValueFactory {
         }
 
         return BoardValue(
+            bv.name,
             bv.name.substring(1).toInt(),
             modifierInt,
             bv.valuesStr

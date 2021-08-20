@@ -9,10 +9,6 @@ import com.davygeeroms.dartsgames.viewmodels.NewGameViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val newGameViewModel: NewGameViewModel by viewModels()
-    private val mainMenuViewModel: MainMenuViewModel by viewModels()
-    private val playGameViewModel: PlayGameViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
