@@ -1,8 +1,14 @@
 package com.davygeeroms.dartsgames.entities
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.davygeeroms.dartsgames.interfaces.GameType
 
-class Game(val gameType: GameType, var playerScores: List<PlayerScore>) {
+@Entity(tableName = "savedGames")
+data class Game(@PrimaryKey
+                val id: String,
+                val gameType: GameType,
+                var playerScores: List<PlayerScore>) {
 
     lateinit var currentPlayer: Player
     var currentScore: Int = 501
