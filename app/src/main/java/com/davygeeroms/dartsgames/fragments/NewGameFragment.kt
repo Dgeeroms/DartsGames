@@ -1,23 +1,18 @@
 package com.davygeeroms.dartsgames.fragments
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import com.davygeeroms.dartsgames.adapters.PlayersAdapter
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
-import androidx.core.graphics.toColorInt
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -25,18 +20,16 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.davygeeroms.dartsgames.R
+import com.davygeeroms.dartsgames.adapters.PlayersAdapter
 import com.davygeeroms.dartsgames.databinding.FragmentNewGameBinding
 import com.davygeeroms.dartsgames.entities.Player
 import com.davygeeroms.dartsgames.enums.GameModes
 import com.davygeeroms.dartsgames.persistence.AppDatabase
-import com.davygeeroms.dartsgames.persistence.GameDao
-import com.davygeeroms.dartsgames.viewmodels.MainMenuViewModel
 import com.davygeeroms.dartsgames.viewmodels.NewGameViewModel
 import com.davygeeroms.dartsgames.viewmodels.ViewModelFactory
-import kotlinx.android.synthetic.main.colorpicker.*
 import kotlinx.android.synthetic.main.colorpicker.view.*
-import kotlinx.android.synthetic.main.fragment_new_game.*
-import kotlinx.android.synthetic.main.fragment_new_game.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class NewGameFragment : Fragment() {
 
@@ -50,7 +43,7 @@ class NewGameFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         //application
         val application = requireNotNull(this.activity).application
@@ -64,10 +57,10 @@ class NewGameFragment : Fragment() {
         vm = ViewModelProviders.of(this, vmFactory).get(NewGameViewModel::class.java)
 
         //spinner
-        var gameModes:MutableList<String> = mutableListOf<String>()
+        val gameModes:MutableList<String> = mutableListOf()
         enumValues<GameModes>().forEach { gameModes.add(it.mode) }
         val realmSpinner = binding.spinnerGameTypes
-        var spinnerAdapter = this.context?.let { ArrayAdapter(it, R.layout.spinneritem,  gameModes) }
+        val spinnerAdapter = this.context?.let { ArrayAdapter(it, R.layout.spinneritem,  gameModes) }
         if (spinnerAdapter != null) {
             spinnerAdapter.setDropDownViewResource(R.layout.spinnerdropdown)
             realmSpinner.adapter = spinnerAdapter
@@ -87,24 +80,41 @@ class NewGameFragment : Fragment() {
         //addPlayerbutton
         binding.butAddPlayer.setOnClickListener {
             if(binding.editTextPlayerName.text.toString().isNotBlank()) {
-                insertPlayer();
+                insertPlayer()
                 binding.editTextPlayerName.setText("")
                 it.hideKeyboard()
             }
         }
+        binding.butAddPlayer.visibility = View.INVISIBLE
+        binding.editTextPlayerName.addTextChangedListener(object: TextWatcher{
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(binding.editTextPlayerName.text.toString().isNotBlank()){
+                    binding.butAddPlayer.visibility = View.VISIBLE
+                } else {
+                    binding.butAddPlayer.visibility = View.INVISIBLE
+                }
+            }
+
+        })
 
         //colorpicker
         initColorPicker()
 
         //play game button
-        binding.playbutton.isEnabled = false
         vm.players.observe(viewLifecycleOwner, Observer { players ->
             if(players.count() != 0){
-                binding.playbutton.isEnabled = true
-                binding.playbutton.setTextColor("#D81212".toColorInt())
+                binding.playbutton.visibility = View.VISIBLE
+                //binding.playbutton.setTextColor("#D81212".toColorInt())
             } else {
-                binding.playbutton.isEnabled = false
-                binding.playbutton.setTextColor("#8E8E8E".toColorInt())
+                binding.playbutton.visibility = View.INVISIBLE
+                //binding.playbutton.setTextColor("#8E8E8E".toColorInt())
 
             }
 
@@ -124,13 +134,12 @@ class NewGameFragment : Fragment() {
             }
         })
 
-
-
-
         return binding.root
     }
 
-    fun View.hideKeyboard() {
+
+
+    private fun View.hideKeyboard() {
         val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
@@ -188,7 +197,7 @@ class NewGameFragment : Fragment() {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int,
                                            fromUser: Boolean) {
                 val colorStr = getColorString()
-                binding.colorPicker.strColor.setText(colorStr.replace("#","").toUpperCase())
+                binding.colorPicker.strColor.setText(colorStr.replace("#","").toUpperCase(Locale.getDefault()))
                 binding.colorPicker.btnColorPreview.setBackgroundColor(Color.parseColor(colorStr))
             }
         })
@@ -200,7 +209,7 @@ class NewGameFragment : Fragment() {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int,
                                            fromUser: Boolean) {
                 val colorStr = getColorString()
-                binding.colorPicker.strColor.setText(colorStr.replace("#","").toUpperCase())
+                binding.colorPicker.strColor.setText(colorStr.replace("#","").toUpperCase(Locale.getDefault()))
                 binding.colorPicker.btnColorPreview.setBackgroundColor(Color.parseColor(colorStr))
             }
         })
@@ -212,7 +221,7 @@ class NewGameFragment : Fragment() {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int,
                                            fromUser: Boolean) {
                 val colorStr = getColorString()
-                binding.colorPicker.strColor.setText(colorStr.replace("#","").toUpperCase())
+                binding.colorPicker.strColor.setText(colorStr.replace("#","").toUpperCase(Locale.getDefault()))
                 binding.colorPicker.btnColorPreview.setBackgroundColor(Color.parseColor(colorStr))
             }
         })
@@ -229,14 +238,14 @@ class NewGameFragment : Fragment() {
     }
     fun getColorString(): String {
         var a = Integer.toHexString(255)
-        if(a.length==1) a = "0"+a
+        if(a.length==1) a = "0$a"
         var r = Integer.toHexString(((255*binding.colorPicker.colorR.progress)/binding.colorPicker.colorR.max))
-        if(r.length==1) r = "0"+r
+        if(r.length==1) r = "0$r"
         var g = Integer.toHexString(((255*binding.colorPicker.colorG.progress)/binding.colorPicker.colorG.max))
-        if(g.length==1) g = "0"+g
+        if(g.length==1) g = "0$g"
         var b = Integer.toHexString(((255*binding.colorPicker.colorB.progress)/binding.colorPicker.colorB.max))
-        if(b.length==1) b = "0"+b
-        return "#" + a + r + g + b
+        if(b.length==1) b = "0$b"
+        return "#$a$r$g$b"
     }
 
 
