@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.davygeeroms.dartsgames.entities.Game
 
-@Database(entities = [Game::class], version = 3, exportSchema = false)
+@Database(entities = [Game::class], version = 5, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

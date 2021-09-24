@@ -10,8 +10,10 @@ interface GameType {
     val targetScore: Int
     val startScore: Int
     val winModifier: Int
+    val dartsAmount: Int
 
     fun hasWon(currentScore: Int, dartThrow : BoardValue): Boolean
     fun calcScore(currentScore: Int, dartThrow: BoardValue): Int
+    fun displayedScoreToString(currentScore: Int): String
 
 }

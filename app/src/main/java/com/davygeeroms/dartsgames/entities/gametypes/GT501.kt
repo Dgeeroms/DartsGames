@@ -10,6 +10,7 @@ class GT501(override val gameMode: GameModes) : GameType {
     override val startScore: Int = 501
     override val targetScore: Int = 0
     override val winModifier: Int = 2
+    override val dartsAmount: Int = 3
 
     override fun hasWon(currentScore: Int, dartThrow: BoardValue): Boolean {
 
@@ -32,5 +33,9 @@ class GT501(override val gameMode: GameModes) : GameType {
         }
 
         return nextScore
+    }
+
+    override fun displayedScoreToString(currentScore: Int): String {
+        return "Score left: $currentScore"
     }
 }

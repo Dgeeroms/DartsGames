@@ -48,7 +48,7 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
     private fun getSavedGame(gameId:Int){
         uiScope.launch {
             withContext(Dispatchers.IO){
-                var currGame = _gameRepository.getSavedGameById(gameId)
+                val currGame = _gameRepository.getSavedGameById(gameId)
                 _currentGame.postValue(currGame)
             }
 

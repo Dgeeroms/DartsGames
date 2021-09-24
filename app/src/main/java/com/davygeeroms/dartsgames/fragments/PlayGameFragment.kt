@@ -62,7 +62,7 @@ class PlayGameFragment : Fragment() {
         vm.currentGame.observe(viewLifecycleOwner, Observer { game ->
 
             binding.playerScore.setBackgroundColor(Color.parseColor(game.currentPlayer.color))
-            binding.playerScore.text = game.currentScore.toString()
+            binding.playerScore.text = game.displayedString
             binding.playerName.text = game.currentPlayer.name
             binding.playerNumber.text = game.currentPlayer.number.toString()
             vm.updateNewGameStatus()
@@ -79,11 +79,11 @@ class PlayGameFragment : Fragment() {
         mImageMap.setImageResource(R.drawable.dartboard)
 
         //onclicklistener back button
-        binding.btnToMainMenu.setOnClickListener {
+    /*    binding.btnToMainMenu.setOnClickListener {
 
             view?.findNavController()?.navigate(PlayGameFragmentDirections.actionPlayGameFragmentToMainMenuFragment())
 
-        }
+        }*/
 
 
         //clickhandler imagebutton
@@ -113,7 +113,7 @@ class PlayGameFragment : Fragment() {
 
 
 
-        //recycler initialize with empty list
+        //recycler initialized with empty list
         playerScoreHistoryRecyclerView = binding.playerHistoryRec
         linearLayoutManager = LinearLayoutManager(this.context)
         linearLayoutManager.reverseLayout = true
