@@ -7,26 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.davygeeroms.dartsgames.R
 import com.davygeeroms.dartsgames.adapters.PlayerHistoryAdapter
-import com.davygeeroms.dartsgames.adapters.PlayersAdapter
 import com.davygeeroms.dartsgames.databinding.PlayGameFragmentBinding
-import com.davygeeroms.dartsgames.entities.Player
 import com.davygeeroms.dartsgames.entities.PlayerScoreHistory
 import com.davygeeroms.dartsgames.persistence.AppDatabase
 import com.davygeeroms.dartsgames.utilities.ImageMap
-import com.davygeeroms.dartsgames.viewmodels.NewGameViewModel
 import com.davygeeroms.dartsgames.viewmodels.PlayGameViewModel
 import com.davygeeroms.dartsgames.viewmodels.ViewModelFactory
 import kotlinx.android.synthetic.main.dartboardmap_container.view.*
-import kotlinx.android.synthetic.main.play_game_fragment.view.*
 
 class PlayGameFragment : Fragment() {
 
@@ -72,18 +66,17 @@ class PlayGameFragment : Fragment() {
                 recInitialized = true
             }
 
+            if(game.dartNumber == 1 && game.playerScores.count() > 1){
+                view?.let { showNextPlayerDialog(it) }
+            }
+
         })
 
 
         mImageMap = binding.dartboardmapContainer.dartboardmap
         mImageMap.setImageResource(R.drawable.dartboard)
 
-        //onclicklistener back button
-    /*    binding.btnToMainMenu.setOnClickListener {
 
-            view?.findNavController()?.navigate(PlayGameFragmentDirections.actionPlayGameFragmentToMainMenuFragment())
-
-        }*/
 
 
         //clickhandler imagebutton
@@ -110,9 +103,6 @@ class PlayGameFragment : Fragment() {
             })
         }
 
-
-
-
         //recycler initialized with empty list
         playerScoreHistoryRecyclerView = binding.playerHistoryRec
         linearLayoutManager = LinearLayoutManager(this.context)
@@ -121,10 +111,6 @@ class PlayGameFragment : Fragment() {
         playerScoreHistoryRecyclerView.layoutManager = linearLayoutManager
         playerScoreHistoryAdapter = PlayerHistoryAdapter(ArrayList<PlayerScoreHistory>())
         playerScoreHistoryRecyclerView.adapter = playerScoreHistoryAdapter
-
-
-
-
 
         return binding.root
     }
@@ -139,4 +125,9 @@ class PlayGameFragment : Fragment() {
         playerScoreHistoryAdapter = PlayerHistoryAdapter(playerScoreHistories as ArrayList<PlayerScoreHistory>)
         playerScoreHistoryRecyclerView.adapter = playerScoreHistoryAdapter
     }
+
+    private fun showNextPlayerDialog(view: View){
+        vm.currentGame.value?.currentPlayer?.name?.let { NextPlayerDialogFragment(it).show(parentFragmentManager, "com.davygeeroms.dartsgames.fragments.NextPlayerDialogFragment") }
+    }
+
 }
