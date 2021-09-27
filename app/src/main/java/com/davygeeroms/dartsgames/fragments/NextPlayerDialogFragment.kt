@@ -1,16 +1,21 @@
 package com.davygeeroms.dartsgames.fragments
 
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.toColorInt
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.davygeeroms.dartsgames.R
 import com.davygeeroms.dartsgames.databinding.NextPlayerDialogBinding
+import com.davygeeroms.dartsgames.entities.Player
 
 
-class NextPlayerDialogFragment(val playerName: String): DialogFragment() {
+class NextPlayerDialogFragment(val player: Player): DialogFragment() {
 
     private lateinit var binding: NextPlayerDialogBinding
 
@@ -18,11 +23,16 @@ class NextPlayerDialogFragment(val playerName: String): DialogFragment() {
 
         //binding
         binding = DataBindingUtil.inflate(inflater, R.layout.next_player_dialog, container, false)
-        //round corners on dialog box
-        dialog!!.window?.setBackgroundDrawableResource(R.drawable.round_corners)
 
-        val text = "Next player: $playerName"
+        //round corners on dialog box
+        val drawable = this.context?.let { AppCompatResources.getDrawable(it, R.drawable.round_corners) }
+        drawable?.setTint(Color.parseColor(player.color))
+        dialog!!.window?.setBackgroundDrawable(drawable)
+
+
+        val text = "Next player: ${player.name}"
         binding.lblNextPlayer.text = text
+        binding.nxtPlayerDialog.setBackgroundColor(Color.parseColor(player.color))
 
         return binding.root
     }

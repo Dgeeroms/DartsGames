@@ -83,11 +83,11 @@ class NewGameViewModel(application: Application, gameDao: GameDao) : AndroidView
         uiScope.launch {
             withContext(Dispatchers.IO){
 
-                _gameRepo.deleteTable()
+                //_gameRepo.deleteTable()
 
                 _gameRepo.saveGame(game)
-                var game = _gameRepo.getNewGame()
-                _game.postValue(game)
+                val tempGame = _gameRepo.getNewGame()
+                _game.postValue(tempGame)
 
 
 

@@ -1,6 +1,8 @@
 package com.davygeeroms.dartsgames.interfaces
 
 import com.davygeeroms.dartsgames.entities.BoardValue
+import com.davygeeroms.dartsgames.entities.PlayerScore
+import com.davygeeroms.dartsgames.entities.PlayerScoreHistory
 import com.davygeeroms.dartsgames.enums.BoardValues
 import com.davygeeroms.dartsgames.enums.GameModes
 
@@ -15,5 +17,6 @@ interface GameType {
     fun hasWon(currentScore: Int, dartThrow : BoardValue): Boolean
     fun calcScore(currentScore: Int, dartThrow: BoardValue): Int
     fun displayedScoreToString(currentScore: Int): String
+    fun statsToString(history: List<PlayerScoreHistory>, players: List<PlayerScore>): List<String>
 
 }

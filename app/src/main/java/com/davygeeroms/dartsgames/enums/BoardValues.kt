@@ -62,6 +62,7 @@ enum class BoardValues(val valuesStr: String, val modifier: Int, val valueNumber
     D01("Double One", 2,1),
     T01("Triple One", 3,1),
     S25("Bull", 1,25),
-    D25("Bullseye", 2,25)
+    D25("Bullseye", 2,25),
+    S00("MISS", 1, 0)
 
 }

@@ -111,11 +111,8 @@ class NewGameFragment : Fragment() {
         vm.players.observe(viewLifecycleOwner, Observer { players ->
             if(players.count() != 0){
                 binding.playbutton.visibility = View.VISIBLE
-                //binding.playbutton.setTextColor("#D81212".toColorInt())
             } else {
                 binding.playbutton.visibility = View.INVISIBLE
-                //binding.playbutton.setTextColor("#8E8E8E".toColorInt())
-
             }
 
         })

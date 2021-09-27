@@ -102,9 +102,11 @@ class Converters {
         var psh: PlayerScoreHistory
         val pshList: MutableList<PlayerScoreHistory> = mutableListOf()
         for(s in strings){
-            val pshString = s.split(",")
+            val playAndScoreAndBoardVal = s.split("|")
+            val scoreAndBoardVal = playAndScoreAndBoardVal[1].split(",")
 
-            pshList.add(PlayerScoreHistory(fromStringToPlayerScore(pshString[0]),fromStringToBoardValue(pshString[1])))
+
+            pshList.add(PlayerScoreHistory(fromStringToPlayerScore(playAndScoreAndBoardVal[0] + "|" + scoreAndBoardVal[0]),fromStringToBoardValue(scoreAndBoardVal[1])))
         }
         return pshList
     }

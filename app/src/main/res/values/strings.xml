@@ -23,4 +23,5 @@
     <string name="loading">...loading...</string>
     <string name="c">C°</string>
     <string name="ok">OK</string>
+    <string name="statistics">Statistics:</string>
 </resources>

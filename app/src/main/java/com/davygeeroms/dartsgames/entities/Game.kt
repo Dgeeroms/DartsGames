@@ -30,6 +30,10 @@ data class Game(
             displayedString = gameType.displayedScoreToString(currentScore)
         }
 
+        fun getStats(): List<String>{
+            return gameType.statsToString(playerScoreHistory, playerScores)
+        }
+
     /***
      * @param dart
      * Calculates, based on the thrown dart (BoardValue), the new score and if the player has won.

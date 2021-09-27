@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.davygeeroms.dartsgames.R
@@ -70,6 +71,10 @@ class PlayGameFragment : Fragment() {
                 view?.let { showNextPlayerDialog(it) }
             }
 
+            if(game.hasWon){
+                view?.findNavController()?.navigate(PlayGameFragmentDirections.actionPlayGameFragmentToWinnerFragment(game.id))
+            }
+
         })
 
 
@@ -127,7 +132,7 @@ class PlayGameFragment : Fragment() {
     }
 
     private fun showNextPlayerDialog(view: View){
-        vm.currentGame.value?.currentPlayer?.name?.let { NextPlayerDialogFragment(it).show(parentFragmentManager, "com.davygeeroms.dartsgames.fragments.NextPlayerDialogFragment") }
+        vm.currentGame.value?.currentPlayer?.let { NextPlayerDialogFragment(it).show(parentFragmentManager, "com.davygeeroms.dartsgames.fragments.NextPlayerDialogFragment") }
     }
 
 }
