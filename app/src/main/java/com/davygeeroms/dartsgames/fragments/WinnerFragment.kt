@@ -1,13 +1,16 @@
 package com.davygeeroms.dartsgames.fragments
 
+import android.content.Context
 import android.graphics.Color
 import android.icu.text.DateTimePatternGenerator
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.marginLeft
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -19,6 +22,7 @@ import androidx.viewpager.widget.ViewPager
 import com.davygeeroms.dartsgames.R
 import com.davygeeroms.dartsgames.databinding.FragmentWinnerBinding
 import com.davygeeroms.dartsgames.persistence.AppDatabase
+import com.davygeeroms.dartsgames.utilities.ColorInverter
 import com.davygeeroms.dartsgames.viewmodels.ViewModelFactory
 import com.davygeeroms.dartsgames.viewmodels.WinnerViewModel
 
@@ -53,20 +57,32 @@ class WinnerFragment : Fragment() {
 
         vm.currentGame.observe(viewLifecycleOwner, Observer { game ->
             if(game != null){
-                val winnerText = "Player won: \n ${game.currentPlayer.name}!!"
+                val winnerText = "Winner:\n${game.currentPlayer.name}!!"
                 binding.lblWinningPlayer.text = winnerText
                 val layoutParam = binding.lblWinningPlayer.layoutParams
                 layoutParam.width = ViewPager.LayoutParams.MATCH_PARENT
                 binding.lblWinningPlayer.layoutParams = layoutParam
                 binding.lblWinningPlayer.setBackgroundColor(Color.parseColor(game.currentPlayer.color))
+                binding.lblWinningPlayer.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentPlayer.color)))
 
                 val statTexts = game.getStats()
 
                 for(stat in statTexts){
-                    var tvStat = TextView(this.context, null)
+                    val tvStat = TextView(this.context, null)
                     tvStat.text = stat
+                    tvStat.setTextColor(resources.getColor(R.color.text))
+                    tvStat.textSize = 8.dpToPixels(requireContext()).toFloat()
 
                     binding.lnlPlayerStats.addView(tvStat)
+
+                    (tvStat.layoutParams as LinearLayout.LayoutParams).apply {
+                        // individually set text view any side margin
+                        marginStart = 25.dpToPixels(requireContext())
+                        topMargin = 10.dpToPixels(requireContext())
+                        marginEnd = 25.dpToPixels(requireContext())
+                        bottomMargin = 10.dpToPixels(requireContext())
+
+                    }
                 }
             }
         })
@@ -75,3 +91,8 @@ class WinnerFragment : Fragment() {
     }
 
 }
+
+// extension function to convert dp to equivalent pixels
+fun Int.dpToPixels(context: Context):Int = TypedValue.applyDimension(
+    TypedValue.COMPLEX_UNIT_DIP,this.toFloat(),context.resources.displayMetrics
+).toInt()

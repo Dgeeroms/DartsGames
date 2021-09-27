@@ -51,7 +51,7 @@ class GTClockSingle(override val gameMode: GameModes) : GameType {
 
         for (p in players){
             var playerStat: String
-            playerStat = "Player: ${p.player.number} - ${p.player.name}\n"
+            playerStat = "Player ${p.player.number}: ${p.player.name}\n"
             playerStat += "Under construction\n"
 
             result.add(playerStat)

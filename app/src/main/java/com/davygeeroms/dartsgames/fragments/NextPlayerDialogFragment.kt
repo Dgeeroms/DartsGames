@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment
 import com.davygeeroms.dartsgames.R
 import com.davygeeroms.dartsgames.databinding.NextPlayerDialogBinding
 import com.davygeeroms.dartsgames.entities.Player
+import com.davygeeroms.dartsgames.utilities.ColorInverter
 
 
 class NextPlayerDialogFragment(val player: Player): DialogFragment() {
@@ -33,6 +34,7 @@ class NextPlayerDialogFragment(val player: Player): DialogFragment() {
         val text = "Next player: ${player.name}"
         binding.lblNextPlayer.text = text
         binding.nxtPlayerDialog.setBackgroundColor(Color.parseColor(player.color))
+        binding.lblNextPlayer.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(player.color)))
 
         return binding.root
     }

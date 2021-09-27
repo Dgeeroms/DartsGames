@@ -47,7 +47,7 @@ class GT301(override val gameMode: GameModes) : GameType {
         // each player will have a textview in the linear list
         for (p in players){
             var playerStat: String
-            playerStat = "Player: ${p.player.number} - ${p.player.name}\n"
+            playerStat = "Player ${p.player.number}: ${p.player.name}\n"
             playerStat += "End score: ${p.score}\n"
             playerStat += "Highest throw: " + highestThrow(history, p.player) + "\n"
             playerStat += "Average: " + average(history, p.player).toString() + "\n"

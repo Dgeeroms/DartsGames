@@ -25,11 +25,11 @@ import com.davygeeroms.dartsgames.databinding.FragmentNewGameBinding
 import com.davygeeroms.dartsgames.entities.Player
 import com.davygeeroms.dartsgames.enums.GameModes
 import com.davygeeroms.dartsgames.persistence.AppDatabase
+import com.davygeeroms.dartsgames.utilities.ColorInverter
 import com.davygeeroms.dartsgames.viewmodels.NewGameViewModel
 import com.davygeeroms.dartsgames.viewmodels.ViewModelFactory
 import kotlinx.android.synthetic.main.colorpicker.view.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class NewGameFragment : Fragment() {
 
@@ -230,6 +230,7 @@ class NewGameFragment : Fragment() {
         binding.colorPicker.colorOkBtn.setOnClickListener {
             val color:String = getColorString()
             binding.btnColorPicker.setBackgroundColor(Color.parseColor(color))
+            binding.btnColorPicker.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(color)))
             binding.colorPicker.visibility = View.GONE
         }
     }

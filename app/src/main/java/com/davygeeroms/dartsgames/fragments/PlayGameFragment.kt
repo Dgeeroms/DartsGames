@@ -18,6 +18,7 @@ import com.davygeeroms.dartsgames.adapters.PlayerHistoryAdapter
 import com.davygeeroms.dartsgames.databinding.PlayGameFragmentBinding
 import com.davygeeroms.dartsgames.entities.PlayerScoreHistory
 import com.davygeeroms.dartsgames.persistence.AppDatabase
+import com.davygeeroms.dartsgames.utilities.ColorInverter
 import com.davygeeroms.dartsgames.utilities.ImageMap
 import com.davygeeroms.dartsgames.viewmodels.PlayGameViewModel
 import com.davygeeroms.dartsgames.viewmodels.ViewModelFactory
@@ -57,17 +58,23 @@ class PlayGameFragment : Fragment() {
         vm.currentGame.observe(viewLifecycleOwner, Observer { game ->
 
             binding.playerScore.setBackgroundColor(Color.parseColor(game.currentPlayer.color))
+            binding.playerScore.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentPlayer.color)))
             binding.playerScore.text = game.displayedString
-            binding.playerName.text = game.currentPlayer.name
-            binding.playerNumber.text = game.currentPlayer.number.toString()
+
+            val nowPlayingString = "Player ${game.currentPlayer.number}: ${game.currentPlayer.name}"
+            binding.playerName.text = nowPlayingString
+            binding.playerName.setBackgroundColor(Color.parseColor(game.currentPlayer.color))
+            binding.playerName.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentPlayer.color)))
+
             vm.updateNewGameStatus()
+
             var recInitialized = false
             if(game.playerScoreHistory.count() > 0 && !recInitialized){
                 initializeRec()
                 recInitialized = true
             }
 
-            if(game.dartNumber == 1 && game.playerScores.count() > 1){
+            if(game.dartNumber == 1 && game.playerScores.count() > 1 && !game.hasWon){
                 view?.let { showNextPlayerDialog(it) }
             }
 

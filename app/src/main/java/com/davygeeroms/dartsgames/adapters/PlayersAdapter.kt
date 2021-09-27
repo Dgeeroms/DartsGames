@@ -1,17 +1,16 @@
 package com.davygeeroms.dartsgames.adapters
 
-import android.util.Log
+import android.graphics.Color
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.toColorInt
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.davygeeroms.dartsgames.R
-import com.davygeeroms.dartsgames.databinding.FragmentNewGameBinding
 import com.davygeeroms.dartsgames.entities.Player
-import com.davygeeroms.dartsgames.inflate
-import com.davygeeroms.dartsgames.viewmodels.NewGameViewModel
+import com.davygeeroms.dartsgames.utilities.ColorInverter
 import kotlinx.android.synthetic.main.recyclerplayersitem.view.*
 
 class PlayersAdapter(private val dataSet: ArrayList<Player>, private val onSelect: (Player?) -> Unit) :
@@ -32,8 +31,9 @@ class PlayersAdapter(private val dataSet: ArrayList<Player>, private val onSelec
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): PlayerHolder {
         // Create a new view, which defines the UI of the list item
-        val inflatedView = viewGroup.inflate(R.layout.recyclerplayersitem, false)
-        return PlayerHolder(inflatedView)
+        //val inflatedView = viewGroup.inflate(R.layout.recyclerplayersitem, false)
+        val inflater = LayoutInflater.from(viewGroup.context)
+        return PlayerHolder(inflater.inflate(R.layout.recyclerplayersitem, viewGroup, false))
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -54,17 +54,6 @@ class PlayersAdapter(private val dataSet: ArrayList<Player>, private val onSelec
 
         private var player: Player? = null
 
-
-        init {
-//            v.setOnClickListener(this)
-        }
-
-
-//        override fun onClick(v: View) {
-//            Log.d("RecyclerView", "CLICK!")
-
-//        }
-
         companion object {
             private val PLAYER_KEY = "PLAYER"
         }
@@ -74,6 +63,13 @@ class PlayersAdapter(private val dataSet: ArrayList<Player>, private val onSelec
 
             view.textView.text = player.name
             view.setBackgroundColor(player.color.toColorInt())
+            view.textView.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(player.color)))
+
+            //round corners on recycler item
+            val drawable = view.context.let { AppCompatResources.getDrawable(it, R.drawable.round_corners) }
+            drawable?.setTint(Color.parseColor(player.color))
+            view.setBackgroundDrawable(drawable)
+
             view.setOnClickListener {
                 onSelect(player)
             }
