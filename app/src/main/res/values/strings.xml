@@ -24,4 +24,6 @@
     <string name="c">C°</string>
     <string name="ok">OK</string>
     <string name="statistics">Statistics:</string>
+    <string name="undo_throw">Undo throw</string>
+    <string name="missed_board">Missed board</string>
 </resources>

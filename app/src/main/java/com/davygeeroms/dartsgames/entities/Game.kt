@@ -12,34 +12,45 @@ data class Game(
     @PrimaryKey (autoGenerate = true)
     var id: Int = 0,
     val gameType: GameType,
-    var playerScores: List<PlayerScore>,
+    var playerScores: MutableList<PlayerScore>,
     @ColumnInfo(name = "new_game")
-    var newGame: Boolean)
-{
+    var newGame: Boolean) {
 
-        lateinit var currentPlayer: Player
-        var currentScore: Int = 501
-        var displayedString: String = ""
-        var hasWon: Boolean = false
-        var dartNumber: Int = 1
-        var playerScoreHistory: MutableList<PlayerScoreHistory> = mutableListOf()
+    lateinit var currentPlayer: Player
+    var currentScore: Int = 501
+    var displayedString: String = ""
+    var hasWon: Boolean = false
+    var dartNumber: Int = 1
+    var playerScoreHistory: MutableList<PlayerScoreHistory> = mutableListOf()
 
-        fun startGame(){
-            currentPlayer = playerScores.first { p -> p.player.number == 1 }.player
-            currentScore = playerScores.first { p -> p.player.number == currentPlayer.number }.score
-            displayedString = gameType.displayedScoreToString(currentScore)
-        }
+    fun startGame() {
+        currentPlayer = playerScores.first { p -> p.player.number == 1 }.player
+        currentScore = playerScores.first { p -> p.player.number == currentPlayer.number }.score
+        displayedString = gameType.displayedScoreToString(currentScore)
+    }
 
-        fun getStats(): List<String>{
-            return gameType.statsToString(playerScoreHistory, playerScores)
-        }
+    fun getStats(): List<String> {
+        return gameType.statsToString(playerScoreHistory, playerScores)
+    }
+
+    fun getLastThrow(): PlayerScoreHistory{
+        return playerScoreHistory.last()
+    }
+
+    fun undoLastThrow(psHistory: PlayerScoreHistory){
+        playerScoreHistory.remove(psHistory)
+        dartNumber -= 1 //updateDartNumber(false) -> error in logic
+        playerScores.first { p -> p.player.number == psHistory.playerScore.player.number }.score += psHistory.boardValue.value * psHistory.boardValue.modifier
+        currentScore = playerScores.first { p -> p.player.number == psHistory.playerScore.player.number }.score
+        displayedString = gameType.displayedScoreToString(currentScore)
+    }
 
     /***
      * @param dart
      * Calculates, based on the thrown dart (BoardValue), the new score and if the player has won.
      * If all darts for this turn in the game mode have been thrown, the next player will be selected.
      */
-        fun throwDart(dart: BoardValue) {
+    fun throwDart(dart: BoardValue) {
         if (!hasWon) {
             val playerScore = playerScores.first { p -> p.player.number == currentPlayer.number }
             currentScore = gameType.calcScore(playerScore.score, dart)
@@ -62,8 +73,19 @@ data class Game(
                 displayedString = gameType.displayedScoreToString(currentScore)
             }
             if (!hasWon) {
-                dartNumber = (dartNumber % gameType.dartsAmount) + 1
+                dartNumber = updateDartNumber(true)
             }
         }
     }
+
+    private fun updateDartNumber(upOrDown: Boolean): Int{
+
+        //true = increase
+        //false = decrease
+        if(upOrDown){
+            return (dartNumber % gameType.dartsAmount) + 1
+        }
+        return  (dartNumber % gameType.dartsAmount) - 1
+    }
+
 }

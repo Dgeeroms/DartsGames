@@ -55,6 +55,28 @@ class PlayGameFragment : Fragment() {
 
         vm.continueGame(args.gameId)
 
+        //observe undoableThrow, last throw will be kept in memory so it can be undone
+        binding.btnUndoThrow.visibility = View.INVISIBLE
+        vm.undoableThrow.observe(viewLifecycleOwner, Observer { udThrow ->
+            if(udThrow == null){
+                binding.btnUndoThrow.visibility = View.INVISIBLE
+            } else {
+                binding.btnUndoThrow.visibility = View.VISIBLE
+            }
+        })
+
+        //undo last throw btn click listener
+        binding.btnUndoThrow.setOnClickListener {
+            vm.undoLastThrow()
+            updateRec()
+        }
+
+        //missed dart btn click listener
+        binding.btnMissThrow.setOnClickListener {
+            vm.throwDart("S00")
+        }
+
+
         vm.currentGame.observe(viewLifecycleOwner, Observer { game ->
 
             binding.playerScore.setBackgroundColor(Color.parseColor(game.currentPlayer.color))
@@ -68,11 +90,7 @@ class PlayGameFragment : Fragment() {
 
             vm.updateNewGameStatus()
 
-            var recInitialized = false
-            if(game.playerScoreHistory.count() > 0 && !recInitialized){
-                initializeRec()
-                recInitialized = true
-            }
+            updateRec()
 
             if(game.dartNumber == 1 && game.playerScores.count() > 1 && !game.hasWon){
                 view?.let { showNextPlayerDialog(it) }
@@ -121,22 +139,24 @@ class PlayGameFragment : Fragment() {
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
         playerScoreHistoryRecyclerView.layoutManager = linearLayoutManager
-        playerScoreHistoryAdapter = PlayerHistoryAdapter(ArrayList<PlayerScoreHistory>())
+        playerScoreHistoryAdapter = PlayerHistoryAdapter()
+        playerScoreHistoryAdapter.dataSet = listOf()
         playerScoreHistoryRecyclerView.adapter = playerScoreHistoryAdapter
 
         return binding.root
     }
 
-    private fun initializeRec() {
+    private fun updateRec() {
         playerScoreHistoryRecyclerView = binding.playerHistoryRec
-        linearLayoutManager = LinearLayoutManager(this.context)
-        linearLayoutManager.reverseLayout = true
-        linearLayoutManager.stackFromEnd = true
-        playerScoreHistoryRecyclerView.layoutManager = linearLayoutManager
+
         val playerScoreHistories = vm.currentGame.value?.playerScoreHistory
-        playerScoreHistoryAdapter = PlayerHistoryAdapter(playerScoreHistories as ArrayList<PlayerScoreHistory>)
+        playerScoreHistoryAdapter = PlayerHistoryAdapter()
+        if (playerScoreHistories != null) {
+            playerScoreHistoryAdapter.dataSet = playerScoreHistories
+        }
         playerScoreHistoryRecyclerView.adapter = playerScoreHistoryAdapter
     }
+
 
     private fun showNextPlayerDialog(view: View){
         vm.currentGame.value?.currentPlayer?.let { NextPlayerDialogFragment(it).show(parentFragmentManager, "com.davygeeroms.dartsgames.fragments.NextPlayerDialogFragment") }

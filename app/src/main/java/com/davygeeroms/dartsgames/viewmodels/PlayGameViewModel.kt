@@ -5,10 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.davygeeroms.dartsgames.entities.BoardValue
-import com.davygeeroms.dartsgames.entities.Game
-import com.davygeeroms.dartsgames.entities.Player
-import com.davygeeroms.dartsgames.entities.PlayerScore
+import com.davygeeroms.dartsgames.entities.*
 import com.davygeeroms.dartsgames.enums.BoardValues
 import com.davygeeroms.dartsgames.factories.BoardValueFactory
 import com.davygeeroms.dartsgames.interfaces.GameType
@@ -23,16 +20,19 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
     private var uiScope = CoroutineScope(Dispatchers.Main + vmJob)
     private val _gameRepository = GameRepository(gameDao)
 
-    private var _currentGame : MutableLiveData<Game> = MutableLiveData()
+    private var _currentGame: MutableLiveData<Game> = MutableLiveData()
     val currentGame : LiveData<Game>
         get() = _currentGame
+
+    private var _undoableThrow: MutableLiveData<PlayerScoreHistory?> = MutableLiveData()
+    val undoableThrow : LiveData<PlayerScoreHistory?>
+        get() = _undoableThrow
 
     private val boardValueFactory =  BoardValueFactory()
 
 
     fun continueGame(gameId: Int){
         getSavedGame(gameId)
-
     }
 
     fun updateNewGameStatus(){
@@ -43,6 +43,21 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
     fun throwDart(boardValue: String){
         _currentGame.value?.throwDart(boardValueFactory.getBoardValue(BoardValues.valueOf(boardValue)))
         _currentGame.postValue(_currentGame.value)
+        updateUndoableThrow()
+    }
+
+    private fun updateUndoableThrow(){
+        var udThrow: PlayerScoreHistory? = null
+        if(_currentGame.value?.dartNumber != 1 || _currentGame.value?.playerScores?.count() == 1){
+            udThrow = _currentGame.value?.getLastThrow()
+        }
+        _undoableThrow.postValue(udThrow)
+    }
+
+    fun undoLastThrow(){
+        _currentGame.value?.undoLastThrow(_undoableThrow.value!!)
+        _undoableThrow.postValue(null)
+        _currentGame.postValue(_currentGame.value)
     }
 
     private fun getSavedGame(gameId:Int){
@@ -51,7 +66,6 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
                 val currGame = _gameRepository.getSavedGameById(gameId)
                 _currentGame.postValue(currGame)
             }
-
         }
     }
 

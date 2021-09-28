@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.toColorInt
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.davygeeroms.dartsgames.R
 import com.davygeeroms.dartsgames.entities.PlayerScoreHistory
@@ -14,27 +15,19 @@ import com.davygeeroms.dartsgames.utilities.ColorInverter
 import kotlinx.android.synthetic.main.recyclerplayerhistoryitem.view.*
 import kotlinx.android.synthetic.main.recyclerplayersitem.view.*
 
-class PlayerHistoryAdapter(private val dataSet: ArrayList<PlayerScoreHistory>) :
+class PlayerHistoryAdapter :
     RecyclerView.Adapter<PlayerHistoryAdapter.PlayerHistoryHolder>() {
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textViewPlayerName: TextView = view.findViewById(R.id.textView_player_name)
-        val textViewDart: TextView = view.findViewById(R.id.textView_dart)
-        val textViewScore: TextView = view.findViewById(R.id.textView_score)
-
-        init {
-
-        }
-    }
+    var dataSet = listOf<PlayerScoreHistory>()
+            set(value){
+                field = value
+                notifyDataSetChanged()
+            }
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): PlayerHistoryHolder {
+
         // Create a new view, which defines the UI of the list item
-        //val inflatedView = viewGroup.inflate(R.layout.recyclerplayerhistoryitem, false)
         val inflater = LayoutInflater.from(viewGroup.context)
         return PlayerHistoryHolder(inflater.inflate(R.layout.recyclerplayerhistoryitem, viewGroup, false))
     }
@@ -48,8 +41,10 @@ class PlayerHistoryAdapter(private val dataSet: ArrayList<PlayerScoreHistory>) :
         playerHistoryHolder.bindPlayerScoreHistory(playerHistory)
     }
 
+
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
+
 
     class PlayerHistoryHolder(private var view: View) : RecyclerView.ViewHolder(view) {
 
@@ -76,6 +71,16 @@ class PlayerHistoryAdapter(private val dataSet: ArrayList<PlayerScoreHistory>) :
             drawable?.setTint(Color.parseColor(playerHist.playerScore.player.color))
             view.setBackgroundDrawable(drawable)
         }
+    }
+}
+
+class PlayerHistoryDiffCallback : DiffUtil.ItemCallback<PlayerScoreHistory>(){
+    override fun areItemsTheSame(oldItem: PlayerScoreHistory, newItem: PlayerScoreHistory): Boolean {
+        return oldItem.timestamp == newItem.timestamp
+    }
+
+    override fun areContentsTheSame(oldItem: PlayerScoreHistory, newItem: PlayerScoreHistory): Boolean {
+        return oldItem == newItem
     }
 }
 
