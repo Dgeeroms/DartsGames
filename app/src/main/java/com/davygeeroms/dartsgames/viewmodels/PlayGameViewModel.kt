@@ -24,9 +24,11 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
     val currentGame : LiveData<Game>
         get() = _currentGame
 
+
     private var _undoableThrow: MutableLiveData<PlayerScoreHistory?> = MutableLiveData()
     val undoableThrow : LiveData<PlayerScoreHistory?>
         get() = _undoableThrow
+
 
     private val boardValueFactory =  BoardValueFactory()
 
@@ -41,23 +43,23 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
     }
 
     fun throwDart(boardValue: String){
+
         _currentGame.value?.throwDart(boardValueFactory.getBoardValue(BoardValues.valueOf(boardValue)))
         _currentGame.postValue(_currentGame.value)
         updateUndoableThrow()
+
     }
 
     private fun updateUndoableThrow(){
-        var udThrow: PlayerScoreHistory? = null
-        if(_currentGame.value?.dartNumber != 1 || _currentGame.value?.playerScores?.count() == 1){
-            udThrow = _currentGame.value?.getLastThrow()
-        }
-        _undoableThrow.postValue(udThrow)
+        _undoableThrow.postValue(_currentGame.value?.getLastPlayerScoreHistory())
     }
 
+
+
     fun undoLastThrow(){
-        _currentGame.value?.undoLastThrow(_undoableThrow.value!!)
-        _undoableThrow.postValue(null)
+        _currentGame.value?.undoThrow(_undoableThrow.value!!)
         _currentGame.postValue(_currentGame.value)
+        _undoableThrow.postValue(null)
     }
 
     private fun getSavedGame(gameId:Int){

@@ -2,9 +2,9 @@ package com.davygeeroms.dartsgames.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.davygeeroms.dartsgames.interfaces.GameType
+import com.google.gson.GsonBuilder
 
 @Entity(tableName = "savedGames")
 data class Game(
@@ -23,6 +23,7 @@ data class Game(
     var dartNumber: Int = 1
     var playerScoreHistory: MutableList<PlayerScoreHistory> = mutableListOf()
 
+
     fun startGame() {
         currentPlayer = playerScores.first { p -> p.player.number == 1 }.player
         currentScore = playerScores.first { p -> p.player.number == currentPlayer.number }.score
@@ -33,17 +34,30 @@ data class Game(
         return gameType.statsToString(playerScoreHistory, playerScores)
     }
 
-    fun getLastThrow(): PlayerScoreHistory{
+    fun getLastPlayerScoreHistory(): PlayerScoreHistory{
         return playerScoreHistory.last()
     }
 
-    fun undoLastThrow(psHistory: PlayerScoreHistory){
-        playerScoreHistory.remove(psHistory)
-        dartNumber -= 1 //updateDartNumber(false) -> error in logic
-        playerScores.first { p -> p.player.number == psHistory.playerScore.player.number }.score += psHistory.boardValue.value * psHistory.boardValue.modifier
-        currentScore = playerScores.first { p -> p.player.number == psHistory.playerScore.player.number }.score
+    fun undoThrow(psh: PlayerScoreHistory){
+
+        dartNumber = updateDartNumber(false)
+
+        currentPlayer = psh.playerScore.player
+        currentScore =  psh.playerScore.score
+
+
+        val playerScore = playerScores.first { p -> p.player.number == psh.playerScore.player.number }
+        currentScore += psh.boardValue.value * psh.boardValue.modifier
         displayedString = gameType.displayedScoreToString(currentScore)
+        playerScores[playerScores.indexOf(playerScore)].score = currentScore
+        playerScoreHistory.remove(psh)
+
+
+
+
+
     }
+
 
     /***
      * @param dart
@@ -84,8 +98,15 @@ data class Game(
         //false = decrease
         if(upOrDown){
             return (dartNumber % gameType.dartsAmount) + 1
+        } else {
+
+            if (dartNumber == 1){
+                return gameType.dartsAmount
+            }
+            return dartNumber - 1
+
         }
-        return  (dartNumber % gameType.dartsAmount) - 1
+        return  ((dartNumber - 1) % gameType.dartsAmount)
     }
 
 }

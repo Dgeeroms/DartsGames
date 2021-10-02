@@ -89,8 +89,6 @@ class NewGameViewModel(application: Application, gameDao: GameDao) : AndroidView
                 val tempGame = _gameRepo.getNewGame()
                 _game.postValue(tempGame)
 
-
-
             }
         }
     }

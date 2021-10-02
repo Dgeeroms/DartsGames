@@ -88,11 +88,16 @@ class PlayGameFragment : Fragment() {
             binding.playerName.setBackgroundColor(Color.parseColor(game.currentPlayer.color))
             binding.playerName.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentPlayer.color)))
 
+            val dartNumberString = "Dart: ${game.dartNumber}"
+            binding.dartNumber.text = dartNumberString
+            binding.dartNumber.setBackgroundColor(Color.parseColor(game.currentPlayer.color))
+            binding.dartNumber.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentPlayer.color)))
+
             vm.updateNewGameStatus()
 
             updateRec()
 
-            if(game.dartNumber == 1 && game.playerScores.count() > 1 && !game.hasWon){
+            if(game.dartNumber == 1 && game.playerScores.count() > 1 && !game.hasWon && game.currentPlayer.number != vm.undoableThrow.value?.playerScore?.player?.number){
                 view?.let { showNextPlayerDialog(it) }
             }
 
