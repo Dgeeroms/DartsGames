@@ -27,12 +27,8 @@ class GT501(override val gameMode: GameModes) : GameType {
 
         val nextScore = currentScore - (dartThrow.value * dartThrow.modifier)
 
-        if(nextScore < targetScore){
-            return currentScore
-        }
-
-        if(nextScore == targetScore && dartThrow.modifier != winModifier){
-            return currentScore
+        if(nextScore < targetScore || (nextScore == targetScore && dartThrow.modifier != winModifier)){
+            return 999
         }
 
         return nextScore

@@ -13,7 +13,7 @@ class GTClockSingle(override val gameMode: GameModes) : GameType {
     override val startScore: Int = 20
     override val targetScore: Int = 0
     override val winModifier: Int = 1
-    override val dartsAmount: Int = 1
+    override val dartsAmount: Int = 3
 
     override fun hasWon(currentScore: Int, dartThrow: BoardValue): Boolean {
 

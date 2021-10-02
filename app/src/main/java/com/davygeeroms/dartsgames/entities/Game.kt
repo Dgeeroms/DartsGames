@@ -67,16 +67,24 @@ data class Game(
     fun throwDart(dart: BoardValue) {
         if (!hasWon) {
             val playerScore = playerScores.first { p -> p.player.number == currentPlayer.number }
-            currentScore = gameType.calcScore(playerScore.score, dart)
-            displayedString = gameType.displayedScoreToString(currentScore)
-            playerScores[playerScores.indexOf(playerScore)].score = currentScore
-            playerScoreHistory.add(
-                PlayerScoreHistory(
-                    PlayerScore(currentPlayer, currentScore),
-                    dart
+
+            val tmpScore = gameType.calcScore(playerScore.score, dart)
+            if(tmpScore != 999){
+
+                currentScore = tmpScore
+                displayedString = gameType.displayedScoreToString(currentScore)
+                playerScores[playerScores.indexOf(playerScore)].score = currentScore
+                playerScoreHistory.add(
+                    PlayerScoreHistory(
+                        PlayerScore(currentPlayer, currentScore),
+                        dart
+                    )
                 )
-            )
-            hasWon = gameType.hasWon(playerScore.score, dart)
+                hasWon = gameType.hasWon(playerScore.score, dart)
+            } else {
+                dartNumber = gameType.dartsAmount
+            }
+
 
             if (dartNumber == gameType.dartsAmount && !hasWon) {
                 val tmpPlayerScore = playerScores.first { p ->

@@ -23,16 +23,12 @@ class GT301(override val gameMode: GameModes) : GameType {
     }
 
     override fun calcScore(currentScore: Int, dartThrow: BoardValue) : Int {
+
         val nextScore = currentScore - (dartThrow.value * dartThrow.modifier)
 
-        if(nextScore < targetScore){
-            return currentScore
+        if(nextScore < targetScore || (nextScore == targetScore && dartThrow.modifier != winModifier)){
+            return 999
         }
-
-        if(nextScore == targetScore && dartThrow.modifier != winModifier){
-            return currentScore
-        }
-
         return nextScore
     }
 
