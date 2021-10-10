@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -44,6 +45,11 @@ class PlayGameFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        //ActionBar titles
+
+        (activity as AppCompatActivity).supportActionBar?.title = "DartsGames"
+        (activity as AppCompatActivity).supportActionBar?.subtitle = "Game on!"
 
 
         //application

@@ -1,27 +1,83 @@
 package com.davygeeroms.dartsgames
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.navigation.findNavController
-import com.davygeeroms.dartsgames.fragments.MainMenuFragment
-import com.davygeeroms.dartsgames.viewmodels.PlayGameViewModel
-import com.davygeeroms.dartsgames.viewmodels.MainMenuViewModel
-import com.davygeeroms.dartsgames.viewmodels.NewGameViewModel
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    lateinit var toggle : ActionBarDrawerToggle
-    lateinit var drawerLayout: DrawerLayout
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setSupportActionBar(toolbar)
+
+        val drawerToggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.open,
+            R.string.Close
+        ) {}
+
+        drawerToggle.isDrawerIndicatorEnabled = true
+        drawerLayout.addDrawerListener(drawerToggle)
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        navController = navHostFragment.navController
+
+        val appBarConfiguration = AppBarConfiguration(navHostFragment.navController.graph, drawerLayout)
+        appBarConfiguration.topLevelDestinations.add(R.id.mainMenuFragment)
+        appBarConfiguration.topLevelDestinations.add(R.id.playGameFragment)
+        NavigationUI.setupWithNavController(toolbar, navHostFragment.navController, appBarConfiguration)
+
+        drawerToggle.syncState()
+
+        nav_view.setNavigationItemSelectedListener(this)
+
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.nav_home -> {
+                val nOpts = NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_right)
+                                .setPopExitAnim(R.anim.slide_out_left).build()
+                navController.navigate(R.id.mainMenuFragment, Bundle.EMPTY, nOpts)
+            }
+
+            R.id.nav_new_game -> {
+                val nOpts = NavOptions.Builder()
+                    .setEnterAnim(R.anim.slide_in_right)
+                    .setExitAnim(R.anim.slide_out_left)
+                    .setPopEnterAnim(R.anim.slide_in_right)
+                    .setPopExitAnim(R.anim.slide_out_left).build()
+                navController.navigate(R.id.newGameFragment,  Bundle.EMPTY, nOpts)
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+    override fun onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 }

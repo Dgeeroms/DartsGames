@@ -30,7 +30,12 @@ class MainMenuFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+
+        //ActionBar titles
+        (activity as AppCompatActivity).supportActionBar?.title = "DartsGames"
+        (activity as AppCompatActivity).supportActionBar?.subtitle = "Main Menu"
+
 
         //application
         val application = requireNotNull(this.activity).application
@@ -49,8 +54,6 @@ class MainMenuFragment : Fragment() {
         })
 
 
-
-        //binding.mainMenuViewModel = vm
         binding.butContinueGame.isEnabled = false
 
         binding.butNewGame.setOnClickListener {

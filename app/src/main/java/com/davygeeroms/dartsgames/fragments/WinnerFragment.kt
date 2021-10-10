@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.marginLeft
 import androidx.databinding.DataBindingUtil
@@ -36,6 +37,10 @@ class WinnerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        //ActionBar titles
+        (activity as AppCompatActivity).supportActionBar?.title = "DartsGames"
+        (activity as AppCompatActivity).supportActionBar?.subtitle = "Winner, Winner, chicken dinner!"
 
         //args
         val args = PlayGameFragmentArgs.fromBundle(requireArguments())

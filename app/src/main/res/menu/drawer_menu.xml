@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item android:id="@+id/nav_home"
+            android:title="@string/home"
+            android:icon="@drawable/home_icon_foreground"
+            android:iconTint="@color/colorAccent"/>
+
+        <item android:id="@+id/nav_new_game"
+            android:title="@string/new_game"
+            android:icon="@drawable/new_game_icon_foreground"/>
+
+        <item android:id="@+id/nav_continue_game"
+            android:title="@string/continue_game"
+            android:icon="@drawable/continue_game_icon_foreground"/>
+
+        <item android:id="@+id/nav_scores"
+            android:title="@string/scores"
+            android:icon="@drawable/score_icon_foreground"/>
+
+
+    </group>
+
+</menu>

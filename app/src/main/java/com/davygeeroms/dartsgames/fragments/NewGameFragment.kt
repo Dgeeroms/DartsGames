@@ -13,6 +13,8 @@ import android.view.animation.Animation
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.DataBindingUtil
@@ -48,6 +50,12 @@ class NewGameFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        //ActionBar titles
+
+        (activity as AppCompatActivity).supportActionBar?.title = "DartsGames"
+        (activity as AppCompatActivity).supportActionBar?.subtitle = "New Game"
+
 
         //application
         val application = requireNotNull(this.activity).application
@@ -116,6 +124,7 @@ class NewGameFragment : Fragment() {
         //colorpicker
         initColorPicker()
 
+        binding.playbutton.visibility = View.INVISIBLE
         //play game button
         binding.playbutton.animate().translationX(1000F)
         vm.players.observe(viewLifecycleOwner, Observer { players ->
