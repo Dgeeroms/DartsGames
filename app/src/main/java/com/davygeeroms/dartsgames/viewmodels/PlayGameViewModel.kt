@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.davygeeroms.dartsgames.entities.*
 import com.davygeeroms.dartsgames.enums.BoardValues
+import com.davygeeroms.dartsgames.enums.CheckOutTable
 import com.davygeeroms.dartsgames.factories.BoardValueFactory
 import com.davygeeroms.dartsgames.interfaces.GameType
 import com.davygeeroms.dartsgames.persistence.GameDao
@@ -29,6 +30,10 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
     val undoableThrow : LiveData<PlayerScoreHistory?>
         get() = _undoableThrow
 
+    private var _checkOutTable: MutableLiveData<CheckOutTable?> = MutableLiveData()
+    val checkOutTable : LiveData<CheckOutTable?>
+        get() = _checkOutTable
+
 
     private val boardValueFactory =  BoardValueFactory()
 
@@ -39,6 +44,10 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
 
     fun updateNewGameStatus(){
         _currentGame.value?.newGame = false
+        saveGame()
+    }
+
+    fun saveGame(){
         saveGame(_currentGame.value!!)
     }
 
@@ -47,7 +56,15 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
         _currentGame.value?.throwDart(boardValueFactory.getBoardValue(BoardValues.valueOf(boardValue)))
         _currentGame.postValue(_currentGame.value)
         updateUndoableThrow()
+        updateCheckOutTable()
 
+    }
+
+    fun updateCheckOutTable(){
+
+        if(_currentGame.value?.gameType?.checkOutTable == true){
+            _checkOutTable.postValue(CheckOutTable.valueOf(_currentGame.value?.currentScore))
+        }
     }
 
     private fun updateUndoableThrow(){
@@ -60,6 +77,7 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
         _currentGame.value?.undoThrow(_undoableThrow.value!!)
         _currentGame.postValue(_currentGame.value)
         _undoableThrow.postValue(null)
+        updateCheckOutTable()
     }
 
     private fun getSavedGame(gameId:Int){

@@ -2,15 +2,19 @@ package com.davygeeroms.dartsgames.fragments
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -85,7 +89,10 @@ class NewGameFragment : Fragment() {
                 it.hideKeyboard()
             }
         }
+
+        //set btn off screen
         binding.butAddPlayer.visibility = View.INVISIBLE
+        binding.butAddPlayer.animate().translationX(-1000F)
         binding.editTextPlayerName.addTextChangedListener(object: TextWatcher{
 
             override fun afterTextChanged(s: Editable?) {
@@ -97,8 +104,10 @@ class NewGameFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if(binding.editTextPlayerName.text.toString().isNotBlank()){
                     binding.butAddPlayer.visibility = View.VISIBLE
+                    binding.butAddPlayer.animate().translationX(-0F)
                 } else {
-                    binding.butAddPlayer.visibility = View.INVISIBLE
+                    binding.butAddPlayer.animate().translationX(-1000F)
+                    //binding.butAddPlayer.visibility = View.INVISIBLE
                 }
             }
 
@@ -108,13 +117,15 @@ class NewGameFragment : Fragment() {
         initColorPicker()
 
         //play game button
+        binding.playbutton.animate().translationX(1000F)
         vm.players.observe(viewLifecycleOwner, Observer { players ->
             if(players.count() != 0){
                 binding.playbutton.visibility = View.VISIBLE
+                binding.playbutton.animate().translationX(0F)
             } else {
-                binding.playbutton.visibility = View.INVISIBLE
+                binding.playbutton.animate().translationX(1000F)
+                //binding.playbutton.visibility = View.INVISIBLE
             }
-
         })
 
 
@@ -143,10 +154,10 @@ class NewGameFragment : Fragment() {
 
     private fun initColorPicker(){
 
+
         binding.btnColorPicker.setOnClickListener {
             binding.colorPicker.visibility = View.VISIBLE
             it.hideKeyboard()
-
         }
 
         binding.colorPicker.strColor.addTextChangedListener(object : TextWatcher {
@@ -229,6 +240,7 @@ class NewGameFragment : Fragment() {
 
         binding.colorPicker.colorOkBtn.setOnClickListener {
             val color:String = getColorString()
+
             binding.btnColorPicker.setBackgroundColor(Color.parseColor(color))
             binding.btnColorPicker.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(color)))
             binding.colorPicker.visibility = View.GONE

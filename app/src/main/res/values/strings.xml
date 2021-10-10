@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">DartsGames</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="open">Open</string>
+    <string name="Close">Close</string>
     <string name="welcome_to_dartsgames">Welcome to DartsGames</string>
     <string name="enter">Enter</string>
     <string name="new_game">New Game</string>
@@ -26,4 +27,8 @@
     <string name="statistics">Statistics:</string>
     <string name="undo_throw">Undo throw</string>
     <string name="missed_board">Missed board</string>
+    <string name="home">Home</string>
+    <string name="info">info</string>
+    <string name="checkout_is_available">Checkout is Available</string>
+    <string name="possible_checkouts">Possible checkouts:</string>
 </resources>

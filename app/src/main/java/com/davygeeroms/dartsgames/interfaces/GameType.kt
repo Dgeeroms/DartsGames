@@ -13,6 +13,7 @@ interface GameType {
     val startScore: Int
     val winModifier: Int
     val dartsAmount: Int
+    val checkOutTable: Boolean
 
     fun hasWon(currentScore: Int, dartThrow : BoardValue): Boolean
     fun calcScore(currentScore: Int, dartThrow: BoardValue): Int

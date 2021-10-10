@@ -34,10 +34,17 @@ class PlayGameFragment : Fragment() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var playerScoreHistoryAdapter: PlayerHistoryAdapter
 
+    override fun onStop() {
+        super.onStop()
+        vm.saveGame()
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
 
         //application
         val application = requireNotNull(this.activity).application
@@ -57,11 +64,13 @@ class PlayGameFragment : Fragment() {
 
         //observe undoableThrow, last throw will be kept in memory so it can be undone
         binding.btnUndoThrow.visibility = View.INVISIBLE
+        binding.btnUndoThrow.animate().translationX(-1000F)
         vm.undoableThrow.observe(viewLifecycleOwner, Observer { udThrow ->
             if(udThrow == null){
-                binding.btnUndoThrow.visibility = View.INVISIBLE
+                binding.btnUndoThrow.animate().translationX(-1000F)
             } else {
                 binding.btnUndoThrow.visibility = View.VISIBLE
+                binding.btnUndoThrow.animate().translationX(0F)
             }
         })
 
@@ -76,7 +85,23 @@ class PlayGameFragment : Fragment() {
             vm.throwDart("S00")
         }
 
+        //observe if checkout is possible
+        binding.checkoutAvailable.animate().translationY(-1000F)
+        vm.checkOutTable.observe(viewLifecycleOwner, Observer { cot ->
+            if(cot == null){
+                binding.checkoutAvailable.animate().translationY(-1000F)
+            } else {
+                binding.checkoutAvailable.visibility = View.VISIBLE
+                binding.checkoutAvailable.animate().translationY(0F)
+            }
+        })
 
+        // set listener on checkouts btn
+        binding.checkoutAvailable.setOnClickListener {
+            showCheckOutsDialog(it)
+        }
+
+        //observe current game
         vm.currentGame.observe(viewLifecycleOwner, Observer { game ->
 
             binding.playerScore.setBackgroundColor(Color.parseColor(game.currentPlayer.color))
@@ -165,6 +190,10 @@ class PlayGameFragment : Fragment() {
 
     private fun showNextPlayerDialog(view: View){
         vm.currentGame.value?.currentPlayer?.let { NextPlayerDialogFragment(it).show(parentFragmentManager, "com.davygeeroms.dartsgames.fragments.NextPlayerDialogFragment") }
+    }
+
+    private fun showCheckOutsDialog(view: View){
+        CheckOutsDialogFragment(vm.checkOutTable.value!!).show(parentFragmentManager, "com.davygeeroms.dartsgames.fragments.CheckOutsDialogFragment")
     }
 
 }

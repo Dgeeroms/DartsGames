@@ -14,6 +14,7 @@ class GT501(override val gameMode: GameModes) : GameType {
     override val targetScore: Int = 0
     override val winModifier: Int = 2
     override val dartsAmount: Int = 3
+    override val checkOutTable: Boolean = true
 
     override fun hasWon(currentScore: Int, dartThrow: BoardValue): Boolean {
 

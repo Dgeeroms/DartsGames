@@ -26,10 +26,7 @@
                 android:id="@+id/player_score"
                 style="@style/now_playing"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
                 android:text="@string/default_score_501"
-                android:textSize="24sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/player_name" />
@@ -74,8 +71,8 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="15dp"
-                android:background="@color/buttonBackground"
-                android:paddingTop="10dp"
+                android:background="@drawable/recycler_top_border_red"
+                android:paddingTop="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -104,6 +101,19 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/btn_undoThrow"
                 app:layout_constraintTop_toBottomOf="@+id/dartboard_button" />
+
+            <ImageView
+                android:id="@+id/checkout_available"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/info_icon_foreground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/round_corners_red_border"
+                android:layout_margin="8dp"
+                android:contentDescription="@string/checkout_is_available"
+                android:visibility="invisible"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
