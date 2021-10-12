@@ -25,6 +25,10 @@ class ViewModelFactory(private val application: Application, private val gameDao
             return WinnerViewModel(application, gameDao) as T
         }
 
+        if (modelClass.isAssignableFrom(ContinueGameViewModel::class.java)) {
+            return ContinueGameViewModel(application, gameDao) as T
+        }
+
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 

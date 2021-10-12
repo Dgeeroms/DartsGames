@@ -10,8 +10,19 @@ import com.davygeeroms.dartsgames.enums.GameModes
 import com.davygeeroms.dartsgames.factories.BoardValueFactory
 import com.davygeeroms.dartsgames.factories.GameTypeFactory
 import com.davygeeroms.dartsgames.interfaces.GameType
+import java.time.Instant
 
 class Converters {
+
+    @TypeConverter
+    fun fromInstantToString(value: Instant): String{
+        return value.toString()
+    }
+
+    @TypeConverter
+    fun fromStringToInstant(value: String): Instant{
+        return Instant.parse(value)
+    }
 
     @TypeConverter
     fun fromGameTypeToString(value: GameType): String{

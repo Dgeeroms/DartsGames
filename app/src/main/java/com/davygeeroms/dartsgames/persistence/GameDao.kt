@@ -12,6 +12,12 @@ interface GameDao {
     @Query("SELECT * FROM savedGames")
     fun getSavedGames(): List<Game>
 
+    @Query("SELECT * FROM savedGames WHERE has_won = 0")
+    fun getSavedOngoingGames(): List<Game>
+
+    @Query("SELECT * FROM savedGames WHERE has_won = 1")
+    fun getSavedEndedGames(): List<Game>
+
     @Query("SELECT * FROM savedGames WHERE game_id = :id")
     fun getSavedGameById(id: Int): Game
 

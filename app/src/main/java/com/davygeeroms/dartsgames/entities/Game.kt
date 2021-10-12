@@ -5,12 +5,15 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.davygeeroms.dartsgames.interfaces.GameType
 import com.google.gson.GsonBuilder
+import java.sql.Timestamp
+import java.time.Instant
 
 @Entity(tableName = "savedGames")
 data class Game(
     @ColumnInfo(name = "game_id")
     @PrimaryKey (autoGenerate = true)
     var id: Int = 0,
+    var startTime: Instant = Instant.now(),
     val gameType: GameType,
     var playerScores: MutableList<PlayerScore>,
     @ColumnInfo(name = "new_game")
@@ -19,6 +22,7 @@ data class Game(
     lateinit var currentPlayer: Player
     var currentScore: Int = 501
     var displayedString: String = ""
+    @ColumnInfo(name = "has_won")
     var hasWon: Boolean = false
     var dartNumber: Int = 1
     var playerScoreHistory: MutableList<PlayerScoreHistory> = mutableListOf()

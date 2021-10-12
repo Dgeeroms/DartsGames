@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class GameRepository(private val gameDao: GameDao) {
-
+/*
     private var _game = MutableLiveData<Game>()
     val game : LiveData<Game>
         get() = _game
@@ -16,6 +16,18 @@ class GameRepository(private val gameDao: GameDao) {
     suspend fun getSavedGames(): List<Game> {
         return withContext(Dispatchers.IO){
             gameDao.getSavedGames()
+        }
+    }
+*/
+    suspend fun getSavedOngoingGames(): List<Game> {
+        return withContext(Dispatchers.IO){
+            gameDao.getSavedOngoingGames()
+        }
+    }
+
+    suspend fun getSavedEndedGames(): List<Game> {
+        return withContext(Dispatchers.IO){
+            gameDao.getSavedEndedGames()
         }
     }
 

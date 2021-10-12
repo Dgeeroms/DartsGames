@@ -2,21 +2,16 @@ package com.davygeeroms.dartsgames.fragments
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -52,7 +47,6 @@ class NewGameFragment : Fragment() {
     ): View {
 
         //ActionBar titles
-
         (activity as AppCompatActivity).supportActionBar?.title = "DartsGames"
         (activity as AppCompatActivity).supportActionBar?.subtitle = "New Game"
 

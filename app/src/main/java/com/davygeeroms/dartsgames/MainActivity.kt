@@ -14,9 +14,11 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
     private lateinit var navController: NavController
+    private lateinit var drawerToggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +26,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         setSupportActionBar(toolbar)
 
-        val drawerToggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
+        drawerToggle = object : ActionBarDrawerToggle(
             this,
             drawerLayout,
             toolbar,
@@ -32,7 +34,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.string.Close
         ) {}
 
-        drawerToggle.isDrawerIndicatorEnabled = true
         drawerLayout.addDrawerListener(drawerToggle)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
@@ -46,7 +47,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerToggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -56,17 +56,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                 .setEnterAnim(R.anim.slide_in_right)
                                 .setExitAnim(R.anim.slide_out_left)
                                 .setPopEnterAnim(R.anim.slide_in_right)
-                                .setPopExitAnim(R.anim.slide_out_left).build()
+                                .setPopExitAnim(R.anim.slide_out_left)
+                                .setPopUpTo(R.id.mainMenuFragment, false).build()
                 navController.navigate(R.id.mainMenuFragment, Bundle.EMPTY, nOpts)
             }
 
             R.id.nav_new_game -> {
                 val nOpts = NavOptions.Builder()
-                    .setEnterAnim(R.anim.slide_in_right)
-                    .setExitAnim(R.anim.slide_out_left)
-                    .setPopEnterAnim(R.anim.slide_in_right)
-                    .setPopExitAnim(R.anim.slide_out_left).build()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_right)
+                                .setPopExitAnim(R.anim.slide_out_left)
+                                .setPopUpTo(R.id.mainMenuFragment, false).build()
                 navController.navigate(R.id.newGameFragment,  Bundle.EMPTY, nOpts)
+            }
+
+            R.id.nav_continue_game -> {
+                val nOpts = NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_right)
+                                .setPopExitAnim(R.anim.slide_out_left)
+                                .setPopUpTo(R.id.mainMenuFragment, false).build()
+                navController.navigate(R.id.continueGameFragment,  Bundle.EMPTY, nOpts)
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -81,3 +93,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 }
+

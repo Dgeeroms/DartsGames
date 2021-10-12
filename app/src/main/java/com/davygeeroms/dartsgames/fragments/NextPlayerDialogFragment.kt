@@ -25,7 +25,7 @@ class NextPlayerDialogFragment(val player: Player): DialogFragment() {
         //binding
         binding = DataBindingUtil.inflate(inflater, R.layout.next_player_dialog, container, false)
 
-        //round corners on dialog box
+        //round corners on dialog box + colors
         val drawable = this.context?.let { AppCompatResources.getDrawable(it, R.drawable.round_corners) }
         drawable?.setTint(Color.parseColor(player.color))
         dialog!!.window?.setBackgroundDrawable(drawable)
