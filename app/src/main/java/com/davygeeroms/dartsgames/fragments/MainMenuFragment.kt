@@ -59,6 +59,10 @@ class MainMenuFragment : Fragment() {
             view?.findNavController()?.navigate(MainMenuFragmentDirections.actionMainMenuFragmentToContinueGameFragment())
         }
 
+        binding.butScores.setOnClickListener {
+            view?.findNavController()?.navigate(MainMenuFragmentDirections.actionMainMenuFragmentToScoresFragment())
+        }
+
         return binding.root
     }
 

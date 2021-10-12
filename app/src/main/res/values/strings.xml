@@ -36,4 +36,6 @@
     <string name="score">Score:</string>
     <string name="delete_game">Delete Game</string>
     <string name="game_type_colon">Game Type:</string>
+    <string name="select_ended_game">Select ended game</string>
+    <string name="winner_colon">Winner:</string>
 </resources>

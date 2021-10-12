@@ -26,6 +26,14 @@
             app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@id/mainMenuFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_scoresFragment"
+            app:destination="@id/scoresFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/mainMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/newGameFragment"
@@ -97,5 +105,19 @@
             app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@id/mainMenuFragment"
             app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/scoresFragment"
+        android:name="com.davygeeroms.dartsgames.fragments.ScoresFragment"
+        android:label="scores_fragment"
+        tools:layout="@layout/scores_fragment" >
+        <action
+            android:id="@+id/action_scoresFragment_to_winnerFragment"
+            app:destination="@id/winnerFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/mainMenuFragment" />
     </fragment>
 </navigation>

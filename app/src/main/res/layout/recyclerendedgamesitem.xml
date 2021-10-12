@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="clickListener"
+            type="com.davygeeroms.dartsgames.adapters.DeleteEndedGameListener" />
+        <variable
+            name="game"
+            type="com.davygeeroms.dartsgames.entities.Game" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_corners_red_border"
+        android:padding="15dp"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:id="@+id/lbl_ended_game_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/game_type_colon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/lbl_ended_game_type_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/lbl_ended_game_type"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Training Random"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/timeStamp_ended"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_ended_game_type_value"
+            tools:text="12/10/2021 12:29" />
+
+        <TextView
+            android:id="@+id/lbl_winner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/winner_colon"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timeStamp_ended" />
+
+        <TextView
+            android:id="@+id/lbl_winning_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/lbl_winner"
+            app:layout_constraintTop_toBottomOf="@+id/timeStamp_ended"
+            tools:text="player 12334567" />
+
+        <TextView
+            android:id="@+id/lbl_ended_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/score"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_winner" />
+
+        <TextView
+            android:id="@+id/lbl_ended_score_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/lbl_ended_score"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_winning_player"
+            tools:text="12334567"
+            android:layout_marginStart="10dp"/>
+
+        <ImageView
+            android:id="@+id/delete_ended_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/delete_game"
+            android:src="@drawable/delete_icon_foreground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ended_game_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/round_corners_red_border_dark"
+            android:layout_marginEnd="10dp"
+            android:onClick="@{() -> clickListener.onClick(game)}"/>
+
+        <ImageView
+            android:id="@+id/ended_game_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/score_icon_foreground"
+            android:background="@drawable/round_corners_red_border_dark"
+            android:contentDescription="@string/continue_game" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

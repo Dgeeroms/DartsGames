@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val appBarConfiguration = AppBarConfiguration(navHostFragment.navController.graph, drawerLayout)
         appBarConfiguration.topLevelDestinations.add(R.id.mainMenuFragment)
         appBarConfiguration.topLevelDestinations.add(R.id.playGameFragment)
+        appBarConfiguration.topLevelDestinations.add(R.id.continueGameFragment)
+        appBarConfiguration.topLevelDestinations.add(R.id.scoresFragment)
         NavigationUI.setupWithNavController(toolbar, navHostFragment.navController, appBarConfiguration)
 
         drawerToggle.syncState()
@@ -79,6 +81,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                 .setPopExitAnim(R.anim.slide_out_left)
                                 .setPopUpTo(R.id.mainMenuFragment, false).build()
                 navController.navigate(R.id.continueGameFragment,  Bundle.EMPTY, nOpts)
+            }
+
+            R.id.nav_scores -> {
+                val nOpts = NavOptions.Builder()
+                    .setEnterAnim(R.anim.slide_in_right)
+                    .setExitAnim(R.anim.slide_out_left)
+                    .setPopEnterAnim(R.anim.slide_in_right)
+                    .setPopExitAnim(R.anim.slide_out_left)
+                    .setPopUpTo(R.id.mainMenuFragment, false).build()
+                navController.navigate(R.id.scoresFragment,  Bundle.EMPTY, nOpts)
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
