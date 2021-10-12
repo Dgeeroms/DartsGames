@@ -4,13 +4,12 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.davygeeroms.dartsgames.R
-import com.davygeeroms.dartsgames.entities.PlayerScoreHistory
+import com.davygeeroms.dartsgames.entities.Turn
 import com.davygeeroms.dartsgames.utilities.ColorInverter
 import kotlinx.android.synthetic.main.recyclerplayerhistoryitem.view.*
 import kotlinx.android.synthetic.main.recyclerplayersitem.view.*
@@ -18,7 +17,7 @@ import kotlinx.android.synthetic.main.recyclerplayersitem.view.*
 class PlayerHistoryAdapter :
     RecyclerView.Adapter<PlayerHistoryAdapter.PlayerHistoryHolder>() {
 
-    var dataSet = listOf<PlayerScoreHistory>()
+    var dataSet = listOf<Turn>()
             set(value){
                 field = value
                 notifyDataSetChanged()
@@ -48,15 +47,15 @@ class PlayerHistoryAdapter :
 
     class PlayerHistoryHolder(private var view: View) : RecyclerView.ViewHolder(view) {
 
-        private var playerHistory: PlayerScoreHistory? = null
+        private var playerHistory: Turn? = null
 
 
-        fun bindPlayerScoreHistory(playerHist: PlayerScoreHistory) {
+        fun bindPlayerScoreHistory(playerHist: Turn) {
             this.playerHistory = playerHist
 
             //texts
             view.textView_player_name.text = playerHist.playerScore.player.name
-            view.textView_dart.text = playerHist.boardValue.description
+            view.textView_dart.text = playerHist.darts.lastOrNull()?.description ?: ""
             view.textView_score.text = playerHist.playerScore.score.toString()
 
             //colors
@@ -73,7 +72,7 @@ class PlayerHistoryAdapter :
         }
     }
 }
-
+/*
 class PlayerHistoryDiffCallback : DiffUtil.ItemCallback<PlayerScoreHistory>(){
     override fun areItemsTheSame(oldItem: PlayerScoreHistory, newItem: PlayerScoreHistory): Boolean {
         return oldItem.timestamp == newItem.timestamp
@@ -82,6 +81,9 @@ class PlayerHistoryDiffCallback : DiffUtil.ItemCallback<PlayerScoreHistory>(){
     override fun areContentsTheSame(oldItem: PlayerScoreHistory, newItem: PlayerScoreHistory): Boolean {
         return oldItem == newItem
     }
+
+
 }
+ */
 
 

@@ -2,7 +2,6 @@ package com.davygeeroms.dartsgames.entities.gametypes
 
 import com.davygeeroms.dartsgames.entities.BoardValue
 import com.davygeeroms.dartsgames.entities.PlayerScore
-import com.davygeeroms.dartsgames.entities.PlayerScoreHistory
 import com.davygeeroms.dartsgames.enums.BoardValues
 import com.davygeeroms.dartsgames.enums.GameModes
 import com.davygeeroms.dartsgames.factories.BoardValueFactory
@@ -47,16 +46,4 @@ class GTClockSingle(override val gameMode: GameModes) : GameType {
         return "Target: $scoreString"
     }
 
-    override fun statsToString(history: List<PlayerScoreHistory>, players: List<PlayerScore>): List<String> {
-        val result: MutableList<String> = mutableListOf()
-
-        for (p in players){
-            var playerStat: String
-            playerStat = "Player ${p.player.number}: ${p.player.name}\n"
-            playerStat += "Under construction\n"
-
-            result.add(playerStat)
-        }
-        return result
-    }
 }

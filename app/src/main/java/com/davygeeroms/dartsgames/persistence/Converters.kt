@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import com.davygeeroms.dartsgames.entities.BoardValue
 import com.davygeeroms.dartsgames.entities.Player
 import com.davygeeroms.dartsgames.entities.PlayerScore
-import com.davygeeroms.dartsgames.entities.PlayerScoreHistory
+import com.davygeeroms.dartsgames.entities.Turn
 import com.davygeeroms.dartsgames.enums.BoardValues
 import com.davygeeroms.dartsgames.enums.GameModes
 import com.davygeeroms.dartsgames.factories.BoardValueFactory
@@ -92,11 +92,39 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromPlayerScoreHistoryListToString(value: List<PlayerScoreHistory>) : String{
+    fun fromStringToBoardValueList(value: String): MutableList<BoardValue>{
+        val bvl = mutableListOf<BoardValue>()
+        if(value != ""){
+            val listStr = value.split(",")
+
+
+            for(str in listStr){
+                bvl.add(fromStringToBoardValue(str))
+            }
+        }
+        return bvl
+
+    }
+
+    @TypeConverter
+    fun fromBoardValueListToString(value: List<BoardValue>): String{
+        var strings = String()
+
+        for(bv in value){
+            strings += fromBoardValueToString(bv)
+            if(bv != value.last()){
+                strings += ","
+            }
+        }
+        return strings
+    }
+
+    @TypeConverter
+    fun fromPlayerScoreHistoryListToString(value: List<Turn>) : String{
         var strings = String()
 
         for(psh in value){
-            strings = strings + fromPlayerScoreToString(psh.playerScore) + "," + fromBoardValueToString(psh.boardValue)
+            strings = strings + fromPlayerScoreToString(psh.playerScore) + "|" + fromBoardValueListToString(psh.darts)
             if(psh != value.last()){
                 strings += ";"
             }
@@ -105,21 +133,35 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStringToPlayerScoreHistoryList(value: String) : List<PlayerScoreHistory>{
+    fun fromStringToPlayerScoreHistoryList(value: String) : List<Turn>{
         if(value.equals("")){
             return mutableListOf()
         }
         val strings = value.split(";")
-        var psh: PlayerScoreHistory
-        val pshList: MutableList<PlayerScoreHistory> = mutableListOf()
+
+        val pshList: MutableList<Turn> = mutableListOf()
         for(s in strings){
             val playAndScoreAndBoardVal = s.split("|")
             val scoreAndBoardVal = playAndScoreAndBoardVal[1].split(",")
 
 
-            pshList.add(PlayerScoreHistory(fromStringToPlayerScore(playAndScoreAndBoardVal[0] + "|" + scoreAndBoardVal[0]),fromStringToBoardValue(scoreAndBoardVal[1])))
+            pshList.add(Turn(fromStringToPlayerScore(playAndScoreAndBoardVal[0] + "|" + scoreAndBoardVal[0]),fromStringToBoardValueList(scoreAndBoardVal[1])))
         }
         return pshList
+    }
+
+    @TypeConverter
+    fun fromTurnToString(value: Turn) : String{
+        var strings = String()
+
+        return fromPlayerScoreToString(value.playerScore) + "~" + fromBoardValueListToString(value.darts)
+
+    }
+
+    @TypeConverter
+    fun fromStringToTurn(value: String): Turn{
+        val splitStr = value.split("~")
+        return  Turn(fromStringToPlayerScore(splitStr[0]), fromStringToBoardValueList(splitStr[1]))
     }
 
 }

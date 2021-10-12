@@ -62,15 +62,15 @@ class WinnerFragment : Fragment() {
 
         vm.currentGame.observe(viewLifecycleOwner, Observer { game ->
             if(game != null){
-                val winnerText = "Winner:\n${game.currentPlayer.name}!!"
+                val winnerText = "Winner:\n${game.currentTurn.playerScore.player.name}!!"
                 binding.lblWinningPlayer.text = winnerText
                 val layoutParam = binding.lblWinningPlayer.layoutParams
                 layoutParam.width = ViewPager.LayoutParams.MATCH_PARENT
                 binding.lblWinningPlayer.layoutParams = layoutParam
-                binding.lblWinningPlayer.setBackgroundColor(Color.parseColor(game.currentPlayer.color))
-                binding.lblWinningPlayer.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentPlayer.color)))
+                binding.lblWinningPlayer.setBackgroundColor(Color.parseColor(game.currentTurn.playerScore.player.color))
+                binding.lblWinningPlayer.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentTurn.playerScore.player.color)))
 
-                val statTexts = game.getStats()
+                val statTexts = listOf<String>()
 
                 for(stat in statTexts){
                     val tvStat = TextView(this.context, null)

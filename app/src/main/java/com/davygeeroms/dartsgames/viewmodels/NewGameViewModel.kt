@@ -75,7 +75,7 @@ class NewGameViewModel(application: Application, gameDao: GameDao) : AndroidView
         }
 
         val newGame = Game(gameType = selectedGameType, playerScores = playerScores, newGame = true)
-        newGame.startGame()
+        newGame.newGame()
         saveGameAndFetchFromDB(newGame)
     }
 
@@ -83,7 +83,7 @@ class NewGameViewModel(application: Application, gameDao: GameDao) : AndroidView
         uiScope.launch {
             withContext(Dispatchers.IO){
 
-                //_gameRepo.deleteTable()
+                _gameRepo.deleteTable()
 
                 _gameRepo.saveGame(game)
                 val tempGame = _gameRepo.getNewGame()

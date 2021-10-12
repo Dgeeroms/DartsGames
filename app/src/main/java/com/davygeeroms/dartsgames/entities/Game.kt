@@ -19,46 +19,45 @@ data class Game(
     @ColumnInfo(name = "new_game")
     var newGame: Boolean) {
 
-    lateinit var currentPlayer: Player
-    var currentScore: Int = 501
-    var displayedString: String = ""
+    lateinit var currentTurn: Turn
+    var displayedScoreString: String = ""
+
     @ColumnInfo(name = "has_won")
     var hasWon: Boolean = false
     var dartNumber: Int = 1
-    var playerScoreHistory: MutableList<PlayerScoreHistory> = mutableListOf()
+    var playerScoreHistory: MutableList<Turn> = mutableListOf()
+   // var stats: Statistics = Statistics()
 
 
-    fun startGame() {
-        currentPlayer = playerScores.first { p -> p.player.number == 1 }.player
-        currentScore = playerScores.first { p -> p.player.number == currentPlayer.number }.score
-        displayedString = gameType.displayedScoreToString(currentScore)
+    fun newGame() {
+        currentTurn = Turn(
+            PlayerScore(
+                playerScores.first { p -> p.player.number == 1 }.player,
+                playerScores.first { p -> p.player.number == 1 }.score
+            ), mutableListOf()
+        )
+        dartNumber = updateDartNumber()
+        displayedScoreString = gameType.displayedScoreToString(currentTurn.playerScore.score)
     }
 
+    /*
     fun getStats(): List<String> {
         return gameType.statsToString(playerScoreHistory, playerScores)
     }
+*/
 
-    fun getLastPlayerScoreHistory(): PlayerScoreHistory{
-        return playerScoreHistory.last()
-    }
+    fun undoThrow() {
 
-    fun undoThrow(psh: PlayerScoreHistory){
+        //if we are at dart 1 we need to fetch the last throw from last turn
+        //else we just need to go back 1 throw
+        if (dartNumber == 1) {
+            currentTurn = playerScoreHistory[playerScoreHistory.count() - 1]
+        } else {
+            currentTurn.darts.remove(currentTurn.darts.last())
+        }
 
-        dartNumber = updateDartNumber(false)
-
-        currentPlayer = psh.playerScore.player
-        currentScore =  psh.playerScore.score
-
-
-        val playerScore = playerScores.first { p -> p.player.number == psh.playerScore.player.number }
-        currentScore += psh.boardValue.value * psh.boardValue.modifier
-        displayedString = gameType.displayedScoreToString(currentScore)
-        playerScores[playerScores.indexOf(playerScore)].score = currentScore
-        playerScoreHistory.remove(psh)
-
-
-
-
+        dartNumber = updateDartNumber()
+        displayedScoreString = gameType.displayedScoreToString(currentTurn.playerScore.score)
 
     }
 
@@ -69,56 +68,55 @@ data class Game(
      * If all darts for this turn in the game mode have been thrown, the next player will be selected.
      */
     fun throwDart(dart: BoardValue) {
+
         if (!hasWon) {
-            val playerScore = playerScores.first { p -> p.player.number == currentPlayer.number }
-
-            val tmpScore = gameType.calcScore(playerScore.score, dart)
-            if(tmpScore != 999){
-
-                currentScore = tmpScore
-                displayedString = gameType.displayedScoreToString(currentScore)
-                playerScores[playerScores.indexOf(playerScore)].score = currentScore
-                playerScoreHistory.add(
-                    PlayerScoreHistory(
-                        PlayerScore(currentPlayer, currentScore),
-                        dart
-                    )
-                )
-                hasWon = gameType.hasWon(playerScore.score, dart)
-            } else {
-                dartNumber = gameType.dartsAmount
-            }
-
-
-            if (dartNumber == gameType.dartsAmount && !hasWon) {
-                val tmpPlayerScore = playerScores.first { p ->
-                    p.player.number == currentPlayer.number.rem(playerScores.size) + 1
+            playerScoreHistory.remove(currentTurn)
+            val tmpScore = gameType.calcScore(currentTurn.playerScore.score, dart)
+            //if tmpScore == null it means a faulty throw (kaput) so we need to add previous throws again
+            if (tmpScore == null) {
+                for (d in currentTurn.darts) {
+                    currentTurn.playerScore.score += d.value * d.modifier
                 }
-                currentPlayer = tmpPlayerScore.player
-                currentScore = tmpPlayerScore.score
-                displayedString = gameType.displayedScoreToString(currentScore)
+            } else {
+                currentTurn.darts.add(dart)
+                currentTurn.playerScore.score = tmpScore
             }
-            if (!hasWon) {
-                dartNumber = updateDartNumber(true)
+            updatePlayerScore(currentTurn.playerScore.score)
+
+
+
+            //if we are throwing the last dart of the turn -> next player
+            if (currentTurn.darts.count() == gameType.dartsAmount && !hasWon) {
+                nextPlayer()
             }
+            dartNumber = updateDartNumber()
+            displayedScoreString = gameType.displayedScoreToString(currentTurn.playerScore.score)
+            playerScoreHistory.add(currentTurn)
         }
     }
 
-    private fun updateDartNumber(upOrDown: Boolean): Int{
-
-        //true = increase
-        //false = decrease
-        if(upOrDown){
-            return (dartNumber % gameType.dartsAmount) + 1
-        } else {
-
-            if (dartNumber == 1){
-                return gameType.dartsAmount
-            }
-            return dartNumber - 1
-
+    private fun updateDartNumber(): Int {
+        if (currentTurn.darts.count() < gameType.dartsAmount) {
+            return currentTurn.darts.count() + 1
         }
-        return  ((dartNumber - 1) % gameType.dartsAmount)
+        return currentTurn.darts.count()
     }
 
+    private fun updatePlayerScore(score: Int){
+
+        val currentPlayerNb = currentTurn.playerScore.player.number
+        playerScores.first { p -> p.player.number == currentPlayerNb}.score = score
+    }
+
+
+
+
+    private fun nextPlayer() {
+
+        val currentPlayerNb = currentTurn.playerScore.player.number
+
+        currentTurn = Turn(playerScores.first { p -> p.player.number == ((currentPlayerNb % playerScores.count()) + 1) }, mutableListOf())
+
+    }
 }
+

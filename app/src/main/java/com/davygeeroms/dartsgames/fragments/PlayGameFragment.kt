@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.davygeeroms.dartsgames.R
 import com.davygeeroms.dartsgames.adapters.PlayerHistoryAdapter
 import com.davygeeroms.dartsgames.databinding.PlayGameFragmentBinding
-import com.davygeeroms.dartsgames.entities.PlayerScoreHistory
 import com.davygeeroms.dartsgames.persistence.AppDatabase
 import com.davygeeroms.dartsgames.utilities.ColorInverter
 import com.davygeeroms.dartsgames.utilities.ImageMap
@@ -68,17 +67,9 @@ class PlayGameFragment : Fragment() {
 
         vm.continueGame(args.gameId)
 
-        //observe undoableThrow, last throw will be kept in memory so it can be undone
+        //undoableThrow button initially offscreen
         binding.btnUndoThrow.visibility = View.INVISIBLE
         binding.btnUndoThrow.animate().translationX(-1000F)
-        vm.undoableThrow.observe(viewLifecycleOwner, Observer { udThrow ->
-            if(udThrow == null){
-                binding.btnUndoThrow.animate().translationX(-1000F)
-            } else {
-                binding.btnUndoThrow.visibility = View.VISIBLE
-                binding.btnUndoThrow.animate().translationX(0F)
-            }
-        })
 
         //undo last throw btn click listener
         binding.btnUndoThrow.setOnClickListener {
@@ -110,25 +101,32 @@ class PlayGameFragment : Fragment() {
         //observe current game
         vm.currentGame.observe(viewLifecycleOwner, Observer { game ->
 
-            binding.playerScore.setBackgroundColor(Color.parseColor(game.currentPlayer.color))
-            binding.playerScore.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentPlayer.color)))
-            binding.playerScore.text = game.displayedString
+            binding.playerScore.setBackgroundColor(Color.parseColor(game.currentTurn.playerScore.player.color))
+            binding.playerScore.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentTurn.playerScore.player.color)))
+            binding.playerScore.text = game.displayedScoreString
 
-            val nowPlayingString = "Player ${game.currentPlayer.number}: ${game.currentPlayer.name}"
+            val nowPlayingString = "Player ${game.currentTurn.playerScore.player.number}: ${game.currentTurn.playerScore.player.name}"
             binding.playerName.text = nowPlayingString
-            binding.playerName.setBackgroundColor(Color.parseColor(game.currentPlayer.color))
-            binding.playerName.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentPlayer.color)))
+            binding.playerName.setBackgroundColor(Color.parseColor(game.currentTurn.playerScore.player.color))
+            binding.playerName.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentTurn.playerScore.player.color)))
 
             val dartNumberString = "Dart: ${game.dartNumber}"
             binding.dartNumber.text = dartNumberString
-            binding.dartNumber.setBackgroundColor(Color.parseColor(game.currentPlayer.color))
-            binding.dartNumber.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentPlayer.color)))
+            binding.dartNumber.setBackgroundColor(Color.parseColor(game.currentTurn.playerScore.player.color))
+            binding.dartNumber.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentTurn.playerScore.player.color)))
 
             vm.updateNewGameStatus()
 
+            if(game.playerScoreHistory.count() == 0){
+                binding.btnUndoThrow.animate().translationX(-1000F)
+            } else {
+                binding.btnUndoThrow.visibility = View.VISIBLE
+                binding.btnUndoThrow.animate().translationX(0F)
+            }
+
             updateRec()
 
-            if(game.dartNumber == 1 && game.playerScores.count() > 1 && !game.hasWon && game.currentPlayer.number != vm.undoableThrow.value?.playerScore?.player?.number){
+            if(game.dartNumber == 1 && game.playerScores.count() > 1 && !game.hasWon){
                 view?.let { showNextPlayerDialog(it) }
             }
 
@@ -195,7 +193,7 @@ class PlayGameFragment : Fragment() {
 
 
     private fun showNextPlayerDialog(view: View){
-        vm.currentGame.value?.currentPlayer?.let { NextPlayerDialogFragment(it).show(parentFragmentManager, "com.davygeeroms.dartsgames.fragments.NextPlayerDialogFragment") }
+        vm.currentGame.value?.currentTurn?.playerScore?.player?.let { NextPlayerDialogFragment(it).show(parentFragmentManager, "com.davygeeroms.dartsgames.fragments.NextPlayerDialogFragment") }
     }
 
     private fun showCheckOutsDialog(view: View){

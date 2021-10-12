@@ -109,7 +109,6 @@ class NewGameFragment : Fragment() {
                     binding.butAddPlayer.animate().translationX(-0F)
                 } else {
                     binding.butAddPlayer.animate().translationX(-1000F)
-                    //binding.butAddPlayer.visibility = View.INVISIBLE
                 }
             }
 
