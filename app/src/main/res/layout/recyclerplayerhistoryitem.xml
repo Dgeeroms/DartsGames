@@ -5,18 +5,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:padding="15dp">
+        android:background="@drawable/round_corners_red_border"
+        android:padding="15dp"
+        android:layout_margin="8dp">
         <TextView
             android:id="@+id/textView_player_name"
             style="@style/recycler_item_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textAlignment="viewStart"
+            android:textAlignment="center"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Test lalala" />
@@ -32,9 +33,11 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Test lalala" />
+            tools:text="Test lalala"
+            android:textStyle="bold"/>
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/lnl_dart_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,7 +49,7 @@
                 style="@style/recycler_item_player"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="@string/dart_1"
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp"
                 tools:text="Dart 1: " />
@@ -60,9 +63,12 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp"
                 tools:text="Triple Nineteen"
+                android:layout_marginStart="10dp"
+                android:textStyle="bold"
                 />
         </LinearLayout>
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/lnl_dart_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,7 +80,7 @@
                 style="@style/recycler_item_player"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="@string/dart_2"
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp"
                 tools:text="Dart 2: " />
@@ -87,9 +93,11 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp"
                 tools:text="Triple Nineteen"
-                />
+                android:layout_marginStart="10dp"
+                android:textStyle="bold"/>
         </LinearLayout>
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/lnl_dart_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,7 +109,7 @@
                 style="@style/recycler_item_player"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="@string/dart_3"
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp"
                 tools:text="Dart 2: " />
@@ -115,6 +123,8 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp"
                 tools:text="Triple Nineteen"
+                android:layout_marginStart="10dp"
+                android:textStyle="bold"
                 />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

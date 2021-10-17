@@ -18,7 +18,6 @@ data class Game(
     var playerScores: MutableList<PlayerScore>,
     @ColumnInfo(name = "new_game")
     var newGame: Boolean) {
-
     lateinit var currentTurn: Turn
     var displayedScoreString: String = ""
 
@@ -46,22 +45,6 @@ data class Game(
     }
 */
 
-    fun undoThrow() {
-
-        //if we are at dart 1 we need to fetch the last throw from last turn
-        //else we just need to go back 1 throw
-        if (dartNumber == 1) {
-            currentTurn = playerScoreHistory[playerScoreHistory.count() - 1]
-        } else {
-            currentTurn.darts.remove(currentTurn.darts.last())
-        }
-
-        dartNumber = updateDartNumber()
-        displayedScoreString = gameType.displayedScoreToString(currentTurn.playerScore.score)
-
-    }
-
-
     /***
      * @param dart
      * Calculates, based on the thrown dart (BoardValue), the new score and if the player has won.
@@ -70,7 +53,11 @@ data class Game(
     fun throwDart(dart: BoardValue) {
 
         if (!hasWon) {
-            playerScoreHistory.remove(currentTurn)
+
+            if(playerScoreHistory.isEmpty()){
+                playerScoreHistory.add(currentTurn)
+            }
+
             val tmpScore = gameType.calcScore(currentTurn.playerScore.score, dart)
             //if tmpScore == null it means a faulty throw (kaput) so we need to add previous throws again
             if (tmpScore == null) {
@@ -80,10 +67,12 @@ data class Game(
             } else {
                 currentTurn.darts.add(dart)
                 currentTurn.playerScore.score = tmpScore
+
             }
             updatePlayerScore(currentTurn.playerScore.score)
-
-
+            playerScoreHistory.removeIf { it.timeStamp == currentTurn.timeStamp }
+            playerScoreHistory.add(currentTurn)
+            hasWon = gameType.hasWon(currentTurn.playerScore.score, dart)
 
             //if we are throwing the last dart of the turn -> next player
             if (currentTurn.darts.count() == gameType.dartsAmount && !hasWon) {
@@ -91,9 +80,26 @@ data class Game(
             }
             dartNumber = updateDartNumber()
             displayedScoreString = gameType.displayedScoreToString(currentTurn.playerScore.score)
-            playerScoreHistory.add(currentTurn)
+
         }
     }
+
+    fun undoThrow() {
+
+        //if we are at dart 1 we need to fetch the last throw from last turn
+        //else we just need to go back 1 throw
+        if (dartNumber == 1) {
+            currentTurn = playerScoreHistory[playerScoreHistory.count() - 1]
+            playerScoreHistory.dropLast(1)
+        } else {
+            currentTurn.darts.dropLast(1)
+        }
+
+        dartNumber = updateDartNumber()
+        displayedScoreString = gameType.displayedScoreToString(currentTurn.playerScore.score)
+
+    }
+
 
     private fun updateDartNumber(): Int {
         if (currentTurn.darts.count() < gameType.dartsAmount) {
@@ -107,9 +113,6 @@ data class Game(
         val currentPlayerNb = currentTurn.playerScore.player.number
         playerScores.first { p -> p.player.number == currentPlayerNb}.score = score
     }
-
-
-
 
     private fun nextPlayer() {
 

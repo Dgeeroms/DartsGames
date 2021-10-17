@@ -38,4 +38,7 @@
     <string name="game_type_colon">Game Type:</string>
     <string name="select_ended_game">Select ended game</string>
     <string name="winner_colon">Winner:</string>
+    <string name="dart_1">Dart 1:</string>
+    <string name="dart_2">Dart 2:</string>
+    <string name="dart_3">Dart 3:</string>
 </resources>

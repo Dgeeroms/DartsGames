@@ -2,12 +2,12 @@ package com.davygeeroms.dartsgames.fragments
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -15,7 +15,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.davygeeroms.dartsgames.R
-import com.davygeeroms.dartsgames.adapters.PlayerHistoryAdapter
+import com.davygeeroms.dartsgames.adapters.TurnHistoryAdapter
 import com.davygeeroms.dartsgames.databinding.PlayGameFragmentBinding
 import com.davygeeroms.dartsgames.persistence.AppDatabase
 import com.davygeeroms.dartsgames.utilities.ColorInverter
@@ -32,7 +32,7 @@ class PlayGameFragment : Fragment() {
     private lateinit var mImageMap: ImageMap
     private lateinit var playerScoreHistoryRecyclerView: RecyclerView
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var playerScoreHistoryAdapter: PlayerHistoryAdapter
+    private lateinit var turnHistoryAdapter: TurnHistoryAdapter
 
     override fun onStop() {
         super.onStop()
@@ -74,7 +74,6 @@ class PlayGameFragment : Fragment() {
         //undo last throw btn click listener
         binding.btnUndoThrow.setOnClickListener {
             vm.undoLastThrow()
-            updateRec()
         }
 
         //missed dart btn click listener
@@ -98,8 +97,15 @@ class PlayGameFragment : Fragment() {
             showCheckOutsDialog(it)
         }
 
+        //recView
+        val recAdapter = TurnHistoryAdapter()
+        binding.playerHistoryRec.adapter = recAdapter
+
         //observe current game
         vm.currentGame.observe(viewLifecycleOwner, Observer { game ->
+
+            recAdapter.submitList(game.playerScoreHistory)
+            recAdapter.notifyItemChanged(game.playerScoreHistory.count() - 1)
 
             binding.playerScore.setBackgroundColor(Color.parseColor(game.currentTurn.playerScore.player.color))
             binding.playerScore.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentTurn.playerScore.player.color)))
@@ -123,8 +129,6 @@ class PlayGameFragment : Fragment() {
                 binding.btnUndoThrow.visibility = View.VISIBLE
                 binding.btnUndoThrow.animate().translationX(0F)
             }
-
-            updateRec()
 
             if(game.dartNumber == 1 && game.playerScores.count() > 1 && !game.hasWon){
                 view?.let { showNextPlayerDialog(it) }
@@ -167,28 +171,7 @@ class PlayGameFragment : Fragment() {
             })
         }
 
-        //recycler initialized with empty list
-        playerScoreHistoryRecyclerView = binding.playerHistoryRec
-        linearLayoutManager = LinearLayoutManager(this.context)
-        linearLayoutManager.reverseLayout = true
-        linearLayoutManager.stackFromEnd = true
-        playerScoreHistoryRecyclerView.layoutManager = linearLayoutManager
-        playerScoreHistoryAdapter = PlayerHistoryAdapter()
-        playerScoreHistoryAdapter.dataSet = listOf()
-        playerScoreHistoryRecyclerView.adapter = playerScoreHistoryAdapter
-
         return binding.root
-    }
-
-    private fun updateRec() {
-        playerScoreHistoryRecyclerView = binding.playerHistoryRec
-
-        val playerScoreHistories = vm.currentGame.value?.playerScoreHistory
-        playerScoreHistoryAdapter = PlayerHistoryAdapter()
-        if (playerScoreHistories != null) {
-            playerScoreHistoryAdapter.dataSet = playerScoreHistories
-        }
-        playerScoreHistoryRecyclerView.adapter = playerScoreHistoryAdapter
     }
 
 

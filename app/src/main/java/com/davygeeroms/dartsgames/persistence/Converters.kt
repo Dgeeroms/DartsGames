@@ -120,7 +120,7 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromPlayerScoreHistoryListToString(value: List<Turn>) : String{
+    fun fromTurnListToString(value: List<Turn>) : String{
         var strings = String()
 
         for(psh in value){
@@ -133,7 +133,21 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStringToPlayerScoreHistoryList(value: String) : List<Turn>{
+    fun fromTurnToString(value: Turn) : String{
+        var strings = String()
+
+        return fromPlayerScoreToString(value.playerScore) + "|" + fromBoardValueListToString(value.darts)
+
+    }
+
+    @TypeConverter
+    fun fromStringToTurn(value: String): Turn{
+        val splitStr = value.split("|")
+        return  Turn(fromStringToPlayerScore(splitStr[0] + "|" + splitStr[1]), fromStringToBoardValueList(splitStr[2]))
+    }
+
+    @TypeConverter
+    fun fromStringToTurnList(value: String) : List<Turn>{
         if(value.equals("")){
             return mutableListOf()
         }
@@ -141,27 +155,9 @@ class Converters {
 
         val pshList: MutableList<Turn> = mutableListOf()
         for(s in strings){
-            val playAndScoreAndBoardVal = s.split("|")
-            val scoreAndBoardVal = playAndScoreAndBoardVal[1].split(",")
 
-
-            pshList.add(Turn(fromStringToPlayerScore(playAndScoreAndBoardVal[0] + "|" + scoreAndBoardVal[0]),fromStringToBoardValueList(scoreAndBoardVal[1])))
+            pshList.add(fromStringToTurn(s))
         }
         return pshList
     }
-
-    @TypeConverter
-    fun fromTurnToString(value: Turn) : String{
-        var strings = String()
-
-        return fromPlayerScoreToString(value.playerScore) + "~" + fromBoardValueListToString(value.darts)
-
-    }
-
-    @TypeConverter
-    fun fromStringToTurn(value: String): Turn{
-        val splitStr = value.split("~")
-        return  Turn(fromStringToPlayerScore(splitStr[0]), fromStringToBoardValueList(splitStr[1]))
-    }
-
 }
