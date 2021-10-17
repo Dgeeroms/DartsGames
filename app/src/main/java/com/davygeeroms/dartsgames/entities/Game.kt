@@ -84,18 +84,18 @@ data class Game(
         }
     }
 
-    fun undoThrow() {
+    fun undoThrow(lastThrow : Turn) {
 
         //if we are at dart 1 we need to fetch the last throw from last turn
         //else we just need to go back 1 throw
-        if (dartNumber == 1) {
-            currentTurn = playerScoreHistory[playerScoreHistory.count() - 1]
-            playerScoreHistory.dropLast(1)
-        } else {
-            currentTurn.darts.dropLast(1)
-        }
+        lastThrow.darts.removeAt(lastThrow.darts.lastIndex)
+        currentTurn = lastThrow
+        playerScoreHistory.removeAt(playerScoreHistory.lastIndex)
+        playerScoreHistory.add(currentTurn)
+
 
         dartNumber = updateDartNumber()
+        updatePlayerScore(currentTurn.playerScore.score)
         displayedScoreString = gameType.displayedScoreToString(currentTurn.playerScore.score)
 
     }

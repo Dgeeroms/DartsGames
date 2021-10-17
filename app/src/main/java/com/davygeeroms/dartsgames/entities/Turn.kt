@@ -3,7 +3,7 @@ package com.davygeeroms.dartsgames.entities
 import androidx.room.Ignore
 import java.time.Instant
 
-class Turn(var playerScore : PlayerScore, var darts: MutableList<BoardValue> = mutableListOf<BoardValue>() ) {
+class Turn(var playerScore : PlayerScore, var darts: MutableList<BoardValue> = mutableListOf() ) {
 
     @Ignore
     var timeStamp: Instant = Instant.now()

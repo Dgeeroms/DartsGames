@@ -29,6 +29,9 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
     val checkOutTable : LiveData<CheckOutTable?>
         get() = _checkOutTable
 
+    private var _previousThrow: MutableLiveData<Turn?> = MutableLiveData()
+    val previousThrow : LiveData<Turn?>
+        get() = _previousThrow
 
     private val boardValueFactory =  BoardValueFactory()
 
@@ -48,10 +51,10 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
 
     fun throwDart(boardValue: String){
 
+        _previousThrow.value = _currentGame.value?.currentTurn
         _currentGame.value?.throwDart(boardValueFactory.getBoardValue(BoardValues.valueOf(boardValue)))
         _currentGame.postValue(_currentGame.value)
         updateCheckOutTable()
-
     }
 
     fun updateCheckOutTable(){
@@ -63,7 +66,8 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
 
 
     fun undoLastThrow(){
-        _currentGame.value?.undoThrow()
+        _currentGame.value?.undoThrow(_previousThrow.value!!)
+        _previousThrow.value = null
         _currentGame.postValue(_currentGame.value)
         updateCheckOutTable()
     }

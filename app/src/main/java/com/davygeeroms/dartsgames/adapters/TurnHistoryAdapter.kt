@@ -53,7 +53,14 @@ class TurnHistoryAdapter :
             item: Turn
         ) {
             //binding
-            binding.executePendingBindings()
+            //binding.executePendingBindings()
+
+            //reset visibility on thrown dart (if reused by recView they are still visible from last time)
+            binding.lnlDart1.visibility = View.GONE
+            binding.lnlDart2.visibility = View.GONE
+            binding.lnlDart3.visibility = View.GONE
+
+            
 
             //player name
             playerName.text = item.playerScore.player.name

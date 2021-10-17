@@ -30,9 +30,6 @@ class PlayGameFragment : Fragment() {
     private lateinit var vmFactory: ViewModelProvider.Factory
     private lateinit var binding: PlayGameFragmentBinding
     private lateinit var mImageMap: ImageMap
-    private lateinit var playerScoreHistoryRecyclerView: RecyclerView
-    private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var turnHistoryAdapter: TurnHistoryAdapter
 
     override fun onStop() {
         super.onStop()
@@ -101,11 +98,22 @@ class PlayGameFragment : Fragment() {
         val recAdapter = TurnHistoryAdapter()
         binding.playerHistoryRec.adapter = recAdapter
 
+        //observe if there's previous throw available
+        vm.previousThrow.observe(viewLifecycleOwner, Observer {
+            prevThrow ->
+                if(prevThrow == null){
+                    binding.btnUndoThrow.animate().translationX(-1000F)
+                } else {
+                    binding.btnUndoThrow.visibility = View.VISIBLE
+                    binding.btnUndoThrow.animate().translationX(0F)
+                }
+        })
+
         //observe current game
         vm.currentGame.observe(viewLifecycleOwner, Observer { game ->
 
             recAdapter.submitList(game.playerScoreHistory)
-            recAdapter.notifyItemChanged(game.playerScoreHistory.count() - 1)
+            recAdapter.notifyItemChanged(game.playerScoreHistory.lastIndex)
 
             binding.playerScore.setBackgroundColor(Color.parseColor(game.currentTurn.playerScore.player.color))
             binding.playerScore.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentTurn.playerScore.player.color)))
@@ -123,14 +131,9 @@ class PlayGameFragment : Fragment() {
 
             vm.updateNewGameStatus()
 
-            if(game.playerScoreHistory.count() == 0){
-                binding.btnUndoThrow.animate().translationX(-1000F)
-            } else {
-                binding.btnUndoThrow.visibility = View.VISIBLE
-                binding.btnUndoThrow.animate().translationX(0F)
-            }
-
-            if(game.dartNumber == 1 && game.playerScores.count() > 1 && !game.hasWon){
+            if(game.dartNumber == 1
+                && game.playerScores.count() > 1
+                && !game.hasWon){
                 view?.let { showNextPlayerDialog(it) }
             }
 
@@ -140,11 +143,8 @@ class PlayGameFragment : Fragment() {
 
         })
 
-
         mImageMap = binding.dartboardmapContainer.dartboardmap
         mImageMap.setImageResource(R.drawable.dartboard)
-
-
 
 
         //clickhandler imagebutton
@@ -160,7 +160,9 @@ class PlayGameFragment : Fragment() {
                 override fun onImageMapClicked(id: Int, imageMap: ImageMap?) {
 
                     selectedArea = mImageMap.getAreaName(id)
-                    vm.throwDart(selectedArea.substring(0, 3))
+                    if(selectedArea != "XXX"){
+                        vm.throwDart(selectedArea.substring(0, 3))
+                    }
                     mImageMap.removeClickHandlers()
                     binding.dartboardmapContainer.visibility = View.GONE
                 }
