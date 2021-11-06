@@ -25,25 +25,19 @@ data class Game(
     var hasWon: Boolean = false
     var dartNumber: Int = 1
     var playerScoreHistory: MutableList<Turn> = mutableListOf()
-   // var stats: Statistics = Statistics()
 
 
     fun newGame() {
         currentTurn = Turn(
             PlayerScore(
                 playerScores.first { p -> p.player.number == 1 }.player,
-                playerScores.first { p -> p.player.number == 1 }.score
+                playerScores.first { p -> p.player.number == 1 }.score,
+                playerScores.first { p -> p.player.number == 1 }.stat
             ), mutableListOf()
         )
         dartNumber = updateDartNumber()
         displayedScoreString = gameType.displayedScoreToString(currentTurn.playerScore.score)
     }
-
-    /*
-    fun getStats(): List<String> {
-        return gameType.statsToString(playerScoreHistory, playerScores)
-    }
-*/
 
     /***
      * @param dart
@@ -63,16 +57,25 @@ data class Game(
             if (tmpScore == null) {
                 for (d in currentTurn.darts) {
                     currentTurn.playerScore.score += d.value * d.modifier
+                    currentTurn.playerScore.stat.miss()
                 }
             } else {
                 currentTurn.darts.add(dart)
                 currentTurn.playerScore.score = tmpScore
+                if(gameType.wasHit(currentTurn.playerScore.score, dart)){
+                    currentTurn.playerScore.stat.hit()
+                } else {
+                    currentTurn.playerScore.stat.miss()
+                }
 
             }
-            updatePlayerScore(currentTurn.playerScore.score)
+            updatePlayerScore()
             playerScoreHistory.removeIf { it.timeStamp == currentTurn.timeStamp }
             playerScoreHistory.add(currentTurn)
             hasWon = gameType.hasWon(currentTurn.playerScore.score, dart)
+            if(hasWon){
+                currentTurn.playerScore.stat.updateCheckOut(currentTurn.darts)
+            }
 
             //if we are throwing the last dart of the turn -> next player
             if (currentTurn.darts.count() == gameType.dartsAmount && !hasWon) {
@@ -95,7 +98,7 @@ data class Game(
 
 
         dartNumber = updateDartNumber()
-        updatePlayerScore(currentTurn.playerScore.score)
+        updatePlayerScore()
         displayedScoreString = gameType.displayedScoreToString(currentTurn.playerScore.score)
 
     }
@@ -108,15 +111,21 @@ data class Game(
         return currentTurn.darts.count()
     }
 
-    private fun updatePlayerScore(score: Int){
+    private fun updatePlayerScore(){
 
         val currentPlayerNb = currentTurn.playerScore.player.number
-        playerScores.first { p -> p.player.number == currentPlayerNb}.score = score
+
+        val index = playerScores.indexOf(playerScores.first { p -> p.player.number == currentPlayerNb})
+        playerScores[index] = currentTurn.playerScore
+
     }
 
     private fun nextPlayer() {
 
         val currentPlayerNb = currentTurn.playerScore.player.number
+
+        //update stats of current player before going to next player
+        currentTurn.playerScore.stat.updateStats(currentTurn.darts)
 
         currentTurn = Turn(playerScores.first { p -> p.player.number == ((currentPlayerNb % playerScores.count()) + 1) }, mutableListOf())
 

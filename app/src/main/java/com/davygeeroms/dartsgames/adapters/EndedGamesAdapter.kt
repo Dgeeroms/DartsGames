@@ -79,8 +79,8 @@ class EndedGamesAdapter(val clickListener: DeleteEndedGameListener)
             drawable?.setTint(Color.parseColor(playerScores.first().player.color))
             leadingPlayer.background = drawable
 
-            //set gameType
-            gameType.text = item.gameType.gameMode.mode
+            //set gameType text
+            gameType.text = item.gameType.description
 
             //leading player score
             leadingPlayerScore.text = playerScores.first().score.toString()

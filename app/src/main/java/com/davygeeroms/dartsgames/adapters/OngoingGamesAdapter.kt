@@ -79,7 +79,7 @@ class OngoingGamesAdapter(val clickListener: DeleteGameListener)
             leadingPlayer.background = drawable
 
             //set gameType
-            gameType.text = item.gameType.gameMode.mode
+            gameType.text = item.gameType.description
 
             //leading player score
             leadingPlayerScore.text = playerScores.first().score.toString()

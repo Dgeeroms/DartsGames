@@ -21,6 +21,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.davygeeroms.dartsgames.R
+import com.davygeeroms.dartsgames.adapters.DeleteGameListener
+import com.davygeeroms.dartsgames.adapters.OngoingGamesAdapter
+import com.davygeeroms.dartsgames.adapters.StatisticsAdapter
 import com.davygeeroms.dartsgames.databinding.FragmentWinnerBinding
 import com.davygeeroms.dartsgames.persistence.AppDatabase
 import com.davygeeroms.dartsgames.utilities.ColorInverter
@@ -70,26 +73,14 @@ class WinnerFragment : Fragment() {
                 binding.lblWinningPlayer.setBackgroundColor(Color.parseColor(game.currentTurn.playerScore.player.color))
                 binding.lblWinningPlayer.setTextColor(Color.parseColor(ColorInverter.ColorInverter.invertColor(game.currentTurn.playerScore.player.color)))
 
-                val statTexts = listOf<String>()
-
-                for(stat in statTexts){
-                    val tvStat = TextView(this.context, null)
-                    tvStat.text = stat
-                    tvStat.setTextColor(resources.getColor(R.color.text))
-                    tvStat.textSize = 8.dpToPixels(requireContext()).toFloat()
-
-                    binding.lnlPlayerStats.addView(tvStat)
-
-                    (tvStat.layoutParams as LinearLayout.LayoutParams).apply {
-                        // individually set text view any side margin
-                        marginStart = 25.dpToPixels(requireContext())
-                        topMargin = 10.dpToPixels(requireContext())
-                        marginEnd = 25.dpToPixels(requireContext())
-                        bottomMargin = 10.dpToPixels(requireContext())
-
-                    }
-                }
             }
+        })
+
+        //recycler
+        val recAdapter = StatisticsAdapter()
+        binding.rvStats.adapter = recAdapter
+        vm.currentGame.observe(viewLifecycleOwner, Observer {
+            recAdapter.submitList(it.playerScores)
         })
 
         return binding.root

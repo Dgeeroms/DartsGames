@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.davygeeroms.dartsgames.entities.Game
 import com.davygeeroms.dartsgames.entities.Player
 import com.davygeeroms.dartsgames.entities.PlayerScore
+import com.davygeeroms.dartsgames.entities.Statistic
 import com.davygeeroms.dartsgames.enums.GameModes
 import com.davygeeroms.dartsgames.factories.GameTypeFactory
 import com.davygeeroms.dartsgames.interfaces.GameType
@@ -71,7 +72,7 @@ class NewGameViewModel(application: Application, gameDao: GameDao) : AndroidView
         val playerScores = mutableListOf<PlayerScore>()
 
         for (player in _players.value!!){
-            playerScores.add(PlayerScore(player, selectedGameType.startScore))
+            playerScores.add(PlayerScore(player, selectedGameType.startScore, Statistic()))
         }
 
         val newGame = Game(gameType = selectedGameType, playerScores = playerScores, newGame = true)

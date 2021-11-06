@@ -1,12 +1,11 @@
 package com.davygeeroms.dartsgames.entities.gametypes
 
 import com.davygeeroms.dartsgames.entities.BoardValue
-import com.davygeeroms.dartsgames.entities.Player
-import com.davygeeroms.dartsgames.entities.PlayerScore
-import com.davygeeroms.dartsgames.enums.GameModes
+import com.davygeeroms.dartsgames.entities.Turn
 import com.davygeeroms.dartsgames.interfaces.GameType
 
-class GT301(override val gameMode: GameModes) : GameType {
+class GT301() : GameType {
+    override val description = "THREEHUNDREDANDONE"
     override val startScore: Int = 301
     override val targetScore: Int = 0
     override val winModifier: Int = 2
@@ -19,6 +18,10 @@ class GT301(override val gameMode: GameModes) : GameType {
             return true
         }
         return false
+    }
+
+    override fun wasHit(currentScore: Int, dartThrow: BoardValue): Boolean {
+        return dartThrow.id != 0
     }
 
     override fun calcScore(currentScore: Int, dartThrow: BoardValue) : Int? {
@@ -34,6 +37,5 @@ class GT301(override val gameMode: GameModes) : GameType {
     override fun displayedScoreToString(currentScore: Int): String {
         return "Score left: $currentScore"
     }
-
 
 }

@@ -24,7 +24,7 @@
     <string name="loading">...loading...</string>
     <string name="c">C°</string>
     <string name="ok">OK</string>
-    <string name="statistics">Statistics:</string>
+    <string name="statistics">Statistics</string>
     <string name="undo_throw">Undo throw</string>
     <string name="missed_board">Missed board</string>
     <string name="home">Home</string>
@@ -41,4 +41,13 @@
     <string name="dart_1">Dart 1:</string>
     <string name="dart_2">Dart 2:</string>
     <string name="dart_3">Dart 3:</string>
+    <string name="average_score">Average Score:</string>
+    <string name="player_colon">Player:</string>
+    <string name="highest_thrown">Highest Thrown:</string>
+    <string name="darts_thrown">Darts Thrown:</string>
+    <string name="darts_hit">Darts Hit:</string>
+    <string name="darts_missed">Darts Missed:</string>
+    <string name="hit_percentage">Hit Percentage:</string>
+    <string name="miss_percentage">Miss Percentage:</string>
+    <string name="check_out_score">Check Out Score:</string>
 </resources>

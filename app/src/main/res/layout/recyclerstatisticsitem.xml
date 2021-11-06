@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_corners_red_border"
+        android:padding="15dp"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:id="@+id/lbl_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/player_colon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/lbl_player_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/lbl_player"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Dingsken Dangsken"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"
+            />
+
+        <TextView
+            android:id="@+id/lbl_average_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/average_score"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_player" />
+
+        <TextView
+            android:id="@+id/lbl_average_score_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toEndOf="@+id/lbl_average_score"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_player"
+            tools:text="100.50"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/lbl_highest_thrown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/highest_thrown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_average_score"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/lbl_highest_thrown_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/lbl_highest_thrown"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_average_score"
+            tools:text="160"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/lbl_number_darts_thrown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/darts_thrown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_highest_thrown"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/lbl_number_darts_thrown_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/lbl_number_darts_thrown"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_highest_thrown"
+            tools:text="30"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/lbl_number_darts_hit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/darts_hit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_number_darts_thrown"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/lbl_number_darts_hit_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/lbl_number_darts_hit"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_number_darts_thrown"
+            tools:text="15"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/lbl_number_darts_miss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/darts_missed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_number_darts_hit"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/lbl_number_darts_miss_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/lbl_number_darts_miss"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_number_darts_hit"
+            tools:text="15"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/lbl_hit_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hit_percentage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_number_darts_miss"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/lbl_hit_percentage_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/lbl_hit_percentage"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_number_darts_miss"
+            tools:text="85%"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/lbl_miss_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/miss_percentage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_hit_percentage"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/lbl_miss_percentage_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/lbl_miss_percentage"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_hit_percentage"
+            tools:text="15%"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/lbl_checkOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/check_out_score"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_miss_percentage"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/lbl_checkOut_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/lbl_checkOut"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_miss_percentage"
+            tools:text="121"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp"/>
+
+
+
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,10 +1,7 @@
 package com.davygeeroms.dartsgames.persistence
 
 import androidx.room.TypeConverter
-import com.davygeeroms.dartsgames.entities.BoardValue
-import com.davygeeroms.dartsgames.entities.Player
-import com.davygeeroms.dartsgames.entities.PlayerScore
-import com.davygeeroms.dartsgames.entities.Turn
+import com.davygeeroms.dartsgames.entities.*
 import com.davygeeroms.dartsgames.enums.BoardValues
 import com.davygeeroms.dartsgames.enums.GameModes
 import com.davygeeroms.dartsgames.factories.BoardValueFactory
@@ -26,7 +23,7 @@ class Converters {
 
     @TypeConverter
     fun fromGameTypeToString(value: GameType): String{
-        return value.gameMode.name
+        return value.description
     }
 
     @TypeConverter
@@ -48,13 +45,35 @@ class Converters {
 
     @TypeConverter
     fun fromPlayerScoreToString(value: PlayerScore): String{
-        return fromPlayerToString(value.player) + "|" + value.score.toString()
+        return fromPlayerToString(value.player) + "|" + value.score.toString() + "|" + fromStatsToString(value.stat)
+    }
+
+    @TypeConverter
+    fun fromStatsToString(value: Statistic): String{
+        return value.totalScore.toString() + "," +
+                value.totalThrows + "," +
+                value.highestThrown + "," +
+                value.highestCheckOut + "," +
+                value.misses + "," +
+                value.hits
+    }
+
+    @TypeConverter
+    fun fromStringToStats(value: String): Statistic{
+
+        val listStr: List<String>
+
+        if(value != "") {
+            listStr = value.split(",")
+            return Statistic(listStr[0].toInt(),listStr[1].toInt(),listStr[2].toInt(),listStr[3].toInt(),listStr[4].toInt(),listStr[5].toInt())
+        }
+        return Statistic()
     }
 
     @TypeConverter
     fun fromStringToPlayerScore(value: String): PlayerScore{
-        val playAndScore = value.split("|")
-        return PlayerScore(fromStringToPlayer(playAndScore[0]), playAndScore[1].toInt())
+        val playAndScoreAndStat = value.split("|")
+        return PlayerScore(fromStringToPlayer(playAndScoreAndStat[0]), playAndScoreAndStat[1].toInt(), fromStringToStats(playAndScoreAndStat[2]))
     }
 
     @TypeConverter
@@ -143,7 +162,7 @@ class Converters {
     @TypeConverter
     fun fromStringToTurn(value: String): Turn{
         val splitStr = value.split("|")
-        return  Turn(fromStringToPlayerScore(splitStr[0] + "|" + splitStr[1]), fromStringToBoardValueList(splitStr[2]))
+        return  Turn(fromStringToPlayerScore(splitStr[0] + "|" + splitStr[1] + "|" + splitStr[2]), fromStringToBoardValueList(splitStr[3]))
     }
 
     @TypeConverter

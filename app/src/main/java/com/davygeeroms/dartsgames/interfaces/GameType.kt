@@ -6,7 +6,7 @@ import com.davygeeroms.dartsgames.enums.GameModes
 
 interface GameType {
 
-    val gameMode: GameModes
+    val description: String
     val targetScore: Int
     val startScore: Int
     val winModifier: Int
@@ -14,6 +14,7 @@ interface GameType {
     val checkOutTable: Boolean
 
     fun hasWon(currentScore: Int, dartThrow : BoardValue): Boolean
+    fun wasHit(currentScore: Int, dartThrow: BoardValue): Boolean
     fun calcScore(currentScore: Int, dartThrow: BoardValue): Int?
     fun displayedScoreToString(currentScore: Int): String
 
