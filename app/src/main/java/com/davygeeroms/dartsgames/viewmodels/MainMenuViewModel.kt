@@ -1,13 +1,13 @@
 package com.davygeeroms.dartsgames.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.davygeeroms.dartsgames.entities.WeatherDetails
-import com.davygeeroms.dartsgames.network.WeatherApi
+import com.davygeeroms.dartsgames.entities.sportradarAPIResponse.DailySummaryAPIResponse
+import com.davygeeroms.dartsgames.network.SportAPI
 import kotlinx.coroutines.*
+import java.time.LocalDateTime
 
 class MainMenuViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -16,33 +16,28 @@ class MainMenuViewModel(application: Application) : AndroidViewModel(application
     private var vmJob = Job()
     private var uiScope = CoroutineScope(Dispatchers.Main + vmJob)
 
-    private var _weather = MutableLiveData<WeatherDetails>()
-    val weather : LiveData<WeatherDetails>
-        get() = _weather
+    private var _dailySummary = MutableLiveData<DailySummaryAPIResponse>()
+    val dailySummary : LiveData<DailySummaryAPIResponse>
+        get() = _dailySummary
 
     init {
-        getWeather()
+        val today = LocalDateTime.now()
+        getDailySummaries(today.year.toString(), today.monthValue.toString(), today.dayOfMonth.toString())
+        //getDailySummaries("2021","11","18")
     }
 
 
-    private fun getWeather(){
+    fun getDailySummaries(year: String, month: String, day: String){
         uiScope.launch {
-            getWeatherFromAPI()
+            _dailySummary.value = getDailySummariesAPI(year, month, day)
         }
     }
 
-    private suspend fun getWeatherFromAPI(): Any? {
+    private suspend fun getDailySummariesAPI(year: String, month: String, day: String): DailySummaryAPIResponse? {
         return withContext(Dispatchers.IO){
-            val weatherDef = WeatherApi.retrofitService.getWeatherAsync()
 
-            try{
-                val weather = weatherDef.await()
-                weather.temperature.temperature = weather.temperature.temperature - 273.15F
-                _weather.postValue(weather)
-            }
-            catch (t: Throwable){
-                t.message?.let { Log.i("Response NOK test", it) }
-            }
+             SportAPI.getDailySummaries(year, month, day)
+
         }
     }
 }

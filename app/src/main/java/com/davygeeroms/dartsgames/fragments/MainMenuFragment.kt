@@ -1,21 +1,24 @@
 package com.davygeeroms.dartsgames.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.davygeeroms.dartsgames.R
+import com.davygeeroms.dartsgames.adapters.TournamentFeedAdapter
 import com.davygeeroms.dartsgames.databinding.FragmentMainMenuBinding
 import com.davygeeroms.dartsgames.persistence.AppDatabase
 import com.davygeeroms.dartsgames.viewmodels.MainMenuViewModel
 import com.davygeeroms.dartsgames.viewmodels.ViewModelFactory
+import java.time.LocalDateTime
+import java.util.*
 
 
 class MainMenuFragment : Fragment() {
@@ -44,12 +47,12 @@ class MainMenuFragment : Fragment() {
         vm = ViewModelProviders.of(this, vmFactory).get(MainMenuViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_menu, container, false)
 
-        vm.weather.observe(viewLifecycleOwner, Observer { weather ->
-            if(weather != null){
-                binding.weatherDesc.text = weather.weather[0].weather
-                binding.temperature.text = weather.temperature.temperature.toString()
-            }
+        val recAdapter = TournamentFeedAdapter()
+        binding.rvTournaments.adapter = recAdapter
+        vm.dailySummary.observe(viewLifecycleOwner, Observer {
+            recAdapter.submitList(it.dailySummaries)
         })
+
 
         binding.butNewGame.setOnClickListener {
             view?.findNavController()?.navigate(MainMenuFragmentDirections.actionMainMenuFragmentToNewGameFragment())
@@ -61,6 +64,11 @@ class MainMenuFragment : Fragment() {
 
         binding.butScores.setOnClickListener {
             view?.findNavController()?.navigate(MainMenuFragmentDirections.actionMainMenuFragmentToScoresFragment())
+        }
+
+        binding.datePicker.maxDate = System.currentTimeMillis() - 1000
+        binding.refresh.setOnClickListener {
+            vm.getDailySummaries(binding.datePicker.year.toString(), (binding.datePicker.month + 1).toString() , binding.datePicker.dayOfMonth.toString())
         }
 
         return binding.root

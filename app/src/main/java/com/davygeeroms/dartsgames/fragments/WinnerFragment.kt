@@ -87,8 +87,3 @@ class WinnerFragment : Fragment() {
     }
 
 }
-
-// extension function to convert dp to equivalent pixels
-fun Int.dpToPixels(context: Context):Int = TypedValue.applyDimension(
-    TypedValue.COMPLEX_UNIT_DIP,this.toFloat(),context.resources.displayMetrics
-).toInt()

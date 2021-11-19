@@ -50,4 +50,17 @@
     <string name="hit_percentage">Hit Percentage:</string>
     <string name="miss_percentage">Miss Percentage:</string>
     <string name="check_out_score">Check Out Score:</string>
+    <string name="ongoing_darts_tournaments">Ongoing Darts Tournaments</string>
+    <string name="competition">Competition:</string>
+    <string name="season">Season:</string>
+    <string name="competitors">Competitors:</string>
+    <string name="match_status">Match status:</string>
+    <string name="checkout_percentage">Checkout percentage:</string>
+    <string name="checkouts">Checkouts:</string>
+    <string name="checkouts_100"><![CDATA[Checkouts > 100:]]></string>
+    <string name="highest_checkout">Highest checkout:</string>
+    <string name="times_100"><![CDATA[Times > 100:]]></string>
+    <string name="times_140"><![CDATA[Times > 140:]]></string>
+    <string name="times_180">Times 180:</string>
+    <string name="see_previous_tournaments">See previous tournaments</string>
 </resources>

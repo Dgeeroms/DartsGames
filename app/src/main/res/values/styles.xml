@@ -1,10 +1,11 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/text</item>
     </style>
 
     <!--  stuff for drawer  -->
@@ -29,9 +30,6 @@
     <style name="MainMenuButton">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">50dp</item>
-        <item name="android:layout_marginEnd">50dp</item>
-        <item name="android:layout_marginBottom">30dp</item>
         <item name="android:background">@drawable/button</item>
         <item name="android:textColor">@color/text</item>
         <item name="android:textStyle">bold</item>
@@ -81,6 +79,12 @@
         <item name="android:textColor">#D81212</item>
         <item name="android:background">#2B431C</item>
         <item name="android:padding">5dp</item>
+    </style>
+
+    <style name="MyDatePickerStyle" parent="android:Widget.Material.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:calendarViewShown">false</item>
+        <item name="colorControlNormal">@color/text</item>
     </style>
 
     <style name="recycler_item_player">
