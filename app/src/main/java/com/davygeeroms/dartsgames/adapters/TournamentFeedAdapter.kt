@@ -14,6 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.davygeeroms.dartsgames.databinding.RecyclermaintournamentitemBinding
 import com.davygeeroms.dartsgames.entities.sportradarAPIResponse.DailySummary
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class TournamentFeedAdapter()
@@ -41,9 +46,11 @@ class TournamentFeedAdapter()
             val competition = binding.lblCompetitionValue
             val season = binding.lblSeasonValue
             val matchStatus = binding.lblMatchStatusValue
+            val startTime = binding.startTimeValue
 
             //player 1
             val player1 = binding.player1
+            val fullNamePlay1 = binding.lblComp1Value
             val avg1 = binding.lblAverageScoreValue1
             val checkoutPct1 = binding.lblCheckoutPercentageValue1
             val checkouts1 = binding.lblCheckoutsValue1
@@ -55,6 +62,7 @@ class TournamentFeedAdapter()
 
             //player 2
             val player2 = binding.player2
+            val fullNamePlay2 = binding.lblComp2Value
             val avg2 = binding.lblAverageScoreValue2
             val checkoutPct2 = binding.lblCheckoutPercentageValue2
             val checkouts2 = binding.lblCheckoutsValue2
@@ -68,17 +76,31 @@ class TournamentFeedAdapter()
             val arrow : ImageView = binding.expandData
 
             //competition values
-            competition.text = item.sportEvent.sportEventContext?.competition?.name
-            season.text = item.sportEvent.sportEventContext?.season?.name
+            competition.text = item.sportEvent.sportEventContext.competition.name
+            season.text = item.sportEvent.sportEventContext.season.name
             matchStatus.text = item.sportEventStatus.matchStatus
 
-            toggleStats(item.statistics != null)
+            val startTimeVal = item.sportEvent.startTime
+            val dt = OffsetDateTime.parse(startTimeVal)
+            val dateString = "${dt.dayOfMonth}/${dt.monthValue}/${dt.year} - ${dt.hour}:${dt.minute}"
+            startTime.text = dateString
+
+            //toggle stats off by default
+            toggleStats(false)
+            var toggleState = false
+
+            var string = item.sportEvent.competitors[0].name + " (" + item.sportEvent.competitors[0].abbreviation + ")"
+            fullNamePlay1.text = string
+            string = item.sportEvent.competitors[1].name + " (" + item.sportEvent.competitors[1].abbreviation + ")"
+            fullNamePlay2.text = string
 
             if(item.statistics != null) {
+
+                arrow.visibility = View.VISIBLE
+
                 //player 1 values
                 val comp1 = item.statistics.totals.competitorStats[0]
-                var string = comp1.name + " (" + comp1.abbreviation + ")"
-                player1.text = string
+                player1.text = comp1.abbreviation
                 avg1.text = comp1.statisticsDetails.avgThreeDarts.toString()
                 checkoutPct1.text = comp1.statisticsDetails.checkoutPercentage.toString()
                 checkouts1.text = comp1.statisticsDetails.checkouts.toString()
@@ -90,8 +112,7 @@ class TournamentFeedAdapter()
 
                 //player 2 values
                 val comp2 = item.statistics.totals.competitorStats[1]
-                string = comp2.name + " (" + comp2.abbreviation + ")"
-                player2.text = string
+                player2.text = comp2.abbreviation
                 avg2.text = comp2.statisticsDetails.avgThreeDarts.toString()
                 checkoutPct2.text = comp2.statisticsDetails.checkoutPercentage.toString()
                 checkouts2.text = comp2.statisticsDetails.checkouts.toString()
@@ -101,11 +122,13 @@ class TournamentFeedAdapter()
                 scoreAbove140_2.text = comp2.statisticsDetails.times140plus.toString()
                 oneEighties2.text = comp2.statisticsDetails.oneEighties.toString()
 
+            } else {
+                arrow.visibility = View.GONE
             }
 
             arrow.setOnClickListener {
-                Log.d("TAG", (View.VISIBLE != binding.lblCompetitors.visibility).toString())
-                toggleStats(View.VISIBLE != binding.lblCompetitors.visibility)
+                toggleState = !toggleState
+                toggleStats(toggleState)
             }
 
         }
@@ -147,7 +170,6 @@ class TournamentFeedAdapter()
             val scoreAbove140_2 = binding.lblScoresPlus140Value2
             val oneEighties2 = binding.lblOneEightiesValue2
 
-            binding.lblCompetitors.visibility = visibility
             player1.visibility = visibility
             avg1.visibility = visibility
             binding.lblAverageScore1.visibility = visibility
@@ -167,21 +189,13 @@ class TournamentFeedAdapter()
             binding.lblOneEighties1.visibility = visibility
             player2.visibility = visibility
             avg2.visibility = visibility
-            binding.lblAverageScore2.visibility = visibility
             checkoutPct2.visibility = visibility
-            binding.checkoutPercentage2.visibility = visibility
             checkouts2.visibility = visibility
-            binding.lblCheckouts2.visibility = visibility
             checkoutsAbove100_2.visibility = visibility
-            binding.lblCheckoutsPlus1002.visibility = visibility
             highestCO2.visibility = visibility
-            binding.lblHighestCheckout2.visibility = visibility
             scoreAbove100_2.visibility = visibility
-            binding.lblScoresPlus1002.visibility = visibility
             scoreAbove140_2.visibility = visibility
-            binding.lblScoresPlus1402.visibility = visibility
             oneEighties2.visibility = visibility
-            binding.lblOneEighties2.visibility = visibility
         }
 
         companion object {

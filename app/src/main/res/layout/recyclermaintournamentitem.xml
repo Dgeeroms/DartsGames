@@ -8,8 +8,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/round_corners_red_border"
         android:padding="15dp"
-        android:layout_margin="8dp"
-        android:id="@+id/clickMe">
+        android:layout_margin="8dp">
 
         <TextView
             android:id="@+id/lbl_competition"
@@ -54,7 +53,30 @@
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/lbl_season"
             app:layout_constraintTop_toBottomOf="@+id/lbl_competition"
-            tools:text="player 12334567" />
+            tools:text="slam grand 12334567" />
+
+        <TextView
+            android:id="@+id/start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lbl_season"
+            android:text="@string/start_time"/>
+
+        <TextView
+            android:id="@+id/start_time_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/start_time"
+            app:layout_constraintTop_toBottomOf="@id/lbl_season"
+            tools:text="21/11/2021 14:25"
+            android:layout_marginStart="10dp"/>
+
 
         <TextView
             android:id="@+id/lbl_match_status"
@@ -64,7 +86,7 @@
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_season" />
+            app:layout_constraintTop_toBottomOf="@+id/start_time" />
 
         <TextView
             android:id="@+id/lbl_match_status_value"
@@ -74,7 +96,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/lbl_match_status"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_season_value"
+            app:layout_constraintTop_toBottomOf="@+id/start_time"
             tools:text="ended"
             android:layout_marginStart="10dp"/>
 
@@ -92,18 +114,58 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lbl_match_status" />
 
-
         <TextView
+            android:layout_marginTop="15dp"
             android:layout_marginStart="15dp"
-            android:id="@+id/player1"
+            android:id="@+id/lbl_comp1_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            tools:text="Dingsken, Dinges"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_competitors"
-            tools:text="player1" />
+            app:layout_constraintTop_toBottomOf="@+id/lbl_competitors" />
+
+        <TextView
+            android:id="@+id/lbl_vs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/vs"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/lbl_comp1_value"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_comp1_value" />
+
+        <TextView
+            android:id="@+id/lbl_comp2_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/lbl_vs"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_comp1_value"
+            tools:text="Dingsken, Dinges" />
+
+
+        <TextView
+            android:id="@+id/player1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="45dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/player2"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_vs"
+            tools:text="DGE" />
 
         <TextView
             android:layout_marginStart="15dp"
@@ -121,10 +183,9 @@
             android:id="@+id/lbl_average_score_value_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player1"
             app:layout_constraintTop_toBottomOf="@+id/player1"
             tools:text="93.18" />
 
@@ -144,10 +205,9 @@
             android:id="@+id/lbl_checkout_percentage_value_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player1"
             app:layout_constraintTop_toBottomOf="@+id/lbl_average_score_value_1"
             tools:text="93.18" />
         <TextView
@@ -166,10 +226,9 @@
             android:id="@+id/lbl_checkouts_value_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player1"
             app:layout_constraintTop_toBottomOf="@+id/lbl_checkout_percentage_value_1"
             tools:text="93.18" />
         <TextView
@@ -188,10 +247,9 @@
             android:id="@+id/lbl_checkouts_plus_100_value_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player1"
             app:layout_constraintTop_toBottomOf="@+id/lbl_checkouts_value_1"
             tools:text="93.18" />
         <TextView
@@ -210,10 +268,9 @@
             android:id="@+id/lbl_highest_checkout_value_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player1"
             app:layout_constraintTop_toBottomOf="@+id/lbl_checkouts_plus_100_value_1"
             tools:text="93.18" />
         <TextView
@@ -232,10 +289,9 @@
             android:id="@+id/lbl_scores_plus_100_value_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player1"
             app:layout_constraintTop_toBottomOf="@+id/lbl_highest_checkout_value_1"
             tools:text="93.18" />
         <TextView
@@ -254,10 +310,9 @@
             android:id="@+id/lbl_scores_plus_140_value_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player1"
             app:layout_constraintTop_toBottomOf="@+id/lbl_scores_plus_100_value_1"
             tools:text="93.18" />
         <TextView
@@ -276,204 +331,110 @@
             android:id="@+id/lbl_one_eighties_value_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player1"
             app:layout_constraintTop_toBottomOf="@+id/lbl_scores_plus_140_value_1"
             tools:text="93.18"
             android:layout_marginBottom="15dp"/>
 
         <TextView
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
             android:id="@+id/player2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_one_eighties_value_1"
-            tools:text="player2" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_vs"
+            tools:text="WAD" />
 
-        <TextView
-            android:layout_marginStart="15dp"
-            android:id="@+id/lbl_average_score_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/average_score"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/player2" />
 
         <TextView
             android:id="@+id/lbl_average_score_value_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player2"
             app:layout_constraintTop_toBottomOf="@+id/player2"
             tools:text="93.18" />
 
-        <TextView
-            android:layout_marginStart="15dp"
-            android:id="@+id/checkout_percentage_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/checkout_percentage"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_average_score_value_2" />
 
         <TextView
             android:id="@+id/lbl_checkout_percentage_value_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player2"
             app:layout_constraintTop_toBottomOf="@+id/lbl_average_score_value_2"
             tools:text="93.18" />
-        <TextView
-            android:layout_marginStart="15dp"
-            android:id="@+id/lbl_checkouts_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/checkouts"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_checkout_percentage_value_2" />
+
 
         <TextView
             android:id="@+id/lbl_checkouts_value_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player2"
             app:layout_constraintTop_toBottomOf="@+id/lbl_checkout_percentage_value_2"
             tools:text="93.18" />
-        <TextView
-            android:layout_marginStart="15dp"
-            android:id="@+id/lbl_checkouts_plus_100_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/checkouts_100"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_checkouts_value_2" />
+
 
         <TextView
             android:id="@+id/lbl_checkouts_plus_100_value_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player2"
             app:layout_constraintTop_toBottomOf="@+id/lbl_checkouts_value_2"
             tools:text="93.18" />
-        <TextView
-            android:layout_marginStart="15dp"
-            android:id="@+id/lbl_highest_checkout_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/highest_checkout"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_checkouts_plus_100_value_2" />
 
         <TextView
             android:id="@+id/lbl_highest_checkout_value_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player2"
             app:layout_constraintTop_toBottomOf="@+id/lbl_checkouts_plus_100_value_2"
             tools:text="93.18" />
-        <TextView
-            android:layout_marginStart="15dp"
-            android:id="@+id/lbl_scores_plus_100_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/times_100"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_highest_checkout_value_2" />
+
 
         <TextView
             android:id="@+id/lbl_scores_plus_100_value_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player2"
             app:layout_constraintTop_toBottomOf="@+id/lbl_highest_checkout_value_2"
             tools:text="93.18" />
-        <TextView
-            android:layout_marginStart="15dp"
-            android:id="@+id/lbl_scores_plus_140_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/times_140"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_scores_plus_100_value_2" />
+
 
         <TextView
             android:id="@+id/lbl_scores_plus_140_value_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player2"
             app:layout_constraintTop_toBottomOf="@+id/lbl_scores_plus_100_value_2"
             tools:text="93.18" />
-        <TextView
-            android:layout_marginStart="15dp"
-            android:id="@+id/lbl_one_eighties_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/times_180"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_scores_plus_140_value_2" />
 
         <TextView
             android:id="@+id/lbl_one_eighties_value_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/player2"
             app:layout_constraintTop_toBottomOf="@+id/lbl_scores_plus_140_value_2"
-
             tools:text="93.18"
             android:layout_marginBottom="15dp"/>
 

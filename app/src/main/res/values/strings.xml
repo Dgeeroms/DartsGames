@@ -63,4 +63,6 @@
     <string name="times_140"><![CDATA[Times > 140:]]></string>
     <string name="times_180">Times 180:</string>
     <string name="see_previous_tournaments">See previous tournaments</string>
+    <string name="vs">vs</string>
+    <string name="start_time">Start time:</string>
 </resources>

@@ -1,9 +1,6 @@
 package com.davygeeroms.dartsgames.factories
 
-import com.davygeeroms.dartsgames.entities.gametypes.GT301
-import com.davygeeroms.dartsgames.entities.gametypes.GT501
-import com.davygeeroms.dartsgames.entities.gametypes.GTClockSingle
-import com.davygeeroms.dartsgames.entities.gametypes.GTRandomBV
+import com.davygeeroms.dartsgames.entities.gametypes.*
 import com.davygeeroms.dartsgames.enums.GameModes
 import com.davygeeroms.dartsgames.interfaces.GameType
 
@@ -16,6 +13,7 @@ class GameTypeFactory() {
             "FIVEHUNDREDANDONE" -> return GT501()
             "AROUNDTHECLOCK" -> return GTClockSingle()
             "RANDOMBOARDVALUES" -> return GTRandomBV()
+            "RANDOMBOARDCHECKOUT" -> return GTRandomCheckout()
         }
         //default
         return GT501()
