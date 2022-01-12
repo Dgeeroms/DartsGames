@@ -50,7 +50,9 @@ class MainMenuFragment : Fragment() {
         val recAdapter = TournamentFeedAdapter()
         binding.rvTournaments.adapter = recAdapter
         vm.dailySummary.observe(viewLifecycleOwner, Observer {
-            recAdapter.submitList(it.dailySummaries)
+            if(it != null){
+                recAdapter.submitList(it.dailySummaries)
+            }
         })
 
 

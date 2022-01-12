@@ -5,16 +5,16 @@ import com.squareup.moshi.Json
 
 class DailySummary(
     @Json(name = "sport_event")
-    val sportEvent: SportEvent,
+    val sportEvent: SportEvent?,
     @Json(name = "sport_event_status")
-    val sportEventStatus : SportEventStatus,
+    val sportEventStatus : SportEventStatus?,
     @Json(name = "statistics")
     val statistics: SportEventStatistics?
 ){
 
     override fun equals(other: Any?): Boolean {
 
-        return hashCode() == (other as DailySummary).hashCode() && sportEvent.id == (other as DailySummary).sportEvent.id
+        return hashCode() == (other as DailySummary).hashCode() && sportEvent?.id == (other as DailySummary).sportEvent?.id
     }
 
     override fun hashCode(): Int {

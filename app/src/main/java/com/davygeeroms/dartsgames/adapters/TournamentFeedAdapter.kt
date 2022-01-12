@@ -16,6 +16,7 @@ import com.davygeeroms.dartsgames.entities.sportradarAPIResponse.DailySummary
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -76,22 +77,25 @@ class TournamentFeedAdapter()
             val arrow : ImageView = binding.expandData
 
             //competition values
-            competition.text = item.sportEvent.sportEventContext.competition.name
-            season.text = item.sportEvent.sportEventContext.season.name
-            matchStatus.text = item.sportEventStatus.matchStatus
+            competition.text = item.sportEvent?.sportEventContext?.competition?.name
+            season.text = item.sportEvent?.sportEventContext?.season?.name
+            matchStatus.text = item.sportEventStatus?.matchStatus
 
-            val startTimeVal = item.sportEvent.startTime
-            val dt = OffsetDateTime.parse(startTimeVal)
-            val dateString = "${dt.dayOfMonth}/${dt.monthValue}/${dt.year} - ${dt.hour}:${dt.minute}"
-            startTime.text = dateString
+            val startTimeVal = item.sportEvent?.startTime
+            var dt = OffsetDateTime.parse(startTimeVal)
+            dt = dt.plusHours(1) // GTM+1
+            val dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm")
+
+            //val dateString = "${dt.dayOfMonth}/${dt.monthValue}/${dt.year} - ${dt.hour}:${dt.minute}"
+            startTime.text = dtf.format(dt)
 
             //toggle stats off by default
             toggleStats(false)
             var toggleState = false
 
-            var string = item.sportEvent.competitors[0].name + " (" + item.sportEvent.competitors[0].abbreviation + ")"
+            var string = item.sportEvent?.competitors?.get(0)?.name + " (" + (item.sportEvent?.competitors?.get(0)?.abbreviation) + ")"
             fullNamePlay1.text = string
-            string = item.sportEvent.competitors[1].name + " (" + item.sportEvent.competitors[1].abbreviation + ")"
+            string = item.sportEvent?.competitors?.get(1)?.name + " (" + (item.sportEvent?.competitors?.get(1)?.abbreviation + ")" )
             fullNamePlay2.text = string
 
             if(item.statistics != null) {
@@ -99,28 +103,28 @@ class TournamentFeedAdapter()
                 arrow.visibility = View.VISIBLE
 
                 //player 1 values
-                val comp1 = item.statistics.totals.competitorStats[0]
-                player1.text = comp1.abbreviation
-                avg1.text = comp1.statisticsDetails.avgThreeDarts.toString()
-                checkoutPct1.text = comp1.statisticsDetails.checkoutPercentage.toString()
-                checkouts1.text = comp1.statisticsDetails.checkouts.toString()
-                checkoutsAbove100_1.text = comp1.statisticsDetails.checkout100plus.toString()
-                highestCO1.text = comp1.statisticsDetails.highestCheckout.toString()
-                scoreAbove100_1.text = comp1.statisticsDetails.times100plus.toString()
-                scoreAbove140_1.text = comp1.statisticsDetails.times140plus.toString()
-                oneEighties1.text = comp1.statisticsDetails.oneEighties.toString()
+                val comp1 = item.statistics.totals?.competitorStats?.get(0)
+                player1.text = comp1?.abbreviation
+                avg1.text = comp1?.statisticsDetails?.avgThreeDarts.toString()
+                checkoutPct1.text = comp1?.statisticsDetails?.checkoutPercentage.toString()
+                checkouts1.text = comp1?.statisticsDetails?.checkouts.toString()
+                checkoutsAbove100_1.text = comp1?.statisticsDetails?.checkout100plus.toString()
+                highestCO1.text = comp1?.statisticsDetails?.highestCheckout.toString()
+                scoreAbove100_1.text = comp1?.statisticsDetails?.times100plus.toString()
+                scoreAbove140_1.text = comp1?.statisticsDetails?.times140plus.toString()
+                oneEighties1.text = comp1?.statisticsDetails?.oneEighties.toString()
 
                 //player 2 values
-                val comp2 = item.statistics.totals.competitorStats[1]
-                player2.text = comp2.abbreviation
-                avg2.text = comp2.statisticsDetails.avgThreeDarts.toString()
-                checkoutPct2.text = comp2.statisticsDetails.checkoutPercentage.toString()
-                checkouts2.text = comp2.statisticsDetails.checkouts.toString()
-                checkoutsAbove100_2.text = comp2.statisticsDetails.checkout100plus.toString()
-                highestCO2.text = comp2.statisticsDetails.highestCheckout.toString()
-                scoreAbove100_2.text = comp2.statisticsDetails.times100plus.toString()
-                scoreAbove140_2.text = comp2.statisticsDetails.times140plus.toString()
-                oneEighties2.text = comp2.statisticsDetails.oneEighties.toString()
+                val comp2 = item.statistics.totals?.competitorStats?.get(1)
+                player2.text = comp2?.abbreviation
+                avg2.text = comp2?.statisticsDetails?.avgThreeDarts.toString()
+                checkoutPct2.text = comp2?.statisticsDetails?.checkoutPercentage.toString()
+                checkouts2.text = comp2?.statisticsDetails?.checkouts.toString()
+                checkoutsAbove100_2.text = comp2?.statisticsDetails?.checkout100plus.toString()
+                highestCO2.text = comp2?.statisticsDetails?.highestCheckout.toString()
+                scoreAbove100_2.text = comp2?.statisticsDetails?.times100plus.toString()
+                scoreAbove140_2.text = comp2?.statisticsDetails?.times140plus.toString()
+                oneEighties2.text = comp2?.statisticsDetails?.oneEighties.toString()
 
             } else {
                 arrow.visibility = View.GONE
@@ -210,7 +214,7 @@ class TournamentFeedAdapter()
 
 class DailySummaryDiffCallback: DiffUtil.ItemCallback<DailySummary>(){
     override fun areItemsTheSame(oldItem: DailySummary, newItem: DailySummary): Boolean {
-        return oldItem.sportEvent.id == newItem.sportEvent.id
+        return oldItem.sportEvent?.id == newItem.sportEvent?.id
     }
 
     override fun areContentsTheSame(oldItem: DailySummary, newItem: DailySummary): Boolean {

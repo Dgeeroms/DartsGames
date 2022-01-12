@@ -4,5 +4,5 @@ import com.squareup.moshi.Json
 
 class StatTotals(
     @Json(name = "competitors")
-    val competitorStats: List<CompetitorStat>
+    val competitorStats: List<CompetitorStat>?
 )

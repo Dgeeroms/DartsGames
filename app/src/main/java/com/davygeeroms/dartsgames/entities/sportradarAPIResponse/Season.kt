@@ -4,9 +4,9 @@ import com.squareup.moshi.Json
 
 class Season(
     @Json(name = "name")
-    val name : String,
+    val name : String?,
     @Json(name = "start_date")
-    val startDate: String,
+    val startDate: String?,
     @Json(name = "end_date")
-    val endDate: String
+    val endDate: String?
 )

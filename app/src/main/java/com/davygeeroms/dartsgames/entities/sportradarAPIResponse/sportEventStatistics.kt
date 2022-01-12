@@ -4,5 +4,5 @@ import com.squareup.moshi.Json
 
 class SportEventStatistics(
     @Json(name = "totals")
-    val totals: StatTotals
+    val totals: StatTotals?
 )

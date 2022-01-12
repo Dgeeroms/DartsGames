@@ -4,9 +4,9 @@ import com.squareup.moshi.Json
 
 open class Competitor(
     @Json(name = "name")
-    val name: String,
+    val name: String?,
     @Json(name = "abbreviation")
-    val abbreviation: String,
+    val abbreviation: String?,
     @Json(name = "qualifier")
-    val qualifier: String
+    val qualifier: String?
 )

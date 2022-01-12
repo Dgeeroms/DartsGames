@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 
 class SportEventContext(
     @Json(name = "competition")
-    val competition: Competition,
+    val competition: Competition?,
     @Json(name = "season")
-    val season: Season
+    val season: Season?
 )

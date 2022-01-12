@@ -4,12 +4,12 @@ import com.squareup.moshi.Json
 
 class CompetitorStat(
     @Json(name = "name")
-    val name: String,
+    val name: String?,
     @Json(name = "abbreviation")
-    val abbreviation: String,
+    val abbreviation: String?,
     @Json(name = "qualifier")
-    val qualifier: String,
+    val qualifier: String?,
     @Json(name = "statistics")
-    val statisticsDetails: StatisticDetails
+    val statisticsDetails: StatisticDetails?
 )
 
