@@ -70,7 +70,7 @@ class MainMenuFragment : Fragment() {
 
         //binding.datePicker.maxDate = System.currentTimeMillis() - 1000
         binding.refresh.setOnClickListener {
-            vm.getDailySummaries(binding.datePicker.year.toString(), (binding.datePicker.month + 1).toString() , binding.datePicker.dayOfMonth.toString())
+            vm.getDailySummaries(binding.datePicker.year.toString(), (binding.datePicker.month + 1) , binding.datePicker.dayOfMonth)
         }
 
         return binding.root
