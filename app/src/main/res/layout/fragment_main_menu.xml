@@ -86,7 +86,8 @@
             android:background="@drawable/recycler_top_border_red"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            style="@style/MyDatePickerStyle"/>
+            style="@style/MyDatePickerStyle"
+            />
 
         <TextView
             android:id="@+id/lbl_previous_tournaments"

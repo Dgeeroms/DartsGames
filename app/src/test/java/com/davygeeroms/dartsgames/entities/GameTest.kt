@@ -6,6 +6,7 @@ import com.davygeeroms.dartsgames.factories.BoardValueFactory
 import com.davygeeroms.dartsgames.factories.GameTypeFactory
 import junit.framework.TestCase
 import org.junit.Assert
+import org.junit.Before
 
 class GameTest : TestCase() {
 
@@ -14,6 +15,7 @@ class GameTest : TestCase() {
     lateinit var play2: Player
     var playerScores: MutableList<PlayerScore> = mutableListOf()
 
+    @Before
     override fun setUp() {
         super.setUp()
 
@@ -39,5 +41,5 @@ class GameTest : TestCase() {
 
     }
 
-    fun testUndoThrow() {}
+
 }

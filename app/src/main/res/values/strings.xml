@@ -66,4 +66,5 @@
     <string name="vs">vs</string>
     <string name="start_time">Start time:</string>
     <string name="see_tournament">See tournament</string>
+    <string name="possible_checkout">possible_checkout</string>
 </resources>
