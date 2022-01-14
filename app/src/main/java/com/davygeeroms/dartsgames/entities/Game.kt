@@ -8,6 +8,20 @@ import com.google.gson.GsonBuilder
 import java.sql.Timestamp
 import java.time.Instant
 
+/**
+ * A darts game.
+ *
+ * @param id: Unique number referring to this game.
+ * @param startTime: The Instant when the game was started.
+ * @param gameType: Which game type is being played
+ * @param playerScores: List of score and statistics of a player, so for each player a playerScore obj
+ * @param newGame: Is this a "New Game"? -> Used to identify the game that was just started between NewGame and PlayGame fragments.
+ * @property currentTurn: The current ongoing turn
+ * @property displayedScoreString: The String version of the score for the current playing player
+ * @property hasWon: Has the game been won by anyone? Eg.: has the game ended?
+ * @property dartNumber: The number of the dart that is currently being thrown. Usually 1-3.
+ * @property playerScoreHistory: Stores the playerScore in list after throwing to have a history.
+ */
 @Entity(tableName = "savedGames")
 data class Game(
     @ColumnInfo(name = "game_id")
@@ -26,7 +40,9 @@ data class Game(
     var dartNumber: Int = 1
     var playerScoreHistory: MutableList<Turn> = mutableListOf()
 
-
+    /**
+     * Initialization to be ready for a new game
+     */
     fun newGame() {
         currentTurn = Turn(
             PlayerScore(
@@ -87,6 +103,10 @@ data class Game(
         }
     }
 
+    /**
+     * Undoes last throw
+     * @param lastThrow: Previous Turn object that will take the place of the current Turn
+     */
     fun undoThrow(lastThrow : Turn) {
 
         //if we are at dart 1 we need to fetch the last throw from last turn
@@ -103,7 +123,10 @@ data class Game(
 
     }
 
-
+    /**
+     * Calculates what dart number should be shown based on already thrown darts
+     * @return current dart number
+     */
     private fun updateDartNumber(): Int {
         if (currentTurn.darts.count() < gameType.dartsAmount) {
             return currentTurn.darts.count() + 1
@@ -111,6 +134,9 @@ data class Game(
         return currentTurn.darts.count()
     }
 
+    /**
+     * Updates the playerScore of the player who just threw which the score recorded in currentTurn
+     */
     private fun updatePlayerScore(){
 
         val currentPlayerNb = currentTurn.playerScore.player.number
@@ -120,6 +146,9 @@ data class Game(
 
     }
 
+    /**
+     * Cycles through the PlayerScore list to appoint a new player and create a new Turn as current turn
+     */
     private fun nextPlayer() {
 
         val currentPlayerNb = currentTurn.playerScore.player.number

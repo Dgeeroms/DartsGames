@@ -25,7 +25,18 @@ private var retrofit = Retrofit.Builder()
     .baseUrl(baseUrl)
     .build()
 
+/**
+ * API service calling Sport Radar API used in the main menu
+ */
 interface SportRadarAPIService {
+    /**
+     * Calls API and gets a daily summary of TV darts matches
+     * @param year: The year in which the match occurred / occurs
+     * @param month: The month in which the match occurred / occurs
+     * @param day: The day when the match occurred / occurs
+     * @param key: The key required by Sport Radar API
+     * @return A DailySummaryAPIResponse object containing the data for the requested date
+     */
     @GET("darts/trial/v2/en/schedules/{year}-{month}-{day}/summaries.json")
     fun getDailyDartsSummary(
         @Path("year")

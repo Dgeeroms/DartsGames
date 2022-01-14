@@ -10,6 +10,9 @@ import com.davygeeroms.dartsgames.persistence.GameDao
 import com.davygeeroms.dartsgames.repositories.GameRepository
 import kotlinx.coroutines.*
 
+/**
+ * ViewModel corresponding with the Scores fragment
+ */
 class ScoresViewModel(application: Application, gameDao: GameDao) : AndroidViewModel(application){
 
     //Coroutine
@@ -28,6 +31,10 @@ class ScoresViewModel(application: Application, gameDao: GameDao) : AndroidViewM
         getSavedEndedGames()
     }
 
+    /**
+     * Deletes a specific game
+     * @param id: Id of the game to be deleted
+     */
     fun deleteGame(id: Int){
         uiScope.launch {
             withContext(Dispatchers.IO){
@@ -37,7 +44,9 @@ class ScoresViewModel(application: Application, gameDao: GameDao) : AndroidViewM
         }
     }
 
-
+    /**
+     * Fetches list of ended games from the database.
+     */
     private fun getSavedEndedGames(){
         uiScope.launch {
             withContext(Dispatchers.IO){

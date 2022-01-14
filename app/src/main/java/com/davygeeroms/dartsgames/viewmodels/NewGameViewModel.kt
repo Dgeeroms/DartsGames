@@ -15,6 +15,9 @@ import com.davygeeroms.dartsgames.persistence.GameDao
 import com.davygeeroms.dartsgames.repositories.GameRepository
 import kotlinx.coroutines.*
 
+/**
+ * ViewModel for NewGame fragment
+ */
 class NewGameViewModel(application: Application, gameDao: GameDao) : AndroidViewModel(application) {
 
     //Coroutine
@@ -38,21 +41,38 @@ class NewGameViewModel(application: Application, gameDao: GameDao) : AndroidView
 
     lateinit var selectedGameType : GameType
 
+    /**
+     * Sets the selected game type for this new game
+     * @param gm: Enum for game modes
+     */
     private fun setSelectedGameType(gm: GameModes){
         val gtf = GameTypeFactory()
         selectedGameType = gtf.getGameType(gm)
     }
 
+    /**
+     * Adds a player to the new game
+     * @param player: Player to be added
+     */
     fun addPlayer(player: Player) {
         _players.value?.add(player)
         _players.postValue(_players.value)
     }
 
+    /**
+     * Removes a player from the new game
+     * @param player: Player to be removed
+     */
     fun removePlayer(player: Player){
         _players.value?.remove(player)
         _players.postValue(_players.value)
     }
 
+    /**
+     * Every player has a number, if a few were added & removed from random locations,
+     * these numbers will nog follow eachother anymore and mess stuff up.
+     * This method renumbers every player from 1 to the last player.
+     */
     private fun reindexPlayers(){
         if(_players.value?.count()!! > 0){
             var i = 1
@@ -63,6 +83,10 @@ class NewGameViewModel(application: Application, gameDao: GameDao) : AndroidView
         }
     }
 
+    /**
+     * Starts the game.
+     * @param gameModes: Enum for selected game mode
+     */
     fun startGame(gameModes: GameModes){
 
         setSelectedGameType(gameModes)
@@ -80,11 +104,15 @@ class NewGameViewModel(application: Application, gameDao: GameDao) : AndroidView
         saveGameAndFetchFromDB(newGame)
     }
 
+    /**
+     * Saves the game and immediately fetches it from database again
+     * This to generate a unique id that can be passed to the next view model
+     */
     private fun saveGameAndFetchFromDB(game: Game){
         uiScope.launch {
             withContext(Dispatchers.IO){
 
-                _gameRepo.deleteTable()
+                //_gameRepo.deleteTable()
 
                 _gameRepo.saveGame(game)
                 val tempGame = _gameRepo.getNewGame()

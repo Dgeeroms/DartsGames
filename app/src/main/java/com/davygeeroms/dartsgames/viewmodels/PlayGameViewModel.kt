@@ -14,6 +14,9 @@ import com.davygeeroms.dartsgames.persistence.GameDao
 import com.davygeeroms.dartsgames.repositories.GameRepository
 import kotlinx.coroutines.*
 
+/**
+ * ViewModel corresponding with the PlayGame fragment
+ */
 class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidViewModel(application) {
 
     //Coroutine
@@ -35,20 +38,33 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
 
     private val boardValueFactory =  BoardValueFactory()
 
-
+    /**
+     * Continues specific game
+     * @param gameId: Id of game to be continued
+     */
     fun continueGame(gameId: Int){
         getSavedGame(gameId)
     }
 
+    /**
+     * In case of a newly made game, update the newGame flag to false. This game is now ongoing.
+     */
     fun updateNewGameStatus(){
         _currentGame.value?.newGame = false
         saveGame()
     }
 
+    /**
+     * Saves the current ongoing game.
+     */
     fun saveGame(){
         saveGame(_currentGame.value!!)
     }
 
+    /**
+     * Player throws dart, update all relevant fields.
+     * @param boardValue: String representing dart
+     */
     fun throwDart(boardValue: String){
 
         _previousThrow.value = _currentGame.value?.currentTurn
@@ -57,6 +73,9 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
         updateCheckOutTable()
     }
 
+    /**
+     * Change the checkout table if needed, based on current score.
+     */
     fun updateCheckOutTable(){
 
         if(_currentGame.value?.gameType?.checkOutTable == true){
@@ -64,7 +83,9 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
         }
     }
 
-
+    /**
+     * Undoes the throw and sets scores back to the throw before
+     */
     fun undoLastThrow(){
         _currentGame.value?.undoThrow(_previousThrow.value!!)
         _previousThrow.value = null
@@ -72,6 +93,10 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
         updateCheckOutTable()
     }
 
+    /**
+     * Fetch specific game from database
+     * @param gameId: Id of the game to be fetched.
+     */
     private fun getSavedGame(gameId:Int){
         uiScope.launch {
             withContext(Dispatchers.IO){
@@ -81,6 +106,10 @@ class PlayGameViewModel(application: Application, gameDao: GameDao) : AndroidVie
         }
     }
 
+    /**
+     * Saves current game
+     * @param game: Game to save
+     */
     private fun saveGame(game: Game){
         uiScope.launch {
             withContext(Dispatchers.IO){

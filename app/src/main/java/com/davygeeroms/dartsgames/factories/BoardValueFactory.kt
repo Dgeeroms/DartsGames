@@ -3,8 +3,16 @@ package com.davygeeroms.dartsgames.factories
 import com.davygeeroms.dartsgames.entities.BoardValue
 import com.davygeeroms.dartsgames.enums.BoardValues
 
+/**
+ * Board Value factory. Enum goes in, BoardValue comes out.
+ */
 class BoardValueFactory {
 
+    /**
+     * Return BoardValue object corresponding to Enum
+     * @param bv: Enum board value
+     * @return Corresponding BoardValue obj
+     */
     fun getBoardValue(bv:BoardValues): BoardValue{
 
         val modifierStr = bv.name.substring(0,1)

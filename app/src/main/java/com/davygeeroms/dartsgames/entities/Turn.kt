@@ -3,6 +3,11 @@ package com.davygeeroms.dartsgames.entities
 import androidx.room.Ignore
 import java.time.Instant
 
+/**
+ * A turn
+ * @param playerScore combo of a player and his current score and score history (Statistic)
+ * @param darts which darts or "BoardValues" have been thrown during this turn. Can be an empty list.
+ */
 class Turn(var playerScore : PlayerScore, var darts: MutableList<BoardValue> = mutableListOf() ) {
 
     @Ignore

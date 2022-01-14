@@ -4,6 +4,10 @@ import com.davygeeroms.dartsgames.entities.BoardValue
 import com.davygeeroms.dartsgames.entities.PlayerScore
 import com.davygeeroms.dartsgames.enums.GameModes
 
+/**
+ * Interface for GameTypes.
+ * See classes implementing this for detailed info
+ */
 interface GameType {
 
     val description: String

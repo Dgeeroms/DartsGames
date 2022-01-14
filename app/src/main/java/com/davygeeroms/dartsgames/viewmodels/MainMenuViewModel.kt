@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 /**
- * MainMenuViewModel
+ * ViewModel for the MainMenu fragment
  */
 class MainMenuViewModel(application: Application) : AndroidViewModel(application) {
 

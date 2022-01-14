@@ -1,5 +1,8 @@
 package com.davygeeroms.dartsgames.enums
 
+/**
+ * Currently supported game modes
+ */
 enum class GameModes(val mode:String) {
     FIVEHUNDREDANDONE("501"),
     THREEHUNDREDANDONE("301"),

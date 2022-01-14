@@ -1,5 +1,8 @@
 package com.davygeeroms.dartsgames.enums
 
+/**
+ * All board values
+ */
 enum class BoardValues(val valuesStr: String, val modifier: Int, val id: Int, val valueNumber : Int) {
 
     //ID:

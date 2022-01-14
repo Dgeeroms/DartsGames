@@ -9,6 +9,9 @@ import com.davygeeroms.dartsgames.persistence.GameDao
 import com.davygeeroms.dartsgames.repositories.GameRepository
 import kotlinx.coroutines.*
 
+/**
+ * ViewModel for the ContinueGame fragment
+ */
 class ContinueGameViewModel(application: Application, gameDao: GameDao) : AndroidViewModel(application) {
 
     //Coroutine
@@ -27,6 +30,10 @@ class ContinueGameViewModel(application: Application, gameDao: GameDao) : Androi
         getSavedOngoingGames()
     }
 
+    /**
+     * Deletes a selected game
+     * @param id: Id of the game to be deleted
+     */
     fun deleteGame(id: Int){
         uiScope.launch {
             withContext(Dispatchers.IO){
@@ -36,7 +43,9 @@ class ContinueGameViewModel(application: Application, gameDao: GameDao) : Androi
         }
     }
 
-
+    /**
+     * Fetches all ongoing games.
+     */
     private fun getSavedOngoingGames(){
         uiScope.launch {
             withContext(Dispatchers.IO){

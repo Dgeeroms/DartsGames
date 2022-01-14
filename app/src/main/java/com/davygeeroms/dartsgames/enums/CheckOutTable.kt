@@ -1,5 +1,8 @@
 package com.davygeeroms.dartsgames.enums
 
+/**
+ * All possible checkouts
+ */
 enum class CheckOutTable(val target: Int, val id: Int, val combination: String) {
 
     SCORE170(170,162, "T20;T20;D25"),

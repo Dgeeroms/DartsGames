@@ -9,6 +9,9 @@ import com.davygeeroms.dartsgames.persistence.GameDao
 import com.davygeeroms.dartsgames.repositories.GameRepository
 import kotlinx.coroutines.*
 
+/**
+ * ViewModel corresponding with Winner fragment. Displays winner and statistics for all players.
+ */
 class WinnerViewModel(application: Application, gameDao: GameDao) : AndroidViewModel(application) {
 
     //Coroutine
@@ -20,11 +23,18 @@ class WinnerViewModel(application: Application, gameDao: GameDao) : AndroidViewM
     val currentGame : LiveData<Game>
         get() = _currentGame
 
-
+    /**
+     * Fetch a specific saved game from the database.
+     * @param gameId: Id of the saved game that needs to be fetched.
+     */
     fun getFinalizedGame(gameId: Int){
         getSavedGame(gameId)
     }
 
+    /**
+     * Fetch a specific saved game from the database.
+     * @param gameId: Id of the saved game that needs to be fetched.
+     */
     private fun getSavedGame(gameId:Int){
         uiScope.launch {
             withContext(Dispatchers.IO){
