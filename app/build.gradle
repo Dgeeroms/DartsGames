@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs'
+apply plugin: 'org.jetbrains.dokka'
 
 android {
     compileSdkVersion 30
@@ -35,10 +36,15 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    tasks.dokkaHtml.configure {
+        outputDirectory.set(file("../documentation/html"))
+    }
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
+
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
