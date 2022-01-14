@@ -7,6 +7,7 @@ import com.davygeeroms.dartsgames.factories.GameTypeFactory
 import junit.framework.TestCase
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Test
 
 class GameTest : TestCase() {
 
@@ -30,6 +31,7 @@ class GameTest : TestCase() {
         testGame.newGame()
     }
 
+    @Test
     fun testThrowDart() {
 
         val thrownDart = BoardValues.T20 //60
@@ -37,9 +39,66 @@ class GameTest : TestCase() {
 
         testGame.throwDart(bvf.getBoardValue(thrownDart))
 
-        Assert.assertEquals(testGame.currentTurn.playerScore.score, 441)
+        Assert.assertEquals(441, testGame.currentTurn.playerScore.score)
 
     }
+
+    @Test
+    fun testUndoThrow(){
+
+        val thrownDart = BoardValues.T20 //60
+        val bvf = BoardValueFactory()
+
+        testGame.throwDart(bvf.getBoardValue(thrownDart))
+
+
+        val turnToUndo = testGame.currentTurn
+
+        testGame.undoThrow(turnToUndo)
+
+        // NOK > However it works when running the app. Strange.
+        Assert.assertEquals(501, testGame.currentTurn.playerScore.score)
+    }
+
+
+    @Test
+    fun testPlayerOneWins(){
+
+        var thrownDart = BoardValues.T20 //60
+        val bvf = BoardValueFactory()
+
+        //player1
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //60
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //120
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //180
+
+        //player2
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //60
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //120
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //180
+
+        //player1
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //240
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //300
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //360
+
+        //player2
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //240
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //300
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //360
+
+        //player1
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //420
+        thrownDart = BoardValues.T19
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //477
+        thrownDart = BoardValues.D12
+        testGame.throwDart(bvf.getBoardValue(thrownDart)) //501
+
+        Assert.assertEquals(0, testGame.currentTurn.playerScore.score)
+        Assert.assertEquals(true, testGame.hasWon)
+
+    }
+
 
 
 }
